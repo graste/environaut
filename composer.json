@@ -1,0 +1,41 @@
+{
+    "name": "graste/environaut",
+    "type": "library",
+    "description": "Define, configure and protect your application environment and its requirements.",
+    "keywords": ["environment", "requirements", "configuration", "check", "cli", "web", "php"],
+    "homepage": "https://github.com/graste/environaut",
+    "license": "CC-BY-SA-3.0",
+    "version": "0.1-dev",
+    "time": "2013-03-17",
+    "authors": [
+        {
+            "name": "Steffen Gransow",
+            "email": "graste@mivesto.de",
+            "homepage": "http://mivesto.de",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "environaut-support@mivesto.de",
+        "issues": "https://github.com/graste/environaut/issues",
+        "forum": "https://github.com/graste/environaut/wiki",
+        "wiki": "https://github.com/graste/environaut/wiki",
+        "irc": "irc://irc.freenode.org/environaut",
+        "source": "https://github.com/graste/environaut"
+    },
+    "minimum-stability": "stable",
+    "target-dir": "graste/environaut",
+    "bin": [ "bin/environaut" ],
+    "config": {
+        "bin-dir": "bin",
+        "vendor-dir": "vendor"
+    },
+    "require": {
+    },
+    "require-dev": {
+    },
+    "autoload": {
+    },
+    "repositories": [
+    ]
+}
