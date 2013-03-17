@@ -4,17 +4,13 @@
 * Date: 2013/xx/xx
 * Build: tbd
 
-**environaut** _[ɪnˌvaɪrənˈaut]_, noun
-
-1. Advocacy for or work toward protecting the application runtime environment from destruction or pollution.
-
 ## Purpose
 
-`environaut` should enable and help developers to define the environment of an application and check if all defined constraints are met. This includes assertions and requirements of the application environment as well as some configuration that may be necessary to make an application run.
+`Environaut` should enable and help developers to define the environment of an application and check if all defined constraints are met. This includes assertions and requirements of the application environment as well as some configuration that may be necessary to make an application run. See the [wiki](https://github.com/graste/environaut/wiki) for more information.
 
 ## Requirements and installation
 
-The recommended way to install `environaut` is via [composer](http://getcomposer.org). Just create a `composer.json` file and run the `php composer.phar install` command to install it:
+The recommended way to install `Environaut` is via [composer](http://getcomposer.org). Just create a `composer.json` file and run the `php composer.phar install` command to install it:
 
     {
         "require": {
@@ -26,7 +22,7 @@ Alternatively, you can download the [`environaut.zip`][1] file and extract it.
 
 ## Usage examples
 
-    bin/environaut about
+    bin/environaut about --profile
 
 ## Documentation
 
