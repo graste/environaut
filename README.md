@@ -26,7 +26,7 @@ Alternatively, you can download the [`environaut.zip`][1] file and extract it.
 
 ## Usage examples
 
-tbd
+    bin/environaut about
 
 ## Documentation
 
