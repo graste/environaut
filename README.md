@@ -4,12 +4,13 @@
 * Date: 2013/xx/xx
 * Build: tbd
 
+**environaut** _[ɪnˌvaɪrənˈaut]_, noun
+
+1. Advocacy for or work toward protecting the application runtime environment from destruction or pollution.
+
 ## Purpose
 
-Environaut has the following purposes:
-
-1. Define application requirements and check if they are fulfilled.
-2. Configure your application environment (which may be depending on the environment checks).
+`environaut` should enable and help developers to define the environment of an application and check if all defined constraints are met. This includes assertions and requirements of the application environment as well as some configuration that may be necessary to make an application run.
 
 ## Requirements and installation
 
