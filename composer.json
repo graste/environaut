@@ -31,10 +31,12 @@
         "vendor-dir": "vendor"
     },
     "require": {
+        "symfony/console": "~2.2"
     },
     "require-dev": {
     },
     "autoload": {
+        "psr-0": {"Environaut": "src/"}
     },
     "repositories": [
     ]

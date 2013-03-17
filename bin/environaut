@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?php
+require_once('vendor/autoload.php');
+
+use Environaut\Console\Application;
+
+$application = new Application();
+$application->run();
