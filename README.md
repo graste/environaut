@@ -48,5 +48,5 @@ See `AUTHORS.md` for a list of contributors.
 
 CC-BY-SA-3.0 means, you are free to share, remix and make commercial use of the work as long as you attribute and share alike. See linked license for details.
 
-[1]: https://github.com/graste/environaut/archive/0.1.1.zip
+[1]: https://github.com/graste/environaut/archive/0.2.0.zip
 
