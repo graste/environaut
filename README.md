@@ -1,7 +1,7 @@
 # Environaut
 
-* Version: 0.1-dev
-* Date: 2013/xx/xx
+* Version: 0.1.1
+* Date: 2013/03/20
 * Build: tbd
 
 ## Purpose
@@ -14,7 +14,7 @@ The recommended way to install `Environaut` is via [composer](http://getcomposer
 
     {
         "require": {
-            "graste/environaut": "0.*@dev"
+            "graste/environaut": "0.1.1"
         }
     }
 
@@ -48,5 +48,5 @@ See `AUTHORS.md` for a list of contributors.
 
 CC-BY-SA-3.0 means, you are free to share, remix and make commercial use of the work as long as you attribute and share alike. See linked license for details.
 
-[1]: https://github.com/graste/environaut/archive/master.zip
+[1]: https://github.com/graste/environaut/archive/0.1.1.zip
 
