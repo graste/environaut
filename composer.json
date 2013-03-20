@@ -5,7 +5,7 @@
     "keywords": ["environment", "requirements", "configuration", "check", "cli", "web", "php"],
     "homepage": "https://github.com/graste/environaut",
     "license": "CC-BY-SA-3.0",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "time": "2013-03-20",
     "authors": [
         {

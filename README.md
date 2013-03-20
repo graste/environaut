@@ -1,7 +1,7 @@
 # Environaut
 
-* Version: 0.1.1
-* Date: 2013/03/20
+* Version: 0.2.0-dev
+* Date: 2013/xx/xx
 * Build: tbd
 
 ## Purpose
@@ -14,7 +14,7 @@ The recommended way to install `Environaut` is via [composer](http://getcomposer
 
     {
         "require": {
-            "graste/environaut": "0.1.1"
+            "graste/environaut": "0.2.0"
         }
     }
 
