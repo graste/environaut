@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/../src/bootstrap.php';
+
+error_reporting(-1);
+ini_set('display_errors', 1);
+
+try
+{
+    $compiler = new Environaut\Compiler\PharCompiler();
+    $compiler->create();
+}
+catch (\Exception $e)
+{
+    echo 'Failed to compile environaut.phar: ' . $e->getTraceAsString();
+    exit(1);
+}
+
