@@ -10,11 +10,21 @@
 
 ## Requirements and installation
 
-The recommended way to install `Environaut` is via [composer](http://getcomposer.org). Just create a `composer.json` file and run the `php composer.phar install` command to install it:
+- Non-Windows operating system
+- PHP v5.3+
+
+If you just want to configure and run `Environaut`, you need to download the
+`bin/environaut.phar` binary. The file is a standalone and self-executable file.
+
+    $ environaut.phar --help
+
+Another recommended way to install `Environaut` is via [composer](http://getcomposer.org).
+Just create a `composer.json` file and run the `php composer.phar install`
+command to install it:
 
     {
         "require": {
-            "graste/environaut": "0.2.0"
+            "graste/environaut": "~0.2.0"
         }
     }
 
