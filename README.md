@@ -23,6 +23,7 @@ Alternatively, you can download the [`environaut.zip`][1] file and extract it.
 ## Usage examples
 
     bin/environaut about --profile
+    bin/environaut.phar about
 
 ## Documentation
 

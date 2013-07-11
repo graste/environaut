@@ -1,10 +1,11 @@
 # Changelog
 
-All new features, changes and fixes should be listed here. Please use tickets to reference changes. 
+All new features, changes and fixes should be listed here. Please use tickets
+to reference changes.
 
 ## 0.2.0 (2013/xx/xx)
 
-* [new] none
+* [new] Creation of self-executable standalone environaut version `environaut.phar` via `make phar`
 * [fix] none
 * [chg] none
 

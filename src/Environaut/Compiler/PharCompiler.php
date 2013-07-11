@@ -51,6 +51,14 @@ class PharCompiler
         // environaut executable
         $phar->addFile($root_dir . '/bin/environaut', 'bin/environaut');
 
+        // additional markdown files like README.md or LICENSE.md
+        $finder = new Finder();
+        $finder->files()->name('*.md')->depth('== 0')->in($root_dir);
+        foreach ($finder as $file)
+        {
+            $phar->addFile($file->getRealPath(), '/' . $file->getRelativePathname());
+        }
+
         // add startup file
         $phar->setStub($this->getStub());
 
