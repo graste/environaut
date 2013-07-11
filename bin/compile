@@ -6,9 +6,6 @@ require __DIR__ . '/../src/bootstrap.php';
 error_reporting(-1);
 ini_set('display_errors', 1);
 
-// enable creation of phars
-ini_set('phar.readonly', 0);
-
 // destination path and filename
 $filename = 'bin/environaut.phar';
 
