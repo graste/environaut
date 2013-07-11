@@ -1,0 +1,28 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/../src/bootstrap.php';
+
+error_reporting(-1);
+ini_set('display_errors', 1);
+
+// enable creation of phars
+ini_set('phar.readonly', 0);
+
+// destination path and filename
+$filename = 'bin/environaut.phar';
+
+try
+{
+    $compiler = new Environaut\Compiler\PharCompiler();
+    echo "Creating PHP archive '$filename'...";
+    $compiler->create($filename);
+    echo "done." . PHP_EOL;
+}
+catch (\Exception $e)
+{
+    echo "Failed to compile '$filename': " . $e->getMessage() . PHP_EOL;
+    echo $e->getTraceAsString() . PHP_EOL;
+    exit(1);
+}
+

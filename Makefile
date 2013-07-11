@@ -4,7 +4,12 @@ help:
 	@echo "Possible targets:"
 	@echo "  install-composer - install composer"
 	@echo "  install-dependencies-dev - install composer if necessary and install or update all vendor libraries (including --dev)"
+	@echo "  phar - create PHP archive bin/environaut.phar"
 	@exit 0
+
+phar:
+
+	@./bin/compile
 
 install-composer:
 

@@ -31,7 +31,9 @@
         "vendor-dir": "vendor"
     },
     "require": {
-        "symfony/console": "~2.2"
+        "php": ">=5.3.2",
+        "symfony/console": "~2.2",
+        "symfony/finder": "~2.1"
     },
     "require-dev": {
     },
