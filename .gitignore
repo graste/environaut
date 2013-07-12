@@ -1,3 +1,6 @@
+# project related stuff
+/bin/phpunit
+
 # composer related stuff
 /vendor/
 /composer.lock

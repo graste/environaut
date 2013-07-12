@@ -5,6 +5,7 @@ help:
 	@echo "  install-composer - install composer"
 	@echo "  install-dependencies-dev - install composer if necessary and install or update all vendor libraries (including --dev)"
 	@echo "  phar - create PHP archive bin/environaut.phar"
+	@echo "  tests - run all tests"
 	@exit 0
 
 phar:
@@ -20,7 +21,11 @@ install-dependencies-dev:
 
 	@make install-composer
 	@php -d apc.enable_cli=0 -d allow_url_fopen=1 -d date.timezone="Europe/Berlin" ./bin/composer.phar -- update --dev
-	
-.PHONY: test help
+
+tests:
+
+	@bin/phpunit tests/
+
+.PHONY: tests help
 
 # vim: ts=4:sw=4:noexpandtab!:

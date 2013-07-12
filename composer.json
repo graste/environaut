@@ -36,6 +36,7 @@
         "symfony/finder": "~2.1"
     },
     "require-dev": {
+        "phpunit/phpunit": "~3.7.22"
     },
     "autoload": {
         "psr-0": {"Environaut": "src/"}
