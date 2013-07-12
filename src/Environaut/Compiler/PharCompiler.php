@@ -12,8 +12,7 @@ class PharCompiler
 {
     public function create($phar_path = 'environaut.phar')
     {
-        if (file_exists($phar_path))
-        {
+        if (file_exists($phar_path)) {
             unlink($phar_path);
         }
 
@@ -28,16 +27,14 @@ class PharCompiler
         // add environaut files
         $finder = new Finder();
         $finder->files()->name('*.php')->notName('PharCompiler.php')->in($root_dir . '/src');
-        foreach ($finder as $file)
-        {
+        foreach ($finder as $file) {
             $phar->addFile($file->getRealPath(), 'src/' . $file->getRelativePathname());
         }
 
         // add vendor files
         $finder = new Finder();
         $finder->files()->name('*.php')->notPath('/Tests/')->in($root_dir . '/vendor');
-        foreach ($finder as $file)
-        {
+        foreach ($finder as $file) {
             $phar->addFile($file->getRealPath(), 'vendor/' . $file->getRelativePathname());
         }
 
@@ -54,8 +51,7 @@ class PharCompiler
         // additional markdown files like README.md or LICENSE.md
         $finder = new Finder();
         $finder->files()->name('*.md')->depth('== 0')->in($root_dir);
-        foreach ($finder as $file)
-        {
+        foreach ($finder as $file) {
             $phar->addFile($file->getRealPath(), '/' . $file->getRelativePathname());
         }
 
@@ -73,13 +69,10 @@ class PharCompiler
 #!/usr/bin/env php
 <?php
 
-try
-{
+try {
     Phar::mapPhar('environaut.phar');
     require 'phar://environaut.phar/bin/environaut';
-}
-catch (PharException $e)
-{
+} catch (PharException $e) {
     echo $e->getTraceAsString();
     exit(1);
 }
@@ -90,4 +83,3 @@ EOF;
         return $stub;
     }
 }
-

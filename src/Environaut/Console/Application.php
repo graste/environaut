@@ -54,6 +54,7 @@ class Application extends BaseApplication
         $commands = parent::getDefaultCommands();
 
         $commands[] = new Command\AboutCommand();
+        $commands[] = new Command\CheckCommand();
 
         return $commands;
     }

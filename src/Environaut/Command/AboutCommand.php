@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @author Steffen Gransow <graste@mivesto.de>
+ * Just a quick test command.
  */
 class AboutCommand extends Command
 {
