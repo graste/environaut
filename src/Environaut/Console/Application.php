@@ -6,15 +6,11 @@ use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Formatter\OutputFormatter;
 use Environaut\Command;
 
 /**
  * The console application that handles all
  * supported command line arguments.
- *
- * @author Steffen Gransow <graste@mivesto.de>
  */
 class Application extends BaseApplication
 {

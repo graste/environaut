@@ -60,13 +60,13 @@ EOT
     protected function getChecksFromConfig($config)
     {
         $checks = array();
-        $test = new \Environaut\Check\Configurator('test');
+        $test = new \Environaut\Checks\Configurator('test');
         $test->setCommand($this);
         $checks[] = $test;
-        $test1 = new \Environaut\Check\Configurator('blub');
+        $test1 = new \Environaut\Checks\Configurator('blub', array('keyname' => 'foo'));
         $test1->setCommand($this);
         $checks[] = $test1;
-        $testw = new \Environaut\Check\Configurator('asdf');
+        $testw = new \Environaut\Checks\Configurator('asdf', array('keyname' => 'foo.hahaha'));
         $testw->setCommand($this);
         $checks[] = $testw;
         return $checks;

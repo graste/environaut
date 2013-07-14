@@ -1,6 +1,8 @@
 <?php
 
-namespace Environaut\Check;
+namespace Environaut\Checks;
+
+use Environaut\Checks\Check;
 
 class Configurator extends Check
 {
@@ -10,12 +12,14 @@ class Configurator extends Check
         $autocomplete = array('AcmeDemoBundle', 'AcmeBlogBundle', 'AcmeStoreBundle');
         $name = $dialog->ask(
             $this->command->getOutput(),
-            'Please enter the name of a bundle: ',
+            'Please enter the name of a bundle (defaults to FooBundle; try A...): ',
             'FooBundle',
             $autocomplete
         );
         $this->addInfo('Successfully got "bundle"!');
-        $this->addSetting('bundle', $name);
+
+        $key = isset($this->parameters['keyname']) ? $this->parameters['keyname'] : "$name.default_key_name";
+        $this->addSetting($key, $name);
 
         return $this->result;
     }

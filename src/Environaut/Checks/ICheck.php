@@ -1,6 +1,6 @@
 <?php
 
-namespace Environaut\Check;
+namespace Environaut\Checks;
 
 interface ICheck
 {

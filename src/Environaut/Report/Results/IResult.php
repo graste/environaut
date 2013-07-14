@@ -1,9 +1,9 @@
 <?php
 
-namespace Environaut\Report;
+namespace Environaut\Report\Results;
 
-use Environaut\Check\ICheck;
-use Environaut\Report\IMessage;
+use Environaut\Checks\ICheck;
+use Environaut\Report\Messages\IMessage;
 use Environaut\Report\Settings\ISetting;
 
 interface IResult

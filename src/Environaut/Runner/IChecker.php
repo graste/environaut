@@ -2,7 +2,7 @@
 
 namespace Environaut\Runner;
 
-use Environaut\Check\ICheck;
+use Environaut\Checks\ICheck;
 
 interface IChecker
 {

@@ -2,9 +2,10 @@
 
 namespace Environaut\Runner;
 
-use Environaut\Check\ICheck;
+use Environaut\Checks\ICheck;
 use Environaut\Report\Report;
 use Environaut\Command\Command;
+use Environaut\Runner\IChecker;
 
 class CheckRunner implements IChecker
 {

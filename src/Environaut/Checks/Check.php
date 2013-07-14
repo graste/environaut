@@ -1,9 +1,9 @@
 <?php
 
-namespace Environaut\Check;
+namespace Environaut\Checks;
 
-use Environaut\Report\Result;
-use Environaut\Report\Message;
+use Environaut\Report\Results\Result;
+use Environaut\Report\Messages\Message;
 use Environaut\Report\Settings\Setting;
 use Environaut\Command\Command;
 

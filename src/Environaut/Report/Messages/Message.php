@@ -1,8 +1,8 @@
 <?php
 
-namespace Environaut\Report;
+namespace Environaut\Report\Messages;
 
-use Environaut\Report\IMessage;
+use Environaut\Report\Messages\IMessage;
 
 class Message implements IMessage
 {

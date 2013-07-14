@@ -1,6 +1,8 @@
 <?php
 
-namespace Environaut\Check;
+namespace Environaut\Checks;
+
+use Environaut\Checks\ICheck;
 
 interface INestableCheck extends ICheck
 {

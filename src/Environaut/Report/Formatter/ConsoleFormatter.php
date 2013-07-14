@@ -4,7 +4,7 @@ namespace Environaut\Report\Formatter;
 
 use Environaut\Report\Formatter\IReportFormatter;
 use Environaut\Report\IReport;
-use Environaut\Report\Message;
+use Environaut\Report\Messages\Message;
 
 class ConsoleFormatter implements IReportFormatter
 {

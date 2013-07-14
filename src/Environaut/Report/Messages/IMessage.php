@@ -1,6 +1,6 @@
 <?php
 
-namespace Environaut\Report;
+namespace Environaut\Report\Messages;
 
 interface IMessage
 {

@@ -2,7 +2,7 @@
 
 namespace Environaut\Report;
 
-use Environaut\Report\IResult;
+use Environaut\Report\Results\IResult;
 
 interface IReport
 {

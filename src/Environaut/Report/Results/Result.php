@@ -1,11 +1,11 @@
 <?php
 
-namespace Environaut\Report;
+namespace Environaut\Report\Results;
 
+use Environaut\Checks\ICheck;
 use Environaut\Report\Settings\ISetting;
-use Environaut\Check\ICheck;
-use Environaut\Report\IResult;
-use Environaut\Report\IMessage;
+use Environaut\Report\Results\IResult;
+use Environaut\Report\Messages\IMessage;
 
 class Result implements IResult
 {
