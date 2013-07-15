@@ -33,7 +33,11 @@ class PharCompiler
 
         // add vendor files
         $finder = new Finder();
-        $finder->files()->name('*.php')->notPath('/Tests/')->in($root_dir . '/vendor');
+        $finder->files()
+            ->name('*.php')
+            ->notPath('/Tests/')
+            ->notPath('/phpunit/')
+            ->in($root_dir . '/vendor');
         foreach ($finder as $file) {
             $phar->addFile($file->getRealPath(), 'vendor/' . $file->getRelativePathname());
         }

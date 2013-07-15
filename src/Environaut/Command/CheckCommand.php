@@ -33,12 +33,14 @@ EOT
     protected function doExecute()
     {
         $this->output->writeln('<info>Environment Check</info>');
-        $this->output->writeln('=================');
-        $this->output->writeln('');
+        $this->output->writeln('=================' . PHP_EOL);
 
-        $this->output->writeln('<info>Include path</info>: ' . ini_get('include_path'));
-        $this->output->writeln('<info>Config file</info>: ' . $this->config_path);
-        $this->output->writeln('');
+        $this->output->writeln('<info>Loaded php.ini File</info>: ' . php_ini_loaded_file() . PHP_EOL);
+        if ($this->getInput()->getOption('verbose')) {
+            $this->output->writeln('<info>Additionally Scanned Files</info>: ' . php_ini_scanned_files());
+            $this->output->writeln('<info>PHP Include Path</info>: ' . ini_get('include_path') . PHP_EOL);
+        }
+        $this->output->writeln('<info>Environaut Config</info>: ' . $this->config_path . PHP_EOL);
 
         $checks = $this->getChecksFromConfig();
         $checker = new CheckRunner($checks, $this);
