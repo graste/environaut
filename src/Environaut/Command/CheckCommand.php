@@ -5,17 +5,25 @@ namespace Environaut\Command;
 use Environaut\Runner\CheckRunner;
 
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Just a quick check command.
  */
 class CheckCommand extends Command
 {
+    protected $config_path = 'environaut.xml';
+
     protected function configure()
     {
         $this->setName('check');
+
+        $this->addOption('config', 'c', InputArgument::OPTIONAL, 'Path to config file that defines the checks to process.');
+        $this->addOption('bootstrap', 'b', InputArgument::OPTIONAL, 'Path to bootstrap file that may define autoloads and include paths etc.');
+        $this->addOption('include_path', 'i', InputArgument::OPTIONAL, 'Path that should be added to the default PHP include_path.');
+
         $this->setDescription('Check environment according to a set of checks.');
-        $this->addArgument('config', InputArgument::OPTIONAL, 'Path to config file that defines the checks to process.');
         $this->setHelp(<<<EOT
 <info>php environaut check</info>
 EOT
@@ -24,12 +32,15 @@ EOT
 
     protected function doExecute()
     {
-        $this->output->writeln('Environment Check:');
-        $config = $this->input->getArgument('config');
-        if (!$config) {
-            $config = 'environaut.xml';
-        }
-        $checks = $this->getChecksFromConfig($config);
+        $this->output->writeln('<info>Environment Check</info>');
+        $this->output->writeln('=================');
+        $this->output->writeln('');
+
+        $this->output->writeln('<info>Include path</info>: ' . ini_get('include_path'));
+        $this->output->writeln('<info>Config file</info>: ' . $this->config_path);
+        $this->output->writeln('');
+
+        $checks = $this->getChecksFromConfig();
         $checker = new CheckRunner($checks, $this);
         $checker->run();
 
@@ -56,38 +67,81 @@ EOT
         $this->output->writeln('<info>Done.</info>');
     }
 
-    protected function getChecksFromConfig($config)
+    /**
+     * Initializes the command just after the input has been validated.
+     *
+     * @param InputInterface $input An InputInterface instance
+     * @param OutputInterface $output An OutputInterface instance
+     */
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $path = $input->getOption('include_path');
+        if (!empty($path)) {
+            ini_set('include_path', $path . PATH_SEPARATOR . ini_get('include_path'));
+        }
+
+        $bootstrap_path = $input->getOption('bootstrap');
+        if (!empty($bootstrap_path)) {
+            if (!is_readable($bootstrap_path)) {
+                throw new \InvalidArgumentException('Bootstrap file "' . $bootstrap_path . '" is not readable.');
+            }
+
+            require $bootstrap_path;
+        }
+
+        $config = $input->getOption('config');
+        if (!empty($config)) {
+            if (!is_readable($config))
+            {
+                throw new \InvalidArgumentException('Config file "' . $config . '" is not readable.');
+            }
+            $this->config_path = $config;
+        }
+    }
+
+    protected function getChecksFromConfig()
     {
         $base_href_params = array(
+            'name' => 'base_href',
+            'class' => 'Environaut\Checks\Configurator',
             'setting_name' => 'base_href',
             'setting_question' => 'Wie lautet der BaseHref?',
             'setting_default_value' => 'http://honeybee-showcase.dev/',
             'setting_autocomplete_values' => array('http://cms.honeybee-showcase.dev/', 'http://google.de/', 'http://heise.de/'),
+            'setting_validator' => 'Validator',
         );
 
         $simple_string_params = array(
+            'name' => 'trololo',
+            'class' => 'Environaut\Checks\Configurator',
             'setting_name' => 'trololo',
             'setting_question' => 'Wie lautet der Vorname des Trololo Manns?',
             'setting_autocomplete_values' => array('Mr.', 'Herr', 'omgomgomg'),
         );
 
         $password_params = array(
+            'name' => 'password',
+            'class' => 'Environaut\Checks\Configurator',
             'setting_name' => 'super_secret_password',
             'setting_question' => 'Wie lautet das geheime Passwort?',
             'hidden' => true,
-            'allow_fallback' => true
+            'allow_fallback' => true,
         );
 
         $checks = array();
-        $test = new \Environaut\Checks\Configurator('base_href', $base_href_params);
+
+        $test = new $base_href_params['class']($base_href_params['name'], $base_href_params);
         $test->setCommand($this);
         $checks[] = $test;
-        $test1 = new \Environaut\Checks\Configurator('trololo', $simple_string_params);
+
+        $test1 = new $simple_string_params['class']($simple_string_params['name'], $simple_string_params);
         $test1->setCommand($this);
         $checks[] = $test1;
-        $testw = new \Environaut\Checks\Configurator('password', $password_params);
+
+        $testw = new $password_params['class']($password_params['name'], $password_params);
         $testw->setCommand($this);
         $checks[] = $testw;
+
         return $checks;
     }
 }
