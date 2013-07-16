@@ -12,10 +12,12 @@ class AboutCommand extends Command
 {
     protected function configure()
     {
+        parent::configure();
+
         $this->setName('about')
-            ->setDescription('Information about environaut.')
+            ->setDescription('Information about Environaut.')
             ->setHelp(<<<EOT
-<info>php environaut about</info>
+Environaut!!11eins :-)
 EOT
             );
     }

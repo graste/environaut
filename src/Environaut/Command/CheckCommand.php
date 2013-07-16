@@ -23,7 +23,12 @@ class CheckCommand extends Command
         $this->addOption('config', 'c', InputArgument::OPTIONAL, 'Path to config file that defines the checks to process.');
         $this->setDescription('Check environment according to a set of checks.');
         $this->setHelp(<<<EOT
-<info>php environaut check</info>
+
+<info>This command checks the environment according to the checks from the configuration file.</info>
+
+By default the current working directory will be used to find the configuration file and
+all defined classes (checks and validators). Use <comment>--autoload_dir path/to/src</comment> to change the
+autoload directory or <comment>--config path/to/environaut.json</comment> to change the file lookup path.
 EOT
         );
     }
@@ -37,11 +42,16 @@ EOT
         $output->writeln('<info>Environment Check</info>');
         $output->writeln('=================' . PHP_EOL);
 
-        $output->writeln('<info>Loaded php.ini File</info>: ' . php_ini_loaded_file() . PHP_EOL);
         if ($input->getOption('verbose')) {
+            $output->writeln('<info>PHP Version</info>: ' . PHP_VERSION . ' on ' . PHP_OS . ' (installed to ' . PHP_BINDIR . ')');
+            if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
+                $output->writeln('<info>PHP Binary</info>: ' . PHP_BINARY);
+            }
+            $output->writeln('<info>Loaded php.ini File</info>: ' . php_ini_loaded_file());
             $output->writeln('<info>Additionally Scanned Files</info>: ' . php_ini_scanned_files());
             $output->writeln('<info>PHP Include Path</info>: ' . ini_get('include_path') . PHP_EOL);
         }
+
         $output->writeln('<info>Environaut Config</info>: ' . $this->config_path . PHP_EOL);
 
         $checks = $this->getChecksFromConfig();
@@ -99,7 +109,7 @@ EOT
             'setting_name' => 'base_href',
             'question' => 'Wie lautet der BaseHref?',
             'default_value' => 'http://honeybee-showcase.dev/',
-            'autocomplete_values' => array('http://cms.honeybee-showcase.dev/', 'http://google.de/', 'http://heise.de/'),
+            'choices' => array('http://cms.honeybee-showcase.dev/', 'http://google.de/', 'http://heise.de/'),
             'validator' => 'Environaut\Checks\Validator::validUrl',
             //'validator' => 'Foo\Validator::validUrl',
             'max_attempts' => 5
@@ -111,7 +121,7 @@ EOT
             'setting_name' => 'contact.name',
             'introduction' => "Trololo is a video of the nationally-honored Russian singer Eduard Khil (AKA Edward Khill, Edward Hill) performing the Soviet-era pop song “I am Glad, ‘cause I’m Finally Returning Back Home” (Russian: Я очень рад, ведь я, наконец, возвращаюсь домой). The video is often used as a bait-and-switch prank, in similar vein to the practice of Rickrolling.\n\nSource: http://knowyourmeme.com/memes/trololo-russian-rickroll\n\n",
             'question' => 'Wie lautet der Vorname des Trololo Manns?',
-            'autocomplete_values' => array('Mr.', 'Eduard', 'Edward', 'omgomgomg'),
+            'choices' => array('Mr.', 'Eduard', 'Edward', 'omgomgomg'),
         );
 
         $simple_email_params = array(
@@ -119,9 +129,18 @@ EOT
             'class' => 'Environaut\Checks\Configurator',
             'setting_name' => 'contact.email',
             'question' => 'Wie lautet seine Emailadresse?',
-            'autocomplete_values' => array('mr.trololo@example.com'),
+            'choices' => array('mr.trololo@example.com'),
             'validator' => 'Environaut\Checks\Validator::validEmail',
             'max_attempts' => 5
+        );
+
+        $confirmation_params = array(
+            'name' => 'confirm',
+            'class' => 'Environaut\Checks\Configurator',
+            'setting_name' => 'testing',
+            'question' => 'Testmodus aktivieren?',
+            'default' => false,
+            'confirm' => true
         );
 
         $password_params = array(
@@ -134,6 +153,10 @@ EOT
         );
 
         $checks = array();
+
+        $test3 = new $confirmation_params['class']($confirmation_params['name'], $confirmation_params);
+        $test3->setCommand($this);
+        $checks[] = $test3;
 
         $test = new $base_href_params['class']($base_href_params['name'], $base_href_params);
         $test->setCommand($this);

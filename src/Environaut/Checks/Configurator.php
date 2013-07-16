@@ -10,41 +10,56 @@ class Configurator extends Check
     {
         $dialog = $this->getDialogHelper();
 
-        $name = $this->parameters->get('setting_name', $this->getName() . 'default_key_name');
-        $autocomplete_values = $this->parameters->get('autocomplete_values', array());
-        $default_value = $this->parameters->get('default_value', null);
-        $hidden = (bool) $this->parameters->get('hidden', false);
-        $allow_fallback = (bool) $this->parameters->get('allow_fallback', false);
-        $max_attempts = $this->parameters->get('max_attempts', false);
         $introduction = $this->parameters->get('introduction', false);
-
-        $question = '<question>' . $this->parameters->get('question', '"setting_question" is not set');
-        if (null !== $default_value) {
-            $question .= "</question> (Default: $default_value): ";
-        }
-        else {
-            $question .=  '</question>: ';
-        }
-
         if (false !== $introduction) {
             $this->command->getOutput()->writeln($introduction);
         }
 
-        $setting_validator = $this->parameters->get('validator', false);
-        if (false !== $setting_validator) // use value validation?
+        $name = $this->parameters->get('setting_name', $this->getName() . 'default_key_name');
+        $choices = $this->parameters->get('choices', array());
+        $default = $this->parameters->get('default', null);
+        $validator = $this->parameters->get('validator', false);
+        $hidden = (bool) $this->parameters->get('hidden', false);
+        $allow_fallback = (bool) $this->parameters->get('allow_fallback', false);
+        $max_attempts = $this->parameters->get('max_attempts', false);
+        $confirm = (bool) $this->parameters->get('confirm', false);
+
+        $question = '<question>' . $this->parameters->get('question', '"setting_question" is not set');
+
+        if ($confirm) {
+            $default = (bool) ($default === null ? true : $default);
+            $default_text = ($default ? 'enabled' : 'disabled');
+            $question .= "</question> (Default: $default_text): ";
+            $value = $dialog->askConfirmation($this->command->getOutput(), $question, $default);
+            $default_text = ($default ? 'enabled' : 'disabled');
+            $this->addSetting($name, $value);
+            $this->addInfo($name . ' is ' . $default_text);
+
+            return $this->result;
+        }
+
+        if (null !== $default) {
+            $question .= "</question> (Default: $default)";
+        }
+        else {
+            $question .=  '</question>';
+        }
+        $question .= ': ';
+
+        if (false !== $validator) // use value validation?
         {
             if ($hidden) {
-                $value = $dialog->askHiddenResponseAndValidate($this->command->getOutput(), $question, $setting_validator, $max_attempts, $allow_fallback);
+                $value = $dialog->askHiddenResponseAndValidate($this->command->getOutput(), $question, $validator, $max_attempts, $allow_fallback);
             }
             else {
-                $value = $dialog->askAndValidate($this->command->getOutput(), $question, $setting_validator, $max_attempts, $default_value, $autocomplete_values);
+                $value = $dialog->askAndValidate($this->command->getOutput(), $question, $validator, $max_attempts, $default, $choices);
             }
         } else { // do not use value validation
             if ($hidden) {
                 $value = $dialog->askHiddenResponse($this->command->getOutput(), $question, $allow_fallback);
             }
             else {
-                $value = $dialog->ask($this->command->getOutput(), $question,  $default_value, $autocomplete_values);
+                $value = $dialog->ask($this->command->getOutput(), $question,  $default, $choices);
             }
         }
 
@@ -55,4 +70,3 @@ class Configurator extends Check
         return $this->result;
     }
 }
-

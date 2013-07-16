@@ -14,9 +14,9 @@ use Environaut\Command;
  */
 class Application extends BaseApplication
 {
-    public function __construct()
+    public function __construct($version)
     {
-        parent::__construct('Environaut');
+        parent::__construct('Environaut', $version);
     }
 
     /**
@@ -25,21 +25,19 @@ class Application extends BaseApplication
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         if ($input->hasParameterOption('--profile')) {
-            $startTime = microtime(true);
+            $start_time = microtime(true);
         }
 
         $result = parent::doRun($input, $output);
 
-        if (isset($startTime)) {
-            $output->writeln('<info>Memory usage: '.round(memory_get_usage() / 1024 / 1024, 2).'MB (peak: '.round(memory_get_peak_usage() / 1024 / 1024, 2).'MB), time: '.round(microtime(true) - $startTime, 2).'s');
+        if (isset($start_time)) {
+            $output->writeln(PHP_EOL .
+                '<comment>Memory usage: ' . round(memory_get_usage() / 1024 / 1024, 2) .
+                'MB (peak: ' . round(memory_get_peak_usage() / 1024 / 1024, 2) .
+                'MB), time: ' . round(microtime(true) - $start_time, 2) . 's</comment>' . PHP_EOL);
         }
 
         return $result;
-    }
-
-    public function getHelp()
-    {
-        return parent::getHelp();
     }
 
     /**
@@ -62,7 +60,7 @@ class Application extends BaseApplication
     {
         $definition = parent::getDefaultInputDefinition();
 
-        $definition->addOption(new InputOption('--profile', null, InputOption::VALUE_NONE, 'Display timing and memory usage information'));
+        $definition->addOption(new InputOption('profile', null, InputOption::VALUE_NONE, 'Display timing and memory usage information.'));
 
         return $definition;
     }

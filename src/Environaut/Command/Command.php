@@ -19,8 +19,8 @@ abstract class Command extends BaseCommand
     {
         parent::configure();
 
-        $this->addOption('bootstrap', 'b', InputArgument::OPTIONAL, 'Path to bootstrap file that may define autoloads and include paths etc.');
-        $this->addOption('include_path', 'i', InputArgument::OPTIONAL, 'Path that should be added to the default PHP include_path.');
+        $this->addOption('bootstrap', 'b', InputArgument::OPTIONAL, 'Path to bootstrap file that should be required prior start.');
+        $this->addOption('include_path', 'i', InputArgument::OPTIONAL, 'Path that should be prepended to the default PHP include_path.');
         $this->addOption('autoload_dir', 'a', InputArgument::OPTIONAL, 'Path from where to load custom classes specified in config etc.');
     }
 
@@ -59,9 +59,13 @@ abstract class Command extends BaseCommand
                 throw new \InvalidArgumentException('Autoload path "' . $autoload_dir . '" is not readable. Please specify an existing directory.');
             }
 
-            $output->writeln('<comment>Classes will be autoloaded from "' . $autoload_dir . '".</comment>');
+            if ($this->input->getOption('verbose')) {
+                $output->writeln('<comment>Classes will be autoloaded from "' . $autoload_dir . '".</comment>');
+            }
         } else {
-            $output->writeln('<comment>No autoload_dir specified, using "' . $this->getCurrentWorkingDirectory() . '" to autoload classes from.</comment>');
+            if ($this->input->getOption('verbose')) {
+                $output->writeln('<comment>No autoload_dir specified, using "' . $this->getCurrentWorkingDirectory() . '" to autoload classes from.</comment>');
+            }
         }
 
         spl_autoload_register(array($this, 'autoload'));

@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
-require_once('vendor/autoload.php');
+require_once('src/bootstrap.php');
 
 use Environaut\Console\Application;
 
-$application = new Application();
+$application = new Application('0.2.0');
 $application->run();
