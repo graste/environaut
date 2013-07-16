@@ -28,8 +28,8 @@ class Configurator extends Check
 
         if ($confirm) {
             $default = (bool) ($default === null ? true : $default);
-            $default_text = ($default ? 'enabled' : 'disabled');
-            $question .= "</question> (Default: $default_text): ";
+            $default_text = ($default ? 'Y' : 'N');
+            $question .= "</question> (Type [Y/N/Return], default=$default_text): ";
             $value = $dialog->askConfirmation($this->command->getOutput(), $question, $default);
             $default_text = ($default ? 'enabled' : 'disabled');
             $this->addSetting($name, $value);

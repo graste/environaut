@@ -47,9 +47,12 @@ EOT
             if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
                 $output->writeln('<info>PHP Binary</info>: ' . PHP_BINARY);
             }
+            $output->writeln('<info>User owning this script</info>: ' . get_current_user() . ' (uid=' . getmyuid() . ')');
+            $output->writeln('<info>User running this script</info>: uid=' . posix_getuid() . ' (effective uid=' . posix_geteuid() . ') gid=' . posix_getgid() . ' (effective gid=' . posix_getegid() . ')' . PHP_EOL);
             $output->writeln('<info>Loaded php.ini File</info>: ' . php_ini_loaded_file());
             $output->writeln('<info>Additionally Scanned Files</info>: ' . php_ini_scanned_files());
             $output->writeln('<info>PHP Include Path</info>: ' . ini_get('include_path') . PHP_EOL);
+
         }
 
         $output->writeln('<info>Environaut Config</info>: ' . $this->config_path . PHP_EOL);
@@ -108,7 +111,7 @@ EOT
             'class' => 'Environaut\Checks\Configurator',
             'setting_name' => 'base_href',
             'question' => 'Wie lautet der BaseHref?',
-            'default_value' => 'http://honeybee-showcase.dev/',
+            'default' => 'http://honeybee-showcase.dev/',
             'choices' => array('http://cms.honeybee-showcase.dev/', 'http://google.de/', 'http://heise.de/'),
             'validator' => 'Environaut\Checks\Validator::validUrl',
             //'validator' => 'Foo\Validator::validUrl',
