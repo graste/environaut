@@ -155,7 +155,30 @@ EOT
             'allow_fallback' => true,
         );
 
+        $select_params = array(
+            'name' => 'selection',
+            'class' => 'Environaut\Checks\Configurator',
+            'setting_name' => 'selected_url',
+            'question' => 'Welche URL bevorzugen Sie?',
+            //'default' => 1,
+            'choices' => array('http://cms.honeybee-showcase.dev/', 'http://google.de/', 'http://heise.de/'),
+            'select' => true,
+        );
+
+//        $custom = array(
+//            'name' => 'password',
+//            'class' => 'Foo\PhpSetting',
+//        );
+
         $checks = array();
+
+//        $test4 = new $custom['class']($custom['name'], $custom);
+//        $test4->setCommand($this);
+//        $checks[] = $test4;
+
+        $test5 = new $select_params['class']($select_params['name'], $select_params);
+        $test5->setCommand($this);
+        $checks[] = $test5;
 
         $test3 = new $confirmation_params['class']($confirmation_params['name'], $confirmation_params);
         $test3->setCommand($this);

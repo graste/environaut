@@ -44,7 +44,8 @@ class CheckRunner implements IChecker
         $progress->start($this->command->getOutput(), count($this->checks));
 
         foreach ($this->checks as $check) {
-            $result = $check->process();
+            $check->process();
+            $result = $check->getResult();
             if (!$result instanceof IResult) {
                 throw new \LogicException('The "process" method of check "' . $check->getName() . '" (class "' . get_class($check) . '") must return a result that implements IResult.');
             }

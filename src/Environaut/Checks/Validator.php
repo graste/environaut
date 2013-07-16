@@ -65,7 +65,7 @@ class Validator
         }
 
         if (!filter_var((string)$email, FILTER_VALIDATE_EMAIL)) {
-            throw new \InvalidArgumentException("Invalid email given (at least for the PHP email filter).");
+            throw new \InvalidArgumentException("Invalid email given (at least according to the PHP email filter).");
         }
 
         return $email;
