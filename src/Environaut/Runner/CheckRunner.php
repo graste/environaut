@@ -2,48 +2,51 @@
 
 namespace Environaut\Runner;
 
-use Environaut\Checks\ICheck;
+use Environaut\Config\IConfig;
 use Environaut\Command\Command;
-use Environaut\Report\Report;
 use Environaut\Report\Results\IResult;
 use Environaut\Runner\IChecker;
 
 class CheckRunner implements IChecker
 {
-    protected $checks = array();
-    protected $report;
+    protected $config;
     protected $command;
+    protected $report;
 
-    public function __construct(array $checks, Command $command)
+    public function __construct(IConfig $config, Command $command)
     {
-        $this->setChecks($checks);
+        $this->setConfig($config);
+        $this->setCommand($command);
+    }
+
+    public function setConfig(IConfig $config)
+    {
+        $this->config = $config;
+    }
+
+    public function setCommand(Command $command)
+    {
         $this->command = $command;
-        $this->report = new Report();
-    }
-
-    public function setChecks(array $checks)
-    {
-        $this->checks = $checks;
-    }
-
-    public function addCheck(ICheck $check)
-    {
-        $this->checks[] = $check;
-    }
-
-    public function getChecks()
-    {
-        return $this->checks;
     }
 
     public function run()
     {
+        $report_implementor = $this->config->getReportImplementor();
+        $this->report = new $report_implementor();
+
+        $checks = array();
+        foreach ($this->config->getCheckDefinitions() as $check) {
+            $test = new $check['class']($check['name'], $check);
+            $test->setCommand($this->command);
+            $checks[] = $test;
+        }
+
         $progress = $this->command->getHelperSet()->get('progress');
         $progress->setFormat(PHP_EOL . ' %current%/%max% [%bar%] %percent%% Elapsed: %elapsed%' . PHP_EOL . PHP_EOL);
 
-        $progress->start($this->command->getOutput(), count($this->checks));
+        $progress->start($this->command->getOutput(), count($checks));
 
-        foreach ($this->checks as $check) {
+        foreach ($checks as $check) {
             $check->process();
             $result = $check->getResult();
             if (!$result instanceof IResult) {

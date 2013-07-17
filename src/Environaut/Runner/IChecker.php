@@ -2,12 +2,13 @@
 
 namespace Environaut\Runner;
 
-use Environaut\Checks\ICheck;
+use Environaut\Command\Command;
+use Environaut\Config\IConfig;
 
 interface IChecker
 {
-    public function addCheck(ICheck $check);
-    public function setChecks(array $checks);
+    public function setConfig(IConfig $config);
+    public function setCommand(Command $command);
     public function getReport();
     public function run();
 }

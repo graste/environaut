@@ -3,7 +3,7 @@
 namespace Environaut\Command;
 
 use Environaut\Runner\CheckRunner;
-
+use Environaut\Config\Reader\PhpConfigReader;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,6 +21,7 @@ class CheckCommand extends Command
 
         $this->setName('check');
         $this->addOption('config', 'c', InputArgument::OPTIONAL, 'Path to config file that defines the checks to process.');
+        $this->addOption('config_handler', null, InputArgument::OPTIONAL, 'Classname of a custom config handler implementing Environaut\Config\IConfigHandler.');
         $this->setDescription('Check environment according to a set of checks.');
         $this->setHelp(<<<EOT
 
@@ -57,9 +58,25 @@ EOT
 
         $output->writeln('<info>Environaut Config</info>: ' . $this->config_path . PHP_EOL);
 
-        $checks = $this->getChecksFromConfig();
-        $checker = new CheckRunner($checks, $this);
-        $checker->run();
+        $config_handler_implementor = $input->getOption('config_handler');
+        if (empty($config_handler_implementor)) {
+            $config_handler_implementor = 'Environaut\Config\DefaultConfigHandler';
+        }
+        $config_reader = new $config_handler_implementor();
+        $config_reader->addLocation($this->config_path);
+        //$config_reader->setLocations(array($this->config_path));
+
+        $config = $config_reader->getConfig();
+        $runner = $config->getRunnerImplementor();
+        $runner = new $runner($config, $this);
+        $runner->run();
+        $report = $runner->getReport();
+
+//        $exporter = $config->getExporterImplementor();
+//        $exporter = new DefaultExporter();
+//        $exporter->setCommand($this);
+//
+//        $success = $report->export($exporter);
 
         $output->writeln('');
         $output->writeln('---------------------');
@@ -67,9 +84,8 @@ EOT
         $output->writeln('---------------------');
         $output->writeln('');
 
-        $report = $checker->getReport();
-        $console_report = $report->getFormatted();
-        $output->writeln($console_report);
+        $console_report_text = $report->getFormatted();
+        $output->writeln($console_report_text);
 
         $output->writeln('');
         $output->writeln('---------------------');
@@ -77,8 +93,7 @@ EOT
         $output->writeln('---------------------');
         $output->writeln('');
 
-        $settings = $report->getSettings();
-        $output->writeln(json_encode($settings));
+        $output->writeln(json_encode($report->getSettings()));
 
         $output->writeln('');
         $output->writeln('<info>Done.</info>');
@@ -96,137 +111,23 @@ EOT
         if (!empty($config)) {
             if (!is_readable($config))
             {
-                throw new \InvalidArgumentException('Config file "' . $config . '" is not readable.');
+                throw new \InvalidArgumentException('Config file path "' . $config . '" is not readable.');
             }
+
             $this->config_path = $config;
+
+            if ($input->getOption('verbose')) {
+                $output->writeln('<comment>Config file path specified: ' . $this->config_path . '</comment>');
+            }
+        }
+        else {
+            $this->config_path = $this->getCurrentWorkingDirectory();
+
+            if ($input->getOption('verbose')) {
+                $output->writeln('<comment>Config file path not specified, using "' . $this->config_path . '" as default lookup location.</comment>');
+            }
         }
 
         parent::initialize($input, $output);
-    }
-
-    protected function getChecksFromConfig()
-    {
-        $base_href_params = array(
-            'name' => 'base_href',
-            'class' => 'Environaut\Checks\Configurator',
-            'setting_name' => 'base_href',
-            'question' => 'Wie lautet der BaseHref?',
-            'default' => 'http://honeybee-showcase.dev/',
-            'choices' => array('http://cms.honeybee-showcase.dev/', 'http://google.de/', 'http://heise.de/'),
-            'validator' => 'Environaut\Checks\Validator::validUrl',
-            //'validator' => 'Foo\Validator::validUrl',
-            'max_attempts' => 5
-        );
-
-        $simple_string_params = array(
-            'name' => 'trololo',
-            'class' => 'Environaut\Checks\Configurator',
-            'setting_name' => 'contact.name',
-            'introduction' => "Trololo is a video of the nationally-honored Russian singer Eduard Khil (AKA Edward Khill, Edward Hill) performing the Soviet-era pop song “I am Glad, ‘cause I’m Finally Returning Back Home” (Russian: Я очень рад, ведь я, наконец, возвращаюсь домой). The video is often used as a bait-and-switch prank, in similar vein to the practice of Rickrolling.\n\nSource: http://knowyourmeme.com/memes/trololo-russian-rickroll\n\n",
-            'question' => 'Wie lautet der Vorname des Trololo Manns?',
-            'choices' => array('Mr.', 'Eduard', 'Edward', 'omgomgomg'),
-        );
-
-        $simple_email_params = array(
-            'name' => 'contact',
-            'class' => 'Environaut\Checks\Configurator',
-            'setting_name' => 'contact.email',
-            'question' => 'Wie lautet seine Emailadresse?',
-            'choices' => array('mr.trololo@example.com'),
-            'validator' => 'Environaut\Checks\Validator::validEmail',
-            'max_attempts' => 5
-        );
-
-        $confirmation_params = array(
-            'name' => 'confirm',
-            'class' => 'Environaut\Checks\Configurator',
-            'setting_name' => 'testing',
-            'question' => 'Testmodus aktivieren?',
-            'default' => false,
-            'confirm' => true
-        );
-
-        $password_params = array(
-            'name' => 'password',
-            'class' => 'Environaut\Checks\Configurator',
-            'setting_name' => 'super_secret_password',
-            'question' => 'Wie lautet das geheime Passwort?',
-            'hidden' => true,
-            'allow_fallback' => true,
-        );
-
-        $select_params = array(
-            'name' => 'selection',
-            'class' => 'Environaut\Checks\Configurator',
-            'setting_name' => 'selected_url',
-            'question' => 'Welche URL bevorzugen Sie?',
-            //'default' => 1,
-            'choices' => array('http://cms.honeybee-showcase.dev/', 'http://google.de/', 'http://heise.de/'),
-            'select' => true,
-        );
-
-        $ip_params = array(
-            'name' => 'valid_ip',
-            'class' => 'Environaut\Checks\Configurator',
-            'setting_name' => 'core.ipv4',
-            'question' => 'Geben Sie bitte eine valide nicht-reservierte, nicht-private IPv4-Adresse ein:',
-            'default' => '195.74.70.239',
-            'choices' => array('240.0.0.1', '192.168.1.100', '127.0.0.1', '172.16.1.100', '10.0.0.1'),
-            'validator' => 'Environaut\Checks\Validator::validIpv4NotReserved',
-        );
-
-        $cache_dir_params = array(
-            'name' => 'cache_dir',
-            'class' => 'Environaut\Checks\Configurator',
-            'setting_name' => 'core.cache_dir',
-            'question' => 'Geben Sie bitte ein lesbares Verzeichnis an:',
-            'choices' => array('cache', '/tmp', './tests'),
-            'validator' => 'Environaut\Checks\Validator::writableDirectory',
-        );
-
-//        $custom = array(
-//            'name' => 'password',
-//            'class' => 'Foo\PhpSetting',
-//        );
-
-        $checks = array();
-
-//        $test4 = new $custom['class']($custom['name'], $custom);
-//        $test4->setCommand($this);
-//        $checks[] = $test4;
-
-        $test7 = new $cache_dir_params['class']($cache_dir_params['name'], $cache_dir_params);
-        $test7->setCommand($this);
-        $checks[] = $test7;
-
-        $test6 = new $ip_params['class']($ip_params['name'], $ip_params);
-        $test6->setCommand($this);
-        $checks[] = $test6;
-
-        $test5 = new $select_params['class']($select_params['name'], $select_params);
-        $test5->setCommand($this);
-        $checks[] = $test5;
-
-        $test3 = new $confirmation_params['class']($confirmation_params['name'], $confirmation_params);
-        $test3->setCommand($this);
-        $checks[] = $test3;
-
-        $test = new $base_href_params['class']($base_href_params['name'], $base_href_params);
-        $test->setCommand($this);
-        $checks[] = $test;
-
-        $test1 = new $simple_string_params['class']($simple_string_params['name'], $simple_string_params);
-        $test1->setCommand($this);
-        $checks[] = $test1;
-
-        $test2 = new $simple_email_params['class']($simple_email_params['name'], $simple_email_params);
-        $test2->setCommand($this);
-        $checks[] = $test2;
-
-        $testw = new $password_params['class']($password_params['name'], $password_params);
-        $testw->setCommand($this);
-        $checks[] = $testw;
-
-        return $checks;
     }
 }
