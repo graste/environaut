@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CheckCommand extends Command
 {
-    protected $config_path = 'environaut.xml';
+    protected $config_path = 'environaut.json';
 
     protected function configure()
     {
@@ -165,6 +165,25 @@ EOT
             'select' => true,
         );
 
+        $ip_params = array(
+            'name' => 'valid_ip',
+            'class' => 'Environaut\Checks\Configurator',
+            'setting_name' => 'core.ipv4',
+            'question' => 'Geben Sie bitte eine valide nicht-reservierte, nicht-private IPv4-Adresse ein:',
+            'default' => '195.74.70.239',
+            'choices' => array('240.0.0.1', '192.168.1.100', '127.0.0.1', '172.16.1.100', '10.0.0.1'),
+            'validator' => 'Environaut\Checks\Validator::validIpv4NotReserved',
+        );
+
+        $cache_dir_params = array(
+            'name' => 'cache_dir',
+            'class' => 'Environaut\Checks\Configurator',
+            'setting_name' => 'core.cache_dir',
+            'question' => 'Geben Sie bitte ein lesbares Verzeichnis an:',
+            'choices' => array('cache', '/tmp', './tests'),
+            'validator' => 'Environaut\Checks\Validator::writableDirectory',
+        );
+
 //        $custom = array(
 //            'name' => 'password',
 //            'class' => 'Foo\PhpSetting',
@@ -175,6 +194,14 @@ EOT
 //        $test4 = new $custom['class']($custom['name'], $custom);
 //        $test4->setCommand($this);
 //        $checks[] = $test4;
+
+        $test7 = new $cache_dir_params['class']($cache_dir_params['name'], $cache_dir_params);
+        $test7->setCommand($this);
+        $checks[] = $test7;
+
+        $test6 = new $ip_params['class']($ip_params['name'], $ip_params);
+        $test6->setCommand($this);
+        $checks[] = $test6;
 
         $test5 = new $select_params['class']($select_params['name'], $select_params);
         $test5->setCommand($this);
