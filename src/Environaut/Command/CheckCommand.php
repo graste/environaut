@@ -2,18 +2,21 @@
 
 namespace Environaut\Command;
 
-use Environaut\Runner\CheckRunner;
-use Environaut\Config\Reader\PhpConfigReader;
+use Environaut\Command\Command;
+
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Just a quick check command.
+ * Checks the environment according to the given configuration,
+ * collects results in a report and exports the messages and
+ * settings from the report via an exporter.
  */
 class CheckCommand extends Command
 {
-    protected $config_path = 'environaut.json';
+    protected $config_path;
+    protected $config_handler;
 
     protected function configure()
     {
@@ -40,6 +43,37 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->displayIntro();
+
+        $config = $this->getConfigHandler()->getConfig();
+
+        if ($config->has('introduction')) {
+            $output->writeln($config->get('introduction'));
+            $output->writeln('');
+        }
+
+        $runner_impl = $config->getRunnerImplementor();
+        $runner = new $runner_impl($config, $this);
+        $runner->run();
+
+        $report = $runner->getReport();
+
+        $export_impl = $config->getExportImplementor();
+        $exporter = new $export_impl($report, $this);
+        $exporter->run();
+
+        $this->displayOutro();
+    }
+
+    /**
+     * Displays introductory text and some PHP configuration
+     * and information (if --verbose was used as CLI option)
+     */
+    protected function displayIntro()
+    {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         $output->writeln('<info>Environment Check</info>');
         $output->writeln('=================' . PHP_EOL);
 
@@ -56,44 +90,15 @@ EOT
 
         }
 
-        $output->writeln('<info>Environaut Config</info>: ' . $this->config_path . PHP_EOL);
+        $output->writeln('<info>Reading configuration from</info>: ' . $this->config_path . PHP_EOL);
+    }
 
-        $config_handler_implementor = $input->getOption('config_handler');
-        if (empty($config_handler_implementor)) {
-            $config_handler_implementor = 'Environaut\Config\DefaultConfigHandler';
-        }
-        $config_reader = new $config_handler_implementor();
-        $config_reader->addLocation($this->config_path);
-        //$config_reader->setLocations(array($this->config_path));
-
-        $config = $config_reader->getConfig();
-        $runner = $config->getRunnerImplementor();
-        $runner = new $runner($config, $this);
-        $runner->run();
-        $report = $runner->getReport();
-
-//        $exporter = $config->getExporterImplementor();
-//        $exporter = new DefaultExporter();
-//        $exporter->setCommand($this);
-//
-//        $success = $report->export($exporter);
-
-        $output->writeln('');
-        $output->writeln('---------------------');
-        $output->writeln('-- Report follows: --');
-        $output->writeln('---------------------');
-        $output->writeln('');
-
-        $console_report_text = $report->getFormatted();
-        $output->writeln($console_report_text);
-
-        $output->writeln('');
-        $output->writeln('---------------------');
-        $output->writeln('-- Config follows: --');
-        $output->writeln('---------------------');
-        $output->writeln('');
-
-        $output->writeln(json_encode($report->getSettings()));
+    /**
+     * Display some text after the main command executed.
+     */
+    protected function displayOutro()
+    {
+        $output = $this->getOutput();
 
         $output->writeln('');
         $output->writeln('<info>Done.</info>');
@@ -107,6 +112,8 @@ EOT
      */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        parent::initialize($input, $output); // necessary to register autoloader
+
         $config = $input->getOption('config');
         if (!empty($config)) {
             if (!is_readable($config))
@@ -128,6 +135,31 @@ EOT
             }
         }
 
-        parent::initialize($input, $output);
+        $config_handler_implementor = $input->getOption('config_handler');
+        if (empty($config_handler_implementor)) {
+            $config_handler_implementor = 'Environaut\Config\ConfigHandler';
+        }
+
+        $this->config_handler = new $config_handler_implementor();
+        $this->config_handler->addLocation($this->config_path);
+
+        // TODO allow multiple locations for config option?
+        // $config_reader->setLocations(array($this->config_path));
+    }
+
+    /**
+     * @return IConfigHandler currently used config handler instance
+     */
+    public function getConfigHandler()
+    {
+        return $this->config_handler;
+    }
+
+    /**
+     * @return string path to default config file location
+     */
+    public function getConfigPath()
+    {
+        return $this->config_path;
     }
 }

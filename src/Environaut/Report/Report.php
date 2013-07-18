@@ -3,9 +3,10 @@
 namespace Environaut\Report;
 
 use Environaut\Report\Results\IResult;
-use Environaut\Report\Formatter\IReportFormatter;
-use Environaut\Report\Formatter\ConsoleFormatter;
 
+/**
+ * Default class that holds results from checks.
+ */
 class Report implements IReport
 {
     protected $results = array();
@@ -13,7 +14,6 @@ class Report implements IReport
     public function __construct(array $results = array())
     {
         $this->results = $results;
-        $this->formatter = new ConsoleFormatter();
     }
 
     public function addResult(IResult $result)
@@ -42,15 +42,4 @@ class Report implements IReport
 
         return $settings;
     }
-
-    public function getFormatted($formatter = null)
-    {
-        if (null !== $formatter && $formatter instanceof IReportFormatter)
-        {
-            $this->formatter = $formatter;
-        }
-
-        return $this->formatter->getFormatted($this);
-    }
 }
-

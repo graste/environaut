@@ -3,9 +3,9 @@
 namespace Environaut\Report\Results;
 
 use Environaut\Checks\ICheck;
-use Environaut\Report\Settings\ISetting;
 use Environaut\Report\Results\IResult;
-use Environaut\Report\Messages\IMessage;
+use Environaut\Report\Results\Messages\IMessage;
+use Environaut\Report\Results\Settings\ISetting;
 
 class Result implements IResult
 {
@@ -51,7 +51,7 @@ class Result implements IResult
 
         foreach ($this->settings as $setting)
         {
-            $settings = array_merge($settings, $setting->asArray());
+            $settings = array_merge($settings, $setting->toArray());
         }
 
         return $settings;

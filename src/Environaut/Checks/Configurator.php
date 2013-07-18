@@ -22,7 +22,7 @@ use Environaut\Checks\Check;
  */
 class Configurator extends Check
 {
-    public function process()
+    public function run()
     {
         $dialog = $this->getDialogHelper();
 

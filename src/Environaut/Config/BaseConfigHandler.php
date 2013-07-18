@@ -2,24 +2,56 @@
 
 namespace Environaut\Config;
 
-use Environaut\Checks\Parameters;
+use Environaut\Config\IConfigHandler;
+use Environaut\Config\Config;
+use Environaut\Config\Parameters;
 
+/**
+ * Base class that may be used for custom config handlers.
+ * Implements basic config data merging from multiple locations.
+ */
 abstract class BaseConfigHandler implements IConfigHandler
 {
+    /**
+     * @var array of locations (usually file/directory paths)
+     */
     protected $locations;
+
+    /**
+     * @var Parameters array of data to customize config handler wrapped in a Parameters instance
+     */
     protected $parameters;
 
+    /**
+     * Create new instance of the concrete config handler.
+     *
+     * @param array $locations set of locations to lookup configs to merge
+     * @param array $parameters to customize the config file lookup/handling
+     */
     public function __construct(array $locations = array(), array $parameters = array())
     {
         $this->locations = $locations;
         $this->parameters = new Parameters($parameters);
     }
 
+    /**
+     * Returns the currently (read and merged) config data
+     * as a concrete IConfig implementating class.
+     *
+     * @return IConfig
+     */
     public function getConfig()
     {
         return new Config($this->getMergedConfig());
     }
 
+    /**
+     * Adds the given location to the set of locations to check for configs.
+     *
+     * @param mixed $location location to check for config files (usually a file/directory path)
+     *
+     * @throws \InvalidArgumentException if given location is not readable
+     */
     public function addLocation($location)
     {
         if (!is_readable($location)) {
@@ -29,6 +61,11 @@ abstract class BaseConfigHandler implements IConfigHandler
         $this->locations[] = $location;
     }
 
+    /**
+     * Set the locations to check for config files.
+     *
+     * @param array $locations set of locations (usually file/directory paths)
+     */
     public function setLocations(array $locations)
     {
         foreach ($locations as $location) {
@@ -36,11 +73,17 @@ abstract class BaseConfigHandler implements IConfigHandler
         }
     }
 
+    /**
+     * @return array of locations used for config file lookups
+     */
     public function getLocations()
     {
         return $this->locations;
     }
 
+    /**
+     * @return array of config data
+     */
     protected function getMergedConfig()
     {
         $config_data = array();
@@ -53,47 +96,5 @@ abstract class BaseConfigHandler implements IConfigHandler
         }
 
         return $config_data;
-    }
-
-    /**
-     * Resolves dots and double slashes in relative paths to get
-     * nicer paths: "dev/data/assets/../../foo" will be "dev/foo/"
-     * and "foo/./bar" will be "foo/bar" etc.
-     *
-     * @return string
-     */
-    public function fixRelativePath($path_with_dots)
-    {
-        do
-        {
-            $path_with_dots = preg_replace('#[^/\.]+/\.\./#', '', $path_with_dots, -1, $count);
-        }
-        while ($count);
-
-        $path_with_dots = str_replace(array('/./', '//'), '/', $path_with_dots);
-
-        return $path_with_dots;
-    }
-
-    /**
-     * Appends '/' to the path if necessary.
-     *
-     * @param string $path file system path
-     *
-     * @return string path with suffix '/'
-     */
-    public function fixPath($path)
-    {
-        if (empty($path))
-        {
-            return $path;
-        }
-
-        if ('/' != $path{strlen($path) - 1})
-        {
-            $path .= '/';
-        }
-
-        return $path;
     }
 }

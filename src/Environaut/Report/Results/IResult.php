@@ -3,8 +3,8 @@
 namespace Environaut\Report\Results;
 
 use Environaut\Checks\ICheck;
-use Environaut\Report\Messages\IMessage;
-use Environaut\Report\Settings\ISetting;
+use Environaut\Report\Results\Messages\IMessage;
+use Environaut\Report\Results\Settings\ISetting;
 
 interface IResult
 {

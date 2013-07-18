@@ -1,8 +1,8 @@
 <?php
 
-namespace Environaut\Report\Messages;
+namespace Environaut\Report\Results\Messages;
 
-use Environaut\Report\Messages\IMessage;
+use Environaut\Report\Results\Messages\IMessage;
 
 class Message implements IMessage
 {
@@ -54,7 +54,7 @@ class Message implements IMessage
         $this->severity = $severity;
     }
 
-    public function asArray()
+    public function toArray()
     {
         return array(
             'name' => $this->name,

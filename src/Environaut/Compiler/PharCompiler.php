@@ -6,10 +6,16 @@ use Symfony\Component\Finder\Finder;
 
 /**
  * This class compiles all necessary files of Environaut to an executable
- * environaut.phar file that may be executed directly.
+ * environaut.phar file that may be executed directly (run standalone).
  */
 class PharCompiler
 {
+    /**
+     * Creates a PHP archive file with all files necessary to
+     * run Environaut standalone.
+     *
+     * @param string $phar_path full path to the php archive file to create
+     */
     public function create($phar_path = 'environaut.phar')
     {
         if (file_exists($phar_path)) {
@@ -67,6 +73,9 @@ class PharCompiler
         chmod($phar_path, 0755);
     }
 
+    /**
+     * @return string initial stub to startup environaut when executing the phar
+     */
     protected function getStub()
     {
         $stub = <<<'EOF'

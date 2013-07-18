@@ -15,6 +15,9 @@ abstract class Command extends BaseCommand
     protected $input;
     protected $output;
 
+    /**
+     * Defines default options for all commands.
+     */
     protected function configure()
     {
         parent::configure();
@@ -24,7 +27,14 @@ abstract class Command extends BaseCommand
         $this->addOption('autoload_dir', 'a', InputArgument::OPTIONAL, 'Path from where to load custom classes specified in config etc.');
     }
 
-
+    /**
+     * Handles the default options all commands have in common.
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @throws \InvalidArgumentException in case of configuration errors
+     */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         parent::initialize($input, $output);
@@ -75,13 +85,15 @@ abstract class Command extends BaseCommand
      * Autoloads the given class if it exists.
      *
      * @param string $class class name like 'Foo\Bar\Baz'
+     *
+     * @throws \InvalidArgumentException in case of errors (file
      */
     protected function autoload($class)
     {
         $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
+
         $autoload_dir = $this->getInput()->getOption('autoload_dir');
-        if (empty($autoload_dir))
-        {
+        if (empty($autoload_dir)) {
             $autoload_dir = $this->getCurrentWorkingDirectory();
         }
 
@@ -91,11 +103,15 @@ abstract class Command extends BaseCommand
             $this->output->write('<info>Autoloading</info>: ');
         }
 
-        if (file_exists($file_path)) {
-            $this->output->writeln($file_path);
+        if (is_readable($file_path)) {
+            if ($this->input->getOption('verbose')) {
+                $this->output->writeln($file_path);
+            }
+
             include_once($file_path);
         } else {
-            $this->output->writeln('<error>File "' . $file_path . '" not found!</error>' . PHP_EOL);
+            $this->output->writeln('<error>Autoload error: "' . $file_path . '" not found!</error>' . PHP_EOL);
+            throw new \InvalidArgumentException('Could not include unreadable file: ' . $file_path);
         }
     }
 
@@ -140,7 +156,7 @@ abstract class Command extends BaseCommand
         $dir = getcwd();
 
         if (false === $dir) {
-            $dir = __DIR__;
+            $dir = __DIR__; // fallback to folder of current class in case of strange errors
         }
 
         return $dir;

@@ -272,4 +272,46 @@ class Validator
 
         return $value;
     }
+
+    /**
+     * Resolves dots and double slashes in relative paths to get
+     * nicer paths: "dev/data/assets/../../foo" will be "dev/foo/"
+     * and "foo/./bar" will be "foo/bar" etc.
+     *
+     * @return string
+     */
+    public static function fixRelativePath($path_with_dots)
+    {
+        do
+        {
+            $path_with_dots = preg_replace('#[^/\.]+/\.\./#', '', $path_with_dots, -1, $count);
+        }
+        while ($count);
+
+        $path_with_dots = str_replace(array('/./', '//'), '/', $path_with_dots);
+
+        return $path_with_dots;
+    }
+
+    /**
+     * Appends '/' to the path if necessary.
+     *
+     * @param string $path file system path
+     *
+     * @return string path with trailing slash
+     */
+    public static function fixPath($path)
+    {
+        if (empty($path))
+        {
+            return $path;
+        }
+
+        if ('/' != $path{strlen($path) - 1})
+        {
+            $path .= '/';
+        }
+
+        return $path;
+    }
 }

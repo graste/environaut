@@ -1,6 +1,6 @@
 <?php
 
-namespace Environaut\Report\Formatter;
+namespace Environaut\Export\Formatter;
 
 use Environaut\Report\IReport;
 

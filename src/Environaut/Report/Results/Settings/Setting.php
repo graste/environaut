@@ -1,8 +1,8 @@
 <?php
 
-namespace Environaut\Report\Settings;
+namespace Environaut\Report\Results\Settings;
 
-use Environaut\Report\Settings\ISetting;
+use Environaut\Report\Results\Settings\ISetting;
 
 class Setting implements ISetting
 {
@@ -25,7 +25,7 @@ class Setting implements ISetting
         return $this->value;
     }
 
-    public function asArray()
+    public function toArray()
     {
         return array($this->name => $this->value);
     }

@@ -2,11 +2,11 @@
 
 namespace Environaut\Checks;
 
-use Environaut\Checks\Parameters;
-use Environaut\Report\Results\Result;
-use Environaut\Report\Messages\Message;
-use Environaut\Report\Settings\Setting;
 use Environaut\Command\Command;
+use Environaut\Config\Parameters;
+use Environaut\Report\Results\Result;
+use Environaut\Report\Results\Messages\Message;
+use Environaut\Report\Results\Settings\Setting;
 
 abstract class Check implements ICheck
 {
