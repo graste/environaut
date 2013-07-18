@@ -111,7 +111,8 @@ abstract class Command extends BaseCommand
             include_once($file_path);
         } else {
             $this->output->writeln('<error>Autoload error: "' . $file_path . '" not found!</error>' . PHP_EOL);
-            throw new \InvalidArgumentException('Could not include unreadable file: ' . $file_path);
+            // don't exit here to let other autoloaders get their chance
+            //throw new \InvalidArgumentException('Could not include unreadable file: ' . $file_path);
         }
     }
 

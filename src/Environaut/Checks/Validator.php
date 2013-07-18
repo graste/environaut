@@ -170,7 +170,7 @@ class Validator
      */
     public static function validEmail($value)
     {
-        if (empty($value)) {
+        if (is_object($value) || empty($value)) {
             throw new \InvalidArgumentException("Empty email given.");
         }
 

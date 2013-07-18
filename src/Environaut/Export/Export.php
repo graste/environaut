@@ -62,7 +62,11 @@ class Export implements IExport
         $output->writeln('---------------------');
         $output->writeln('');
 
-        $output->writeln(json_encode($this->report->getSettings(), JSON_FORCE_OBJECT | JSON_PRETTY_PRINT));
+        if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
+            $output->writeln(json_encode($this->report->getSettings(), JSON_FORCE_OBJECT | JSON_PRETTY_PRINT));
+        } else {
+            $output->writeln(json_encode($this->report->getSettings(), JSON_FORCE_OBJECT));
+        }
     }
 
     /**
