@@ -52,10 +52,12 @@ Alternatively, you can download the [`environaut.zip`][1] file and extract it.
 
 The `check` commandline options are:
 
-- `--autoload_dir="…" (-a)`: Folder for autoloading of custom `.php` classes.
-- `--config="…" (-c)`: Path to configuration file with check definitions.
-- `--include_path="…" (-i)`: Path to prepend to default PHP `include_path`.
-- `--bootstrap="…" (-b)`: File to require before running the checks.
+- ```--autoload_dir="…" (-a)```: Folder for autoloading of custom `.php` classes.
+- ```--config="…" (-c)```: Path to configuration file with check definitions.
+- ```--config_handler="…"```: Namespaced classname of custom `IConfigHandler`
+                              (will be autoloaded from the ```autoload_dir```).
+- ```--include_path="…" (-i)```: Path to prepend to PHP ```include_path```.
+- ```--bootstrap="…" (-b)```: File to require before running the checks.
 
 Other available and useful options are:
 
