@@ -2,7 +2,7 @@
 
 * Version: 0.2.0-dev
 * Date: 2013/xx/xx
-* Build: tbd
+* Build: [![Build Status](https://secure.travis-ci.org/graste/environaut.png?branch=0.2.0)](http://travis-ci.org/graste/environaut)
 
 ## Purpose
 
