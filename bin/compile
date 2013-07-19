@@ -11,10 +11,11 @@ $filename = 'bin/environaut.phar';
 
 try
 {
-    $compiler = new Environaut\Compiler\PharCompiler();
+    $compiler = new Environaut\PharCompiler();
     echo "Creating PHP archive '$filename'...";
     $compiler->create($filename);
     echo "done." . PHP_EOL;
+    echo "Use 'bin/phar $filename' to list files." . PHP_EOL;
 }
 catch (\Exception $e)
 {

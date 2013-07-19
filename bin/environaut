@@ -2,7 +2,7 @@
 <?php
 require_once('src/bootstrap.php');
 
-use Environaut\Console\Application;
+use Environaut\Application;
 
 $application = new Application('0.2.0');
 $application->run();

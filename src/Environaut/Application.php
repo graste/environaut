@@ -1,6 +1,6 @@
 <?php
 
-namespace Environaut\Console;
+namespace Environaut;
 
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;

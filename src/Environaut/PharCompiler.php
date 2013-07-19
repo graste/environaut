@@ -1,6 +1,6 @@
 <?php
 
-namespace Environaut\Compiler;
+namespace Environaut;
 
 use Symfony\Component\Finder\Finder;
 
@@ -28,11 +28,12 @@ class PharCompiler
 
         $phar->startBuffering();
 
-        $root_dir = dirname(dirname(dirname(__DIR__)));
+        $root_dir = dirname(dirname(__DIR__));
 
         // add environaut files
         $finder = new Finder();
         $finder->files()->name('*.php')->notName('PharCompiler.php')->in($root_dir . '/src');
+
         foreach ($finder as $file) {
             $phar->addFile($file->getRealPath(), 'src/' . $file->getRelativePathname());
         }
@@ -43,7 +44,10 @@ class PharCompiler
             ->name('*.php')
             ->notPath('/Tests/')
             ->notPath('/phpunit/')
+            ->notPath('/Finder/')
+            ->notPath('/Yaml/')
             ->in($root_dir . '/vendor');
+
         foreach ($finder as $file) {
             $phar->addFile($file->getRealPath(), 'vendor/' . $file->getRelativePathname());
         }

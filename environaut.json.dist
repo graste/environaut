@@ -4,7 +4,8 @@
     "keywords": [ "environment", "requirements", "configuration", "check", "cli", "php" ],
     "introduction": [
         "This is some",
-        "text."
+        "multiline"
+        "introductory text."
     ],
     "export_implementor": "Environaut\\Export\\Export",
     "runner_implementor": "Environaut\\Runner\\Runner",
@@ -14,7 +15,7 @@
             "name": "cache_dir",
             "class": "Environaut\\Checks\\Configurator",
             "setting_name": "core.cache_dir",
-            "question": "Geben Sie bitte ein schreibbares Verzeichnis an:",
+            "question": "Geben Sie bitte ein schreibbares Verzeichnis an",
             "choices": [
                 "cache",
                 "\/tmp",
@@ -26,7 +27,7 @@
             "name": "valid_ip",
             "class": "Environaut\\Checks\\Configurator",
             "setting_name": "core.ipv4",
-            "question": "Geben Sie bitte eine valide nicht-reservierte, nicht-private IPv4-Adresse ein:",
+            "question": "Geben Sie bitte eine valide nicht-reservierte, nicht-private IPv4-Adresse ein",
             "default": "195.74.70.239",
             "choices": [
                 "240.0.0.1",

@@ -25,10 +25,11 @@ class Configurator extends Check
     public function run()
     {
         $dialog = $this->getDialogHelper();
+        $output = $this->getOutputStream();
 
         $introduction = $this->parameters->get('introduction', false);
         if (false !== $introduction) {
-            $this->command->getOutput()->writeln($introduction);
+            $output->writeln($introduction);
         }
 
         $name = $this->parameters->get('setting_name', $this->getName() . 'default_key_name');
@@ -47,7 +48,7 @@ class Configurator extends Check
             $default = (bool) ($default === null ? true : $default);
             $default_text = ($default ? 'y' : 'n');
             $question .= "</question> (Type [y/n/<return>], default=$default_text): ";
-            $value = $dialog->askConfirmation($this->command->getOutput(), $question, $default);
+            $value = $dialog->askConfirmation($output, $question, $default);
             $default_text = ($default ? 'enabled' : 'disabled');
             $this->addSetting($name, $value);
             $this->addInfo($name . ' is ' . $default_text);
@@ -64,7 +65,7 @@ class Configurator extends Check
         $question .= ': ';
 
         if ($select) {
-            $value = $dialog->select($this->command->getOutput(), $question, $choices, $default, $max_attempts);
+            $value = $dialog->select($output, $question, $choices, $default, $max_attempts);
             $this->addSetting($name, $choices[$value]);
             $this->addInfo('Selected value for "' . $name . '" is "' . $choices[$value] . '".');
 
@@ -74,17 +75,17 @@ class Configurator extends Check
         if (false !== $validator) // use value validation?
         {
             if ($hidden) {
-                $value = $dialog->askHiddenResponseAndValidate($this->command->getOutput(), $question, $validator, $max_attempts, $allow_fallback);
+                $value = $dialog->askHiddenResponseAndValidate($output, $question, $validator, $max_attempts, $allow_fallback);
             }
             else {
-                $value = $dialog->askAndValidate($this->command->getOutput(), $question, $validator, $max_attempts, $default, $choices);
+                $value = $dialog->askAndValidate($output, $question, $validator, $max_attempts, $default, $choices);
             }
         } else { // do not use value validation
             if ($hidden) {
-                $value = $dialog->askHiddenResponse($this->command->getOutput(), $question, $allow_fallback);
+                $value = $dialog->askHiddenResponse($output, $question, $allow_fallback);
             }
             else {
-                $value = $dialog->ask($this->command->getOutput(), $question,  $default, $choices);
+                $value = $dialog->ask($output, $question,  $default, $choices);
             }
         }
 
