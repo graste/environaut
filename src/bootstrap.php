@@ -7,10 +7,9 @@ function includeIfExists($file)
     }
 }
 
-if ((!$loader = includeIfExists(__DIR__.'/../vendor/autoload.php'))) {
-    echo 'The project dependencies are missing. Please run Composer:' . PHP_EOL .
-        'curl -sS https://getcomposer.org/installer | php' . PHP_EOL .
-        'php composer.phar install' . PHP_EOL;
+if ((!$loader = includeIfExists(__DIR__ . '/../vendor/autoload.php'))) {
+    echo 'Unable to locate vendor directory. The project dependencies are missing.' . PHP_EOL;
+    echo 'Please run: "make install-dependencies-dev"' . PHP_EOL;
     exit(1);
 }
 

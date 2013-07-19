@@ -8,12 +8,13 @@ help:
 
 	@echo ""
 	@echo "Possible targets:"
-	@echo "  install-composer - install composer"
+	@echo "  docs - generate API documentation into 'docs/api' folder"
+	@echo "  install-composer - download and install composer to 'bin/composer.phar'"
 	@echo "  install-dependencies-dev - install composer if necessary and install or update all vendor libraries (including --dev)"
-	@echo "  phar - create PHP archive bin/environaut.phar"
-	@echo "  tests - run all tests"
+	@echo "  tests - run all tests and create test coverage in 'build/reports"
+	@echo "  phar - create PHP archive file 'bin/environaut.phar' (PHP ini setting 'phar.readonly' must be disabled)"
 	@echo ""
-	@echo "Please make sure a 'php' executable is available via PATH environment variable or set a PHP_PATH variable directly with a path like /usr/bin/php."
+	@echo "Please make sure a 'php' executable is available via PATH environment variable or set a PHP_PATH variable directly with a path like '/usr/bin/php'."
 	@echo ""
 	@exit 0
 
@@ -33,8 +34,13 @@ install-dependencies-dev:
 
 tests:
 
-	@bin/phpunit tests/
+	@vendor/bin/phpunit tests/
 
-.PHONY: tests help phar install-composer install-dependencies-dev
+docs:
+
+	@if [ -d ./docs/api ]; then rm -rf ./docs/api; fi
+	@$(PHP) vendor/bin/sami.php update ./bin/sami.cfg
+
+.PHONY: tests docs help phar install-composer install-dependencies-dev
 
 # vim: ts=4:sw=4:noexpandtab:

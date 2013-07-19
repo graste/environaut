@@ -5,6 +5,7 @@ to reference changes.
 
 ## 0.2.0 (2013/xx/xx)
 
+* [new] added `make docs` target to build API documentation via Sami to `docs/api` folder
 * [new] added builds via TravisCI for PHP v5.3, v5.4 and v5.5 (thanks!)
 * [new] added initial documentation of checks in `docs/checks.md`
 * [new] added `ComposerSecurityCheck` to check `composer.lock` files for known security vulnerabilities

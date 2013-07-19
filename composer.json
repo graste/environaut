@@ -25,9 +25,11 @@
     },
     "minimum-stability": "stable",
     "target-dir": "graste/environaut",
-    "bin": [ "bin/environaut" ],
+    "bin": [
+        "bin/environaut",
+        "environaut.phar"
+    ],
     "config": {
-        "bin-dir": "bin",
         "vendor-dir": "vendor"
     },
     "require": {
@@ -37,10 +39,13 @@
     },
     "require-dev": {
         "symfony/finder": "~2.1",
-        "phpunit/phpunit": "~3.7.22"
+        "phpunit/phpunit": "~3.7.22",
+        "sami/sami": "~1.0"
     },
     "autoload": {
-        "psr-0": {"Environaut": "src/"}
+        "psr-0": {
+            "Environaut": "src/"
+        }
     },
     "repositories": [
     ]

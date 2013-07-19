@@ -51,7 +51,7 @@ class ComposerSecurityCheck extends Check
             $this->addError('Number of found known vulnerabilities after checking "' . $file . '": ' . $checker->getLastVulnerabilityCount());
             $this->addError($alerts);
         } else {
-            $this->addError('No known vulnerabilities found after checking "' . $file . '".');
+            $this->addInfo('No known vulnerabilities found after checking "' . $file . '".');
         }
     }
 }

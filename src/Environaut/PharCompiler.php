@@ -38,15 +38,14 @@ class PharCompiler
             $phar->addFile($file->getRealPath(), 'src/' . $file->getRelativePathname());
         }
 
-        // add vendor files
+        // add vendor files using a whitelist with excludes
         $finder = new Finder();
         $finder->files()
             ->name('*.php')
+            ->path('/symfony\/console\//')
+            ->path('/sensiolabs\/security-checker\//')
             ->notName('SecurityCheckerCommand.php')
-            ->notPath('/Tests/')
-            ->notPath('/phpunit/')
-            ->notPath('/Finder/')
-            ->notPath('/Yaml/')
+            ->notPath('/(\/Tests\/|\/Tester\/)/')
             ->in($root_dir . '/vendor');
 
         foreach ($finder as $file) {
@@ -58,6 +57,7 @@ class PharCompiler
         $phar->addFile($root_dir . '/vendor/composer/autoload_namespaces.php', 'vendor/composer/autoload_namespaces.php');
         $phar->addFile($root_dir . '/vendor/composer/autoload_classmap.php', 'vendor/composer/autoload_classmap.php');
         $phar->addFile($root_dir . '/vendor/composer/autoload_real.php', 'vendor/composer/autoload_real.php');
+        $phar->addFile($root_dir . '/vendor/composer/include_paths.php', 'vendor/composer/include_paths.php');
         $phar->addFile($root_dir . '/vendor/composer/ClassLoader.php', 'vendor/composer/ClassLoader.php');
 
         // environaut executable

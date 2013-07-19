@@ -56,7 +56,11 @@ class ConfigHandler extends BaseConfigHandler
             }
 
             if (!$reader instanceof IConfigReader) {
-                throw new \InvalidArgumentException('Could not find a environaut config file in "' . $base_location . '". Attempted files were: ' . implode(', ', $this->default_filenames));
+                throw new \InvalidArgumentException(
+                    'Could not find an environaut config file in "' . $base_location . '".' . PHP_EOL .
+                    'Attempted files were: ' . implode(', ', $this->default_filenames) . '.' . PHP_EOL .
+                    'Try calling from a different folder or specify a file using the "--config" option.'
+                );
             }
         } else if (is_file($location)) {
             $reader = $this->getReaderByExtension($location);
@@ -96,7 +100,9 @@ class ConfigHandler extends BaseConfigHandler
                 $reader = new PhpConfigReader();
                 break;
             default:
-                throw new \InvalidArgumentException('File could not be read: ' . $location . ' - Supported config file extensions are: ' . implode(', ', $this->supported_file_extensions));
+                throw new \InvalidArgumentException(
+                    'File could not be read: ' . $location . PHP_EOL .
+                    'Supported config file extensions are: ' . implode(', ', $this->supported_file_extensions));
                 break;
         }
 

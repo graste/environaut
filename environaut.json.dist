@@ -4,7 +4,8 @@
     "keywords": [ "environment", "requirements", "configuration", "check", "cli", "php" ],
     "introduction": [
         "This is some",
-        "text."
+        "multiline",
+        "introductory text."
     ],
     "export_implementor": "Environaut\\Export\\Export",
     "runner_implementor": "Environaut\\Runner\\Runner",
