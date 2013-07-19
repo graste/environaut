@@ -1,5 +1,6 @@
 # project related stuff
 /bin/phpunit
+/bin/security-checker
 /build/
 
 # composer related stuff

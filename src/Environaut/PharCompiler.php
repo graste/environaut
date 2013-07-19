@@ -42,6 +42,7 @@ class PharCompiler
         $finder = new Finder();
         $finder->files()
             ->name('*.php')
+            ->notName('SecurityCheckerCommand.php')
             ->notPath('/Tests/')
             ->notPath('/phpunit/')
             ->notPath('/Finder/')

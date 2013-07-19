@@ -4,13 +4,18 @@
     "keywords": [ "environment", "requirements", "configuration", "check", "cli", "php" ],
     "introduction": [
         "This is some",
-        "multiline"
-        "introductory text."
+        "text."
     ],
     "export_implementor": "Environaut\\Export\\Export",
     "runner_implementor": "Environaut\\Runner\\Runner",
     "report_implementor": "Environaut\\Report\\Report",
     "checks": [
+        {
+            "name": "composer-security",
+            "class": "Environaut\\Checks\\ComposerSecurityCheck"
+        }
+    ],
+    "pool_of_checks": [
         {
             "name": "cache_dir",
             "class": "Environaut\\Checks\\Configurator",
