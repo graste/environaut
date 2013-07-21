@@ -31,7 +31,7 @@ abstract class Check implements ICheck
     protected $command;
 
     /**
-     * @var Result
+     * @var IResult
      */
     protected $result;
 
@@ -39,17 +39,25 @@ abstract class Check implements ICheck
      * Creates a new Check instance with the given name and parameters.
      *
      * @param string $name name of this check
-     * @param array $parameters configurational parameters
+     * @param string $group group name of this check
+     * @param array $parameters configurational parameters needed for the check to run
      */
-    public function __construct($name, array $parameters = array())
+    public function __construct($name = null, $group = self::DEFAULT_GROUP_NAME, array $parameters = array())
     {
-        $this->name = $name;
+        if (null === $name) {
+            $this->name = self::getRandomString(8);
+        } else {
+            $this->name = $name;
+        }
+        $this->group = $group;
         $this->parameters = new Parameters($parameters);
         $this->result = new Result($this);
     }
 
     /**
-     * @return Result result of this check
+     * Returns the result of this check. This should be called after the run() method has been run.
+     *
+     * @return IResult result of this check
      */
     public function getResult()
     {
@@ -57,6 +65,8 @@ abstract class Check implements ICheck
     }
 
     /**
+     * Returns the name of this check.
+     *
      * @return string name of this check
      */
     public function getName()
@@ -65,26 +75,58 @@ abstract class Check implements ICheck
     }
 
     /**
+     * Returns the group name of this check that may be useful to group/namespace settings.
+     *
+     * @return string group name of this check
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * Returns the runtime parameters that are used to run this check.
+     *
+     * @return Parameters runtime parameters of this check
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * Returns the tokens that should be available prior to running this check.
+     *
+     * @throws array with token names
+     */
+    public function getDependencies()
+    {
+        throw $this->depend_tokens;
+    }
+
+    /**
      * Adds the given value under the given key to the settings
-     * of the result.
+     * of the result. The setting may have a group name to more
+     * easily separate them on export. If no group name is specified
+     * the check's group name is used as the default.
      *
      * @param string $name key for that setting
      * @param mixed $value usually a string value
+     * @param string $group name of group this setting belongs to
      *
      * @throws \InvalidArgumentException if no valid setting key was given
      */
-    protected function addSetting($name, $value)
+    protected function addSetting($name, $value, $group = null)
     {
-        if (empty($name))
-        {
+        if (empty($name)) {
             throw new \InvalidArgumentException('A setting must have a valid name.');
         }
-        $this->result->addSetting(new Setting($name, $value));
-    }
 
-    public function getDependencyManager()
-    {
-        throw new \Exception('Not yet implemented');
+        if (null === $group) {
+            $group = $this->group;
+        }
+
+        $this->result->addSetting(new Setting($name, $value, $group));
     }
 
     /**
@@ -95,7 +137,7 @@ abstract class Check implements ICheck
      * @param string $name message name
      * @param string $group group name
      */
-    protected function addInfo($text = '', $name = null, $group = null)
+    protected function addInfo($text = '', $name = null, $group = self::DEFAULT_GROUP_NAME)
     {
         if (null === $name)
         {
@@ -113,7 +155,7 @@ abstract class Check implements ICheck
      * @param string $name message name
      * @param string $group group name
      */
-    protected function addNotice($text = '', $name = null, $group = null)
+    protected function addNotice($text = '', $name = null, $group = self::DEFAULT_GROUP_NAME)
     {
         if (null === $name)
         {
@@ -131,7 +173,7 @@ abstract class Check implements ICheck
      * @param string $name message name
      * @param string $group group name
      */
-    protected function addError($text = '', $name = null, $group = null)
+    protected function addError($text = '', $name = null, $group = self::DEFAULT_GROUP_NAME)
     {
         if (null === $name)
         {
@@ -172,6 +214,17 @@ abstract class Check implements ICheck
     {
         return $this->command;
     }
+
+    /**
+     * Returns a random string with the specified length and prefix (prefix is not part of the length).
+     *
+     * @param int $length
+     * @param string $prefix
+     *
+     * @return string
+     */
+    public static function getRandomString($length = 8, $prefix = 'check_')
+    {
+        return $prefix . bin2hex(openssl_random_pseudo_bytes($length));
+    }
 }
-
-

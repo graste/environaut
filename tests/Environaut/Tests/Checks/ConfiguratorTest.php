@@ -18,6 +18,32 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertEquals(null, $check->getCommand());
     }
 
+    public function testGroupSimpleValueQuestion()
+    {
+        $email = "omg@example.com";
+        $check = $this->runConfigurator(
+            $email,
+            array(
+                'question' => 'Your email?',
+                'setting' => 'core.email'
+            ),
+            'trololo'
+        );
+
+        $this->assertEquals('trololo', $check->getGroup());
+        $this->assertContains('Your email?', $check->getOutput());
+        $this->assertCount(1, $check->getResult()->getMessages());
+
+        $settings = $check->getResult()->getSettingsAsArray();
+        $this->assertCount(1, $settings, 'expected all settings when group is ot specified');
+        $settings = $check->getResult()->getSettingsAsArray('default');
+        $this->assertCount(0, $settings, 'expected default group to be empty/nonexisting as "trololo" was the group name.');
+        $settings = $check->getResult()->getSettingsAsArray('trololo');
+        $this->assertCount(1, $settings, 'group "trololo" sould contain the setting');
+        $this->assertArrayHasKey('core.email', $settings);
+        $this->assertEquals($email, $settings['core.email']);
+    }
+
     public function testSimpleValueQuestion()
     {
         $email = "omg@example.com";
@@ -25,14 +51,14 @@ class ConfiguratorTest extends BaseTestCase
             $email,
             array(
                 'question' => 'Your email?',
-                'setting_name' => 'core.email'
+                'setting' => 'core.email'
             )
         );
 
         $this->assertContains('Your email?', $check->getOutput());
         $this->assertCount(1, $check->getResult()->getMessages());
 
-        $settings = $check->getResult()->getSettings();
+        $settings = $check->getResult()->getSettingsAsArray('default');
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('core.email', $settings);
         $this->assertEquals($email, $settings['core.email']);
@@ -46,7 +72,7 @@ class ConfiguratorTest extends BaseTestCase
             $email . "\n" . $email . "\n" . $email . "\n" . $email . "\n" . $email . "\n",
             array(
                 'question' => 'Your email?',
-                'setting_name' => 'core.email',
+                'setting' => 'core.email',
                 'validator' => 'Environaut\Checks\Validator::validEmail',
                 'max_attempts' => 5
             )
@@ -61,7 +87,7 @@ class ConfiguratorTest extends BaseTestCase
             $email . $email . $email . $email . "correct@example.com\n",
             array(
                 'question' => 'Your email?',
-                'setting_name' => 'core.email',
+                'setting' => 'core.email',
                 'validator' => 'Environaut\Checks\Validator::validEmail',
                 'max_attempts' => 5
             )
@@ -77,7 +103,7 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertInstanceOf('Environaut\Report\Results\Messages\Message', $message);
         $this->assertTrue($message->getSeverity() === Message::SEVERITY_INFO);
 
-        $settings = $check->getResult()->getSettings();
+        $settings = $check->getResult()->getSettingsAsArray('default');
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('core.email', $settings);
         $this->assertEquals('correct@example.com', $settings['core.email']);
@@ -91,7 +117,7 @@ class ConfiguratorTest extends BaseTestCase
             "asdf\n1\n",
             array(
                 'question' => 'Take a pick',
-                'setting_name' => 'pick',
+                'setting' => 'pick',
                 'choices' => $choices,
                 'select' => true
             )
@@ -106,7 +132,7 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertInstanceOf('Environaut\Report\Results\Messages\Message', $message);
         $this->assertTrue($message->getSeverity() === Message::SEVERITY_INFO);
 
-        $settings = $check->getResult()->getSettings();
+        $settings = $check->getResult()->getSettingsAsArray('default');
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('pick', $settings);
         $this->assertEquals('bar', $settings['pick']);
@@ -118,7 +144,7 @@ class ConfiguratorTest extends BaseTestCase
             "\n",
             array(
                 'question' => 'Type something long',
-                'setting_name' => 'pick',
+                'setting' => 'pick',
                 'default' => 'hooray for default values!'
             )
         );
@@ -132,7 +158,7 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertInstanceOf('Environaut\Report\Results\Messages\Message', $message);
         $this->assertTrue($message->getSeverity() === Message::SEVERITY_INFO);
 
-        $settings = $check->getResult()->getSettings();
+        $settings = $check->getResult()->getSettingsAsArray('default');
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('pick', $settings);
         $this->assertEquals('hooray for default values!', $settings['pick']);
@@ -144,7 +170,7 @@ class ConfiguratorTest extends BaseTestCase
             "password\n",
             array(
                 'question' => 'Type something long',
-                'setting_name' => 'pick',
+                'setting' => 'pick',
                 'hidden' => true
             )
         );
@@ -158,7 +184,7 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertInstanceOf('Environaut\Report\Results\Messages\Message', $message);
         $this->assertTrue($message->getSeverity() === Message::SEVERITY_INFO);
 
-        $settings = $check->getResult()->getSettings();
+        $settings = $check->getResult()->getSettingsAsArray('default');
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('pick', $settings);
         $this->assertEquals('password', $settings['pick']);
@@ -170,7 +196,7 @@ class ConfiguratorTest extends BaseTestCase
             __DIR__ . "\n",
             array(
                 'question' => 'Type something long',
-                'setting_name' => 'pick',
+                'setting' => 'pick',
                 'hidden' => true,
                 'validator' => 'Environaut\Checks\Validator::readableDirectory'
             )
@@ -185,7 +211,7 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertInstanceOf('Environaut\Report\Results\Messages\Message', $message);
         $this->assertTrue($message->getSeverity() === Message::SEVERITY_INFO);
 
-        $settings = $check->getResult()->getSettings();
+        $settings = $check->getResult()->getSettingsAsArray('default');
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('pick', $settings);
         $this->assertEquals(__DIR__, $settings['pick']);
@@ -198,7 +224,7 @@ class ConfiguratorTest extends BaseTestCase
             __DIR__ . "nonexisting\n",
             array(
                 'question' => 'Type something long',
-                'setting_name' => 'pick',
+                'setting' => 'pick',
                 'hidden' => true,
                 'validator' => 'Environaut\Checks\Validator::readableDirectory',
                 'max_attempts' => 1
@@ -213,14 +239,14 @@ class ConfiguratorTest extends BaseTestCase
             array(
                 'question' => 'Do you like testing?',
                 'confirm' => true,
-                'setting_name' => 'core.testing'
+                'setting' => 'core.testing'
             )
         );
 
         $this->assertContains('Do you like testing?', $check->getOutput());
         $this->assertCount(1, $check->getResult()->getMessages());
 
-        $settings = $check->getResult()->getSettings();
+        $settings = $check->getResult()->getSettingsAsArray('default');
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('core.testing', $settings);
         $this->assertEquals(true, $settings['core.testing']);
@@ -233,15 +259,14 @@ class ConfiguratorTest extends BaseTestCase
             array(
                 'question' => 'Do you like testing?',
                 'confirm' => true,
-                'setting_name' => 'core.testing'
+                'setting' => 'core.testing'
             )
         );
 
         $this->assertContains('Do you like testing?', $check->getOutput());
         $this->assertCount(1, $check->getResult()->getMessages());
 
-        $settings = $check->getResult()->getSettings();
-
+        $settings = $check->getResult()->getSettingsAsArray('default');
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('core.testing', $settings);
         $this->assertEquals(true, $settings['core.testing']);
@@ -254,15 +279,14 @@ class ConfiguratorTest extends BaseTestCase
             array(
                 'question' => 'Do you like testing?',
                 'confirm' => true,
-                'setting_name' => 'core.testing'
+                'setting' => 'core.testing'
             )
         );
 
         $this->assertContains('Do you like testing?', $check->getOutput());
         $this->assertCount(1, $check->getResult()->getMessages());
 
-        $settings = $check->getResult()->getSettings();
-
+        $settings = $check->getResult()->getSettingsAsArray('default');
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('core.testing', $settings);
         $this->assertEquals(false, $settings['core.testing']);
@@ -276,7 +300,7 @@ class ConfiguratorTest extends BaseTestCase
                 'question' => 'Do you like testing?',
                 'confirm' => true,
                 'default' => false,
-                'setting_name' => 'core.testing'
+                'setting' => 'core.testing'
             )
         );
 
@@ -285,7 +309,7 @@ class ConfiguratorTest extends BaseTestCase
 
         $this->assertCount(1, $check->getResult()->getMessages());
 
-        $settings = $check->getResult()->getSettings();
+        $settings = $check->getResult()->getSettingsAsArray('default');
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('core.testing', $settings);
         $this->assertEquals(false, $settings['core.testing']);
@@ -304,7 +328,7 @@ EOT;
                 'introduction' => $intro,
                 'question' => 'Do you like testing?',
                 'confirm' => true,
-                'setting_name' => 'core.testing'
+                'setting' => 'core.testing'
             )
         );
 
@@ -325,7 +349,7 @@ EOT;
                 'introduction' => $intro,
                 'question' => 'Do you like testing?',
                 'confirm' => true,
-                'setting_name' => 'core.testing'
+                'setting' => 'core.testing'
             )
         );
 
@@ -346,9 +370,9 @@ EOT;
      *
      * @return \Environaut\Tests\Checks\TestableConfigurator
      */
-    protected function runConfigurator($input, array $params = array())
+    protected function runConfigurator($input, array $params = array(), $group = 'default')
     {
-        $check = new TestableConfigurator('confirmation', $params);
+        $check = new TestableConfigurator('confirmation', $group, $params);
 
         $check->setInput($input);
 

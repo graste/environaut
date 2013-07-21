@@ -40,7 +40,8 @@ class Config implements IConfig
      */
     public function getExportImplementor()
     {
-        return $this->config->get('export_implementor', 'Environaut\Export\Export');
+        $export = new Parameters($this->config->get('export', array()));
+        return $export->get(self::PARAM_CLASS, 'Environaut\Export\Export');
     }
 
     /**
@@ -50,7 +51,8 @@ class Config implements IConfig
      */
     public function getReportImplementor()
     {
-        return $this->config->get('report_implementor', 'Environaut\Report\Report');
+        $report = new Parameters($this->config->get('report', array()));
+        return $report->get(self::PARAM_CLASS, 'Environaut\Report\Report');
     }
 
     /**
@@ -60,7 +62,8 @@ class Config implements IConfig
      */
     public function getRunnerImplementor()
     {
-        return $this->config->get('runner_implementor', 'Environaut\Runner\Runner');
+        $runner = new Parameters($this->config->get('runner', array()));
+        return $runner->get(self::PARAM_CLASS, 'Environaut\Runner\Runner');
     }
 
     /**

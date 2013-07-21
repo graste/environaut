@@ -52,14 +52,16 @@ EOT
             $output->writeln('');
         }
 
+        // TODO: use setters instead of construct?
         $runner_impl = $config->getRunnerImplementor();
-        $runner = new $runner_impl($config, $this);
+        $runner = new $runner_impl($config, $this, $config->get('runner', array()));
         $runner->run();
 
         $report = $runner->getReport();
 
+        // TODO: use setters instead of construct?
         $export_impl = $config->getExportImplementor();
-        $exporter = new $export_impl($report, $this);
+        $exporter = new $export_impl($report, $this, $config->get('export', array()));
         $exporter->run();
 
         $this->displayOutro();

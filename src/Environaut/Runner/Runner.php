@@ -2,19 +2,24 @@
 
 namespace Environaut\Runner;
 
-use Environaut\Config\IConfig;
+use Environaut\Checks\Check;
+use Environaut\Checks\ICheck;
 use Environaut\Command\Command;
+use Environaut\Config\IConfig;
+use Environaut\Config\Parameters;
 use Environaut\Report\Results\IResult;
 use Environaut\Runner\IRunner;
 
 /**
- * Default runner used for environment checks.
- * Reads checks from the config, executes them
- * in that order and compiles the results into
- * a report.
+ * Reads checks from the config, executes them in that order and compiles the results into a report.
  */
 class Runner implements IRunner
 {
+    /**
+     * Default namespaced class name to use for checks if none is specified in the check definition of the config.
+     */
+    const DEFAULT_CHECK_IMPLEMENTOR = 'Environaut\Checks\Configurator';
+
     /**
      * @var IConfig current config
      */
@@ -31,15 +36,21 @@ class Runner implements IRunner
     protected $report;
 
     /**
+     * @var Parameters
+     */
+    protected $parameters;
+
+    /**
      * Create new instance with given config and command.
      *
      * @param IConfig $config
      * @param Command $command
      */
-    public function __construct(IConfig $config, Command $command)
+    public function __construct(IConfig $config, Command $command, array $parameters = array())
     {
         $this->setConfig($config);
         $this->setCommand($command);
+        $this->parameters = new Parameters($parameters);
     }
 
     /**
@@ -73,10 +84,8 @@ class Runner implements IRunner
         $this->report = new $report_implementor();
 
         $checks = array();
-        foreach ($this->config->getCheckDefinitions() as $check) {
-            $test = new $check['class']($check['name'], $check);
-            $test->setCommand($this->command);
-            $checks[] = $test;
+        foreach ($this->config->getCheckDefinitions() as $check_definition) {
+            $checks[] = $this->getCheckInstance($check_definition);
         }
 
         $progress = $this->command->getHelperSet()->get('progress');
@@ -86,16 +95,46 @@ class Runner implements IRunner
 
         foreach ($checks as $check) {
             $check->run();
+
             $result = $check->getResult();
             if (!$result instanceof IResult) {
-                throw new \LogicException('The "process" method of check "' . $check->getName() . '" (class "' . get_class($check) . '") must return a result that implements IResult.');
+                throw new \LogicException('The result of check "' . $check->getName() . '" (group "' . $check->getGroup() . '", class "' . get_class($check) . '") must implement IResult.');
             }
             $this->report->addResult($result);
-            usleep(250000);
+
             $progress->advance();
         }
 
         $progress->finish();
+    }
+
+    /**
+     * Returns a new check instance based on the given parameters.
+     *
+     * @param array $parameters check definition parameters
+     *
+     * @return ICheck instance
+     */
+    protected function getCheckInstance(array $parameters = array())
+    {
+        $params = new Parameters($parameters);
+
+        $name = $params->get(IConfig::PARAM_NAME, Check::getRandomString(8, 'check_'));
+        $group = $params->get(IConfig::PARAM_GROUP, ICheck::DEFAULT_GROUP_NAME);
+        $class = $params->get(IConfig::PARAM_CLASS, self::DEFAULT_CHECK_IMPLEMENTOR);
+
+        unset($parameters[IConfig::PARAM_CLASS]);
+        unset($parameters[IConfig::PARAM_NAME]);
+        unset($parameters[IConfig::PARAM_GROUP]);
+
+        $check = new $class($name, $group, $parameters);
+        $check->setCommand($this->command);
+
+        if (!$check instanceof ICheck) {
+            throw new \InvalidArgumentException('The given check "' . $class . '" does not implement ICheck.');
+        }
+
+        return $check;
     }
 
     /**

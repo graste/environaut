@@ -7,20 +7,44 @@
         "multiline",
         "introductory text."
     ],
-    "export_implementor": "Environaut\\Export\\Export",
-    "runner_implementor": "Environaut\\Runner\\Runner",
-    "report_implementor": "Environaut\\Report\\Report",
+    "export": {
+        "__class": "Environaut\\Export\\Export",
+        "files": [
+            {
+                "format": "json"
+            },
+            {
+                "format": "xml"
+            },
+            {
+                "format": "json",
+                "groups": ["trololo"],
+                "file": "trololo.json"
+            },
+            {
+                "format": "xml",
+                "groups": ["trololo"],
+                "file": "trololo.xml"
+            }
+        ]
+    },
+    "runner": {
+        "__class": "Environaut\\Runner\\Runner"
+    },
+    "report": {
+        "__class": "Environaut\\Report\\Report"
+    },
     "checks": [
         {
-            "name": "composer-security",
-            "class": "Environaut\\Checks\\ComposerSecurityCheck"
-        }
-    ],
-    "pool_of_checks": [
+            "__name": "composer-security",
+            "__class": "Environaut\\Checks\\ComposerSecurityCheck",
+            "file": "..\/agavi-boilerplate\/composer.lock",
+            "silent": false
+        },
         {
-            "name": "cache_dir",
-            "class": "Environaut\\Checks\\Configurator",
-            "setting_name": "core.cache_dir",
+            "__name": "cache_dir",
+            "__class": "Environaut\\Checks\\Configurator",
+            "setting": "cache_dir",
             "question": "Geben Sie bitte ein schreibbares Verzeichnis an",
             "choices": [
                 "cache",
@@ -30,9 +54,9 @@
             "validator": "Environaut\\Checks\\Validator::writableDirectory"
         },
         {
-            "name": "valid_ip",
-            "class": "Environaut\\Checks\\Configurator",
-            "setting_name": "core.ipv4",
+            "__name": "valid_ip",
+            "__class": "Environaut\\Checks\\Configurator",
+            "setting": "ipv4",
             "question": "Geben Sie bitte eine valide nicht-reservierte, nicht-private IPv4-Adresse ein",
             "default": "195.74.70.239",
             "choices": [
@@ -45,9 +69,9 @@
             "validator": "Environaut\\Checks\\Validator::validIpv4NotReserved"
         },
         {
-            "name": "selection",
-            "class": "Environaut\\Checks\\Configurator",
-            "setting_name": "selected_url",
+            "__name": "selection",
+            "__class": "Environaut\\Checks\\Configurator",
+            "setting": "selected_url",
             "question": "Welche URL bevorzugen Sie?",
             "choices": [
                 "http:\/\/cms.honeybee-showcase.dev\/",
@@ -57,9 +81,9 @@
             "select": true
         },
         {
-            "name": "base_href",
-            "class": "Environaut\\Checks\\Configurator",
-            "setting_name": "base_href",
+            "__name": "base_href",
+            "__class": "Environaut\\Checks\\Configurator",
+            "setting": "base_href",
             "question": "Wie lautet der BaseHref?",
             "default": "http:\/\/honeybee-showcase.dev\/",
             "choices": [
@@ -71,17 +95,19 @@
             "max_attempts": 5
         },
         {
-            "name": "confirm",
-            "class": "Environaut\\Checks\\Configurator",
-            "setting_name": "testing",
+            "__name": "confirm",
+            "__class": "Environaut\\Checks\\Configurator",
+            "__group": "trololo",
+            "setting": "testing_enabled",
             "question": "Testmodus aktivieren?",
             "default": false,
             "confirm": true
         },
         {
-            "name": "trololo",
-            "class": "Environaut\\Checks\\Configurator",
-            "setting_name": "contact.name",
+            "__name": "trololo",
+            "__class": "Environaut\\Checks\\Configurator",
+            "__group": "trololo",
+            "setting": "contact.name",
             "introduction": "Trololo is a video of the nationally-honored Russian singer Eduard Khil (AKA Edward Khill, Edward Hill) performing the Soviet-era pop song \u201cI am Glad, \u2018cause I\u2019m Finally Returning Back Home\u201d (Russian: \u042f \u043e\u0447\u0435\u043d\u044c \u0440\u0430\u0434, \u0432\u0435\u0434\u044c \u044f, \u043d\u0430\u043a\u043e\u043d\u0435\u0446, \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u044e\u0441\u044c \u0434\u043e\u043c\u043e\u0439). The video is often used as a bait-and-switch prank, in similar vein to the practice of Rickrolling.\n\nSource: http:\/\/knowyourmeme.com\/memes\/trololo-russian-rickroll\n\n",
             "question": "Wie lautet der Vorname des Trololo Manns?",
             "choices": [
@@ -92,9 +118,10 @@
             ]
         },
         {
-            "name": "contact",
-            "class": "Environaut\\Checks\\Configurator",
-            "setting_name": "contact.email",
+            "__name": "contact",
+            "__class": "Environaut\\Checks\\Configurator",
+            "__group": "trololo",
+            "setting": "contact.email",
             "question": "Wie lautet seine Emailadresse?",
             "choices": [
                 "mr.trololo@example.com"
@@ -103,9 +130,9 @@
             "max_attempts": 5
         },
         {
-            "name": "password",
-            "class": "Environaut\\Checks\\Configurator",
-            "setting_name": "core.password",
+            "__name": "password",
+            "__class": "Environaut\\Checks\\Configurator",
+            "setting": "password",
             "question": "Wie lautet das geheime Passwort?",
             "hidden": true,
             "allow_fallback": true

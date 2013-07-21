@@ -2,6 +2,7 @@
 /bin/phpunit
 /bin/security-checker
 /build/
+/docs/api
 
 # composer related stuff
 /vendor/

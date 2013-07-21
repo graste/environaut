@@ -47,14 +47,32 @@ class Result implements IResult
 
     public function getSettings()
     {
+        return $this->settings;
+    }
+
+    /**
+     * Return all settings or the settings of the specified group as an array.
+     *
+     * @param string $group group name of settings to return
+     *
+     * @return array all settings (for the specified group); empty array if group doesn't exist.
+     */
+    public function getSettingsAsArray($group = null)
+    {
         $settings = array();
 
         foreach ($this->settings as $setting)
         {
-            $settings = array_merge($settings, $setting->toArray());
+            $settings = array_merge_recursive($settings, $setting->toArray());
         }
 
-        return $settings;
+        if (null === $group) {
+            return $settings;
+        } else if (null !== $group && isset($settings[$group])) {
+            return $settings[$group];
+        } else {
+            return array();
+        }
     }
 
     public function setCheck(ICheck $check)

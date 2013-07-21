@@ -8,6 +8,21 @@ namespace Environaut\Config;
 interface IConfig
 {
     /**
+     * Parameter name in a check, export or similar defintion to define the implementor to use.
+     */
+    const PARAM_CLASS = '__class';
+
+    /**
+     * Parameter name in a check, export or similar definition to e.g. name a check.
+     */
+    const PARAM_NAME = '__name';
+
+    /**
+     * Parameter name in a check, export or similar definition to e.g. assign a check to a group.
+     */
+    const PARAM_GROUP = '__group';
+
+    /**
      * @return array of parameters to create checks
      */
     public function getCheckDefinitions();
