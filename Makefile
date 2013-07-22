@@ -13,6 +13,8 @@ help:
 	@echo "  install-dependencies-dev - install composer if necessary and install or update all vendor libraries (including --dev)"
 	@echo "  tests - run all tests and create test coverage in 'build/reports"
 	@echo "  phar - create PHP archive file 'bin/environaut.phar' (PHP ini setting 'phar.readonly' must be disabled)"
+	@echo "  php-codesniffer - create codesniffer report in 'build/reports' folder"
+	@echo "  php-codesniffer-cli - run codesniffer and display report in console"
 	@echo ""
 	@echo "Please make sure a 'php' executable is available via PATH environment variable or set a PHP_PATH variable directly with a path like '/usr/bin/php'."
 	@echo ""
