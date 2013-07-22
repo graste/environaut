@@ -63,7 +63,7 @@ class Parameters
      */
     public function has($key)
     {
-        if(isset($this->parameters[$key]) || array_key_exists($key, $this->parameters)) {
+        if (isset($this->parameters[$key]) || array_key_exists($key, $this->parameters)) {
             return true;
         }
 

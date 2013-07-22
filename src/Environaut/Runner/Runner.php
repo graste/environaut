@@ -98,7 +98,10 @@ class Runner implements IRunner
 
             $result = $check->getResult();
             if (!$result instanceof IResult) {
-                throw new \LogicException('The result of check "' . $check->getName() . '" (group "' . $check->getGroup() . '", class "' . get_class($check) . '") must implement IResult.');
+                throw new \LogicException(
+                    'The result of check "' . $check->getName() . '" (group "' . $check->getGroup() . '", class "' .
+                    get_class($check) . '") must implement IResult.'
+                );
             }
             $this->report->addResult($result);
 

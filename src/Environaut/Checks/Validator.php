@@ -16,7 +16,7 @@ class Validator
      *
      * @return string path to valid directory
      *
-     * @throws \InvalidArgumentException in case of validation errors (empty value or irregular or non-readable directory)
+     * @throws \InvalidArgumentException in case of validation errors (empty value, irregular or non-readable directory)
      */
     public static function readableDirectory($value)
     {
@@ -43,7 +43,7 @@ class Validator
      *
      * @return string path to valid directory
      *
-     * @throws \InvalidArgumentException in case of validation errors (empty value or irregular or non-writable directory)
+     * @throws \InvalidArgumentException in case of validation errors (empty value, irregular or non-writable directory)
      */
     public static function writableDirectory($value)
     {
@@ -130,29 +130,56 @@ class Validator
     public static function validUrl($value)
     {
         if (empty($value)) {
-            throw new \InvalidArgumentException("Empty URL given. Valid URLs have the format: http(s)://[(sub.)domain|ip][:port][/[optional_path]]");
+            throw new \InvalidArgumentException(
+                "Empty URL given. Valid URLs have the format: http(s)://[(sub.)domain|ip][:port][/[optional_path]]"
+            );
         }
 
         // this pattern has been taken from the symfony url validator:
         // https://github.com/symfony/Validator/blob/master/Constraints/UrlValidator.php
         // @author Bernhard Schussek <bschussek@gmail.com>
-        $pattern = '~^
-            (http|https)://                         # protocols
-            (
-                ([\pL\pN\pS-]+\.)+[\pL]+            # domain name
-                    |                               #  or
-                \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}  # IPv4 address
-                    |                               #  or
-                \[
-                    (?:(?:(?:(?:(?:(?:(?:[0-9a-f]{1,4})):){6})(?:(?:(?:(?:(?:[0-9a-f]{1,4})):(?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:::(?:(?:(?:[0-9a-f]{1,4})):){5})(?:(?:(?:(?:(?:[0-9a-f]{1,4})):(?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:[0-9a-f]{1,4})))?::(?:(?:(?:[0-9a-f]{1,4})):){4})(?:(?:(?:(?:(?:[0-9a-f]{1,4})):(?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-f]{1,4})):){0,1}(?:(?:[0-9a-f]{1,4})))?::(?:(?:(?:[0-9a-f]{1,4})):){3})(?:(?:(?:(?:(?:[0-9a-f]{1,4})):(?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-f]{1,4})):){0,2}(?:(?:[0-9a-f]{1,4})))?::(?:(?:(?:[0-9a-f]{1,4})):){2})(?:(?:(?:(?:(?:[0-9a-f]{1,4})):(?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-f]{1,4})):){0,3}(?:(?:[0-9a-f]{1,4})))?::(?:(?:[0-9a-f]{1,4})):)(?:(?:(?:(?:(?:[0-9a-f]{1,4})):(?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-f]{1,4})):){0,4}(?:(?:[0-9a-f]{1,4})))?::)(?:(?:(?:(?:(?:[0-9a-f]{1,4})):(?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-f]{1,4})):){0,5}(?:(?:[0-9a-f]{1,4})))?::)(?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:(?:[0-9a-f]{1,4})):){0,6}(?:(?:[0-9a-f]{1,4})))?::))))
-                \]                                  # IPv6 address
-            )
-            (:[0-9]+)?                              # port (optional)
-            (/?|/\S+)                               # /, nothing or / with something
-        $~ixu';
+        $pattern = <<<EOT
+~^
+(http|https)://                         # protocols
+(
+    ([\pL\pN\pS-]+\.)+[\pL]+            # domain name
+        |                               #  or
+    \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}  # IPv4 address
+        |                               #  or
+    \[
+        (?:(?:(?:(?:(?:(?:(?:[0-9a-f]{1,4})):){6})(?:(?:(?:(?:(?:[0-9a-f]{1,4})):
+        (?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}
+        (?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:::(?:(?:(?:[0-9a-f]{1,4})):){5})
+        (?:(?:(?:(?:(?:[0-9a-f]{1,4})):(?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|
+        (?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|
+        (?:(?:(?:(?:(?:[0-9a-f]{1,4})))?::(?:(?:(?:[0-9a-f]{1,4})):){4})(?:(?:(?:(?:(?:[0-9a-f]{1,4})):
+        (?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}
+        (?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-f]{1,4})):){0,1}
+        (?:(?:[0-9a-f]{1,4})))?::(?:(?:(?:[0-9a-f]{1,4})):){3})(?:(?:(?:(?:(?:[0-9a-f]{1,4})):
+        (?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}
+        (?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-f]{1,4})):){0,2}
+        (?:(?:[0-9a-f]{1,4})))?::(?:(?:(?:[0-9a-f]{1,4})):){2})(?:(?:(?:(?:(?:[0-9a-f]{1,4})):
+        (?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}
+        (?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-f]{1,4})):){0,3}
+        (?:(?:[0-9a-f]{1,4})))?::(?:(?:[0-9a-f]{1,4})):)(?:(?:(?:(?:(?:[0-9a-f]{1,4})):
+        (?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}
+        (?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-f]{1,4})):){0,4}
+        (?:(?:[0-9a-f]{1,4})))?::)(?:(?:(?:(?:(?:[0-9a-f]{1,4})):(?:(?:[0-9a-f]{1,4})))|
+        (?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|
+        (?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-f]{1,4})):){0,5}
+        (?:(?:[0-9a-f]{1,4})))?::)(?:(?:[0-9a-f]{1,4})))|(?:(?:(?:(?:(?:(?:[0-9a-f]{1,4})):){0,6}
+        (?:(?:[0-9a-f]{1,4})))?::))))
+    \]                                  # IPv6 address
+)
+(:[0-9]+)?                              # port (optional)
+(/?|/\S+)                               # /, nothing or / with something
+$~ixu
+EOT;
 
         if (!preg_match($pattern, $value)) {
-            throw new \InvalidArgumentException("Invalid URL given. Valid URLs have the format: http(s)://[(sub.)domain|ip][:port][/[optional_path]]");
+            throw new \InvalidArgumentException(
+                "Invalid URL given. Valid URLs have the format: http(s)://[(sub.)domain|ip][:port][/[optional_path]]"
+            );
         }
 
         return $value;
@@ -244,7 +271,9 @@ class Validator
         }
 
         if (!filter_var($value, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_RES_RANGE)) {
-            throw new \InvalidArgumentException("Invalid IPv4 address given. Reserved ranges like 240.0.0.0/4 are disallowed.");
+            throw new \InvalidArgumentException(
+                "Invalid IPv4 address given. Reserved ranges like 240.0.0.0/4 are disallowed."
+            );
         }
 
         return $value;
@@ -282,11 +311,9 @@ class Validator
      */
     public static function fixRelativePath($path_with_dots)
     {
-        do
-        {
+        do {
             $path_with_dots = preg_replace('#[^/\.]+/\.\./#', '', $path_with_dots, -1, $count);
-        }
-        while ($count);
+        } while ($count);
 
         $path_with_dots = str_replace(array('/./', '//'), '/', $path_with_dots);
 
@@ -302,13 +329,11 @@ class Validator
      */
     public static function fixPath($path)
     {
-        if (empty($path))
-        {
+        if (empty($path)) {
             return $path;
         }
 
-        if ('/' != $path{strlen($path) - 1})
-        {
+        if ('/' != $path{strlen($path) - 1}) {
             $path .= '/';
         }
 

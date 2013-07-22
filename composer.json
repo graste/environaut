@@ -40,7 +40,8 @@
     "require-dev": {
         "symfony/finder": "~2.1",
         "phpunit/phpunit": "~3.7.22",
-        "sami/sami": "~1.0"
+        "sami/sami": "~1.0",
+        "squizlabs/php_codesniffer": "~1.4.5"
     },
     "autoload": {
         "psr-0": {

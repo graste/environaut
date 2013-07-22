@@ -83,5 +83,4 @@ interface IConfig
      * @return array with all config data
      */
     public function toArray();
-
 }

@@ -36,8 +36,7 @@ class Report implements IReport
     {
         $settings = array();
 
-        foreach ($this->results as $result)
-        {
+        foreach ($this->results as $result) {
             $settings = array_merge_recursive($settings, $result->getSettingsAsArray());
         }
 

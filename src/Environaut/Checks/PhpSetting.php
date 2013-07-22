@@ -10,7 +10,9 @@ class PhpSetting extends Check
     {
         $setting = $this->parameters->get('setting');
         if (empty($setting)) {
-            throw new \InvalidArgumentException('Parameter "setting" must be a valid php.ini setting to check on class "' . get_class($this) . '".');
+            throw new \InvalidArgumentException(
+                'Parameter "setting" must be a valid php.ini setting to check on class "' . get_class($this) . '".'
+            );
         }
         $setting_value = $this->parameters->get('setting_value');
         $infinite_value = $this->parameters->get('infinite_value');

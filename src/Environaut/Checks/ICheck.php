@@ -45,4 +45,3 @@ interface ICheck
      */
     public function getDependencies();
 }
-

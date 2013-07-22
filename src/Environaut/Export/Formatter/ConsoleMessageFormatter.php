@@ -32,8 +32,7 @@ class ConsoleMessageFormatter implements IReportFormatter
     {
         if ($format !== null) {
             $this->format = $format;
-        }
-        else {
+        } else {
             $this->format = self::DEFAULT_FORMAT . PHP_EOL;
         }
     }
@@ -57,21 +56,39 @@ class ConsoleMessageFormatter implements IReportFormatter
                 switch($message->getSeverity()) {
                     case Message::SEVERITY_FATAL:
                     case Message::SEVERITY_ERROR:
-                       $output .= sprintf($this->format, $message->getGroup(), $message->getName(), '<error>' . $message->getText() . '</error>');
-                       break;
+                        $output .= sprintf(
+                            $this->format,
+                            $message->getGroup(),
+                            $message->getName(),
+                            '<error>' . $message->getText() . '</error>'
+                        );
+                        break;
                     case Message::SEVERITY_NOTICE:
                     case Message::SEVERITY_WARN:
-                    default:
-                       $output .= sprintf($this->format, $message->getGroup(), $message->getName(), '<comment>' . $message->getText() . '</comment>');
-                       break;
+                        $output .= sprintf(
+                            $this->format,
+                            $message->getGroup(),
+                            $message->getName(),
+                            '<comment>' . $message->getText() . '</comment>'
+                        );
+                        break;
                     case Message::SEVERITY_INFO:
-                    default:
-                       $output .= sprintf($this->format, $message->getGroup(), $message->getName(), '<info>' . $message->getText() . '</info>');
-                       break;
+                        $output .= sprintf(
+                            $this->format,
+                            $message->getGroup(),
+                            $message->getName(),
+                            '<info>' . $message->getText() . '</info>'
+                        );
+                        break;
                     case Message::SEVERITY_DEBUG:
                     default:
-                       $output .= sprintf($this->format, $message->getGroup(), $message->getName(), $message->getText());
-                       break;
+                        $output .= sprintf(
+                            $this->format,
+                            $message->getGroup(),
+                            $message->getName(),
+                            $message->getText()
+                        );
+                        break;
                 }
             }
         }

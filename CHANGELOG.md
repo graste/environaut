@@ -5,6 +5,8 @@ to reference changes.
 
 ## 0.2.0 (2013/xx/xx)
 
+* [new] added ExecutableCheck that adds absolute paths to executables as settings
+* [new] added PHP CodeSniffer and fixed errors/warnings according to PSR-2
 * [new] added export of settings to JSON and XML files (all or specific groups)
 * [new] added `make docs` target to build API documentation via Sami to `docs/api` folder
 * [new] added builds via TravisCI for PHP v5.3, v5.4 and v5.5 (thanks!)

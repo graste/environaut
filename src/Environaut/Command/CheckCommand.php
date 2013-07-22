@@ -23,10 +23,25 @@ class CheckCommand extends Command
         parent::configure();
 
         $this->setName('check');
-        $this->addOption('config', 'c', InputArgument::OPTIONAL, 'Path to config file that defines the checks to process.');
-        $this->addOption('config_handler', null, InputArgument::OPTIONAL, 'Classname of a custom config handler implementing Environaut\Config\IConfigHandler.');
+
+        $this->addOption(
+            'config',
+            'c',
+            InputArgument::OPTIONAL,
+            'Path to config file that defines the checks to process.'
+        );
+
+        $this->addOption(
+            'config_handler',
+            null,
+            InputArgument::OPTIONAL,
+            'Classname of a custom config handler implementing Environaut\Config\IConfigHandler.'
+        );
+
         $this->setDescription('Check environment according to a set of checks.');
-        $this->setHelp(<<<EOT
+
+        $this->setHelp(
+<<<EOT
 
 <info>This command checks the environment according to the checks from the configuration file.</info>
 
@@ -80,12 +95,22 @@ EOT
         $output->writeln('=================' . PHP_EOL);
 
         if ($input->getOption('verbose')) {
-            $output->writeln('<info>PHP Version</info>: ' . PHP_VERSION . ' on ' . PHP_OS . ' (installed to ' . PHP_BINDIR . ')');
+            $output->writeln(
+                '<info>PHP Version</info>: ' . PHP_VERSION . ' on ' . PHP_OS .
+                ' (installed to ' . PHP_BINDIR . ')'
+            );
             if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
                 $output->writeln('<info>PHP Binary</info>: ' . PHP_BINARY);
             }
-            $output->writeln('<info>User owning this script</info>: ' . get_current_user() . ' (uid=' . getmyuid() . ')');
-            $output->writeln('<info>User running this script</info>: uid=' . posix_getuid() . ' (effective uid=' . posix_geteuid() . ') gid=' . posix_getgid() . ' (effective gid=' . posix_getegid() . ')' . PHP_EOL);
+            $output->writeln(
+                '<info>User owning this script</info>: ' . get_current_user() .
+                ' (uid=' . getmyuid() . ')'
+            );
+            $output->writeln(
+                '<info>User running this script</info>: uid=' . posix_getuid() .
+                ' (effective uid=' . posix_geteuid() . ') gid=' . posix_getgid() .
+                ' (effective gid=' . posix_getegid() . ')' . PHP_EOL
+            );
             $output->writeln('<info>Loaded php.ini File</info>: ' . php_ini_loaded_file());
             $output->writeln('<info>Additionally Scanned Files</info>: ' . php_ini_scanned_files());
             $output->writeln('<info>PHP Include Path</info>: ' . ini_get('include_path') . PHP_EOL);
@@ -118,8 +143,7 @@ EOT
 
         $config = $input->getOption('config');
         if (!empty($config)) {
-            if (!is_readable($config))
-            {
+            if (!is_readable($config)) {
                 throw new \InvalidArgumentException('Config file path "' . $config . '" is not readable.');
             }
 
@@ -128,12 +152,14 @@ EOT
             if ($input->getOption('verbose')) {
                 $output->writeln('<comment>Config file path specified: ' . $this->config_path . '</comment>');
             }
-        }
-        else {
+        } else {
             $this->config_path = $this->getCurrentWorkingDirectory();
 
             if ($input->getOption('verbose')) {
-                $output->writeln('<comment>Config file path not specified, using "' . $this->config_path . '" as default lookup location.</comment>');
+                $output->writeln(
+                    '<comment>Config file path not specified, using "' . $this->config_path .
+                    '" as default lookup location.</comment>'
+                );
             }
         }
 

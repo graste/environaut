@@ -60,8 +60,7 @@ class Configurator extends Check
         // add default value to question if specified
         if (null !== $default) {
             $question .= "</question> (Default: $default)";
-        }
-        else {
+        } else {
             $question .=  '</question>';
         }
         $question .= ': ';
@@ -77,17 +76,28 @@ class Configurator extends Check
 
         if (false !== $validator) { // use value validation?
             if ($hidden) {
-                $value = $dialog->askHiddenResponseAndValidate($output, $question, $validator, $max_attempts, $allow_fallback);
-            }
-            else {
-                $value = $dialog->askAndValidate($output, $question, $validator, $max_attempts, $default, $choices);
+                $value = $dialog->askHiddenResponseAndValidate(
+                    $output,
+                    $question,
+                    $validator,
+                    $max_attempts,
+                    $allow_fallback
+                );
+            } else {
+                $value = $dialog->askAndValidate(
+                    $output,
+                    $question,
+                    $validator,
+                    $max_attempts,
+                    $default,
+                    $choices
+                );
             }
         } else { // do not use value validation
             if ($hidden) {
                 $value = $dialog->askHiddenResponse($output, $question, $allow_fallback);
-            }
-            else {
-                $value = $dialog->ask($output, $question,  $default, $choices);
+            } else {
+                $value = $dialog->ask($output, $question, $default, $choices);
             }
         }
 

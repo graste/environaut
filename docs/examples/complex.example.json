@@ -1,0 +1,222 @@
+{
+    "name": "complex-example",
+    "description": "Complex example with executable checks and configuration questions plus security check of a composer.lock file",
+    "keywords": [ "environment", "requirements", "configuration", "check", "cli", "php" ],
+    "introduction": [
+        "This is a complex example of environment checks and configurations.",
+        "First there will be questions for executable files,",
+        "then some configuration values are asked for to give an overview",
+        "of what's possible with the Configurator check.",
+        "At the end a security check of a given composer.lock file is performed.",
+        "",
+        "A report with messages will be printed to the CLI and the accumulated",
+        "settings will be written to some JSON and XML files."
+    ],
+    "export": {
+        "__class": "Environaut\\Export\\Export",
+        "files": [
+            {
+                "format": "json"
+            },
+            {
+                "format": "xml"
+            },
+            {
+                "format": "json",
+                "groups": ["trololo"],
+                "file": "trololo.json"
+            },
+            {
+                "format": "xml",
+                "groups": ["trololo"],
+                "file": "trololo.xml"
+            }
+        ]
+    },
+    "runner": {
+        "__class": "Environaut\\Runner\\Runner"
+    },
+    "report": {
+        "__class": "Environaut\\Report\\Report"
+    },
+    "checks": [
+
+
+
+        {
+            "__name": "ls",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "ls",
+            "version_mask": "/ls.*/"
+        },
+        {
+            "__name": "cat",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "cat",
+            "version_mask": "/cat.*/"
+        },
+        {
+            "__name": "cut",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "cut",
+            "version_mask": "/cut.*/"
+        },
+        {
+            "__name": "head",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "head",
+            "version_mask": "/head.*/"
+        },
+        {
+            "__name": "tail",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "tail",
+            "version_mask": "/tail.*/"
+        },
+        {
+            "__name": "sort",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "sort",
+            "version_mask": "/sort.*/"
+        },
+        {
+            "__name": "find",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "find",
+            "version_mask": "/find.*/"
+        },
+        {
+            "__name": "grep",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "grep",
+            "version_mask": "/grep.+?(\\d+\\.\\d+\\.?\\d?)/"
+        },
+        {
+            "__name": "bzip2",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "bzip2",
+            "version_mask": "/bzip2.+?Version (\\d+\\.\\d+\\.\\d+).*/"
+        },
+        {
+            "__name": "php",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "php",
+            "version_mask": "/^PHP ([^\\-\\s]+).*/"
+        },
+        {
+            "__name": "curl",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "curl",
+            "version_mask": "/curl (\\d+\\.\\d+\\.\\d+) .*/"
+        },
+
+
+
+        {
+            "__name": "cache_dir",
+            "__class": "Environaut\\Checks\\Configurator",
+            "setting": "cache_dir",
+            "question": "Geben Sie bitte ein schreibbares Verzeichnis an",
+            "choices": [
+                "cache",
+                "\/tmp",
+                ".\/tests"
+            ],
+            "validator": "Environaut\\Checks\\Validator::writableDirectory"
+        },
+        {
+            "__name": "valid_ip",
+            "__class": "Environaut\\Checks\\Configurator",
+            "setting": "ipv4",
+            "question": "Geben Sie bitte eine valide nicht-reservierte, nicht-private IPv4-Adresse ein",
+            "default": "195.74.70.239",
+            "choices": [
+                "240.0.0.1",
+                "192.168.1.100",
+                "127.0.0.1",
+                "172.16.1.100",
+                "10.0.0.1"
+            ],
+            "validator": "Environaut\\Checks\\Validator::validIpv4NotReserved"
+        },
+        {
+            "__name": "selection",
+            "__class": "Environaut\\Checks\\Configurator",
+            "setting": "selected_url",
+            "question": "Welche URL bevorzugen Sie?",
+            "choices": [
+                "http:\/\/cms.honeybee-showcase.dev\/",
+                "http:\/\/google.de\/",
+                "http:\/\/heise.de\/"
+            ],
+            "select": true
+        },
+        {
+            "__name": "base_href",
+            "__class": "Environaut\\Checks\\Configurator",
+            "setting": "base_href",
+            "question": "Wie lautet der BaseHref?",
+            "default": "http:\/\/honeybee-showcase.dev\/",
+            "choices": [
+                "http:\/\/cms.honeybee-showcase.dev\/",
+                "http:\/\/google.de\/",
+                "http:\/\/heise.de\/"
+            ],
+            "validator": "Environaut\\Checks\\Validator::validUrl",
+            "max_attempts": 5
+        },
+        {
+            "__name": "confirm",
+            "__class": "Environaut\\Checks\\Configurator",
+            "__group": "trololo",
+            "setting": "testing_enabled",
+            "question": "Testmodus aktivieren?",
+            "default": false,
+            "confirm": true
+        },
+        {
+            "__name": "trololo",
+            "__class": "Environaut\\Checks\\Configurator",
+            "__group": "trololo",
+            "setting": "contact.name",
+            "introduction": "Trololo is a video of the nationally-honored Russian singer Eduard Khil (AKA Edward Khill, Edward Hill) performing the Soviet-era pop song \u201cI am Glad, \u2018cause I\u2019m Finally Returning Back Home\u201d (Russian: \u042f \u043e\u0447\u0435\u043d\u044c \u0440\u0430\u0434, \u0432\u0435\u0434\u044c \u044f, \u043d\u0430\u043a\u043e\u043d\u0435\u0446, \u0432\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u044e\u0441\u044c \u0434\u043e\u043c\u043e\u0439). The video is often used as a bait-and-switch prank, in similar vein to the practice of Rickrolling.\n\nSource: http:\/\/knowyourmeme.com\/memes\/trololo-russian-rickroll\n\n",
+            "question": "Wie lautet der Vorname des Trololo Manns?",
+            "choices": [
+                "Mr.",
+                "Eduard",
+                "Edward",
+                "omgomgomg"
+            ]
+        },
+        {
+            "__name": "contact",
+            "__class": "Environaut\\Checks\\Configurator",
+            "__group": "trololo",
+            "setting": "contact.email",
+            "question": "Wie lautet seine Emailadresse?",
+            "choices": [
+                "mr.trololo@example.com"
+            ],
+            "validator": "Environaut\\Checks\\Validator::validEmail",
+            "max_attempts": 5
+        },
+        {
+            "__name": "password",
+            "__class": "Environaut\\Checks\\Configurator",
+            "setting": "password",
+            "question": "Wie lautet das geheime Passwort?",
+            "hidden": true,
+            "allow_fallback": true
+        },
+
+
+
+        {
+            "__name": "composer-security",
+            "__class": "Environaut\\Checks\\ComposerSecurityCheck",
+            "file": "..\/agavi-boilerplate\/composer.lock",
+            "silent": false
+        }
+    ]
+}
+

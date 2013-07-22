@@ -139,8 +139,7 @@ abstract class Check implements ICheck
      */
     protected function addInfo($text = '', $name = null, $group = self::DEFAULT_GROUP_NAME)
     {
-        if (null === $name)
-        {
+        if (null === $name) {
             $name = $this->name;
         }
 
@@ -157,8 +156,7 @@ abstract class Check implements ICheck
      */
     protected function addNotice($text = '', $name = null, $group = self::DEFAULT_GROUP_NAME)
     {
-        if (null === $name)
-        {
+        if (null === $name) {
             $name = $this->name;
         }
 
@@ -175,8 +173,7 @@ abstract class Check implements ICheck
      */
     protected function addError($text = '', $name = null, $group = self::DEFAULT_GROUP_NAME)
     {
-        if (null === $name)
-        {
+        if (null === $name) {
             $name = $this->name;
         }
 

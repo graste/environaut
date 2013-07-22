@@ -7,11 +7,9 @@ use Environaut\Checks\Check;
 use SensioLabs\Security\SecurityChecker;
 
 /**
- * The SensioLabs Security Checker is a command line tool
- * that checks if your application uses dependencies with
- * known security vulnerabilities. It uses the SensioLabs
- * Security Check Web service and the Security Advisories
- * Database behind the scenes.
+ * The SensioLabs Security Checker is a command line tool that checks if your application
+ * uses dependencies with known security vulnerabilities. It uses the SensioLabs Security
+ * Check Web service and the Security Advisories Database behind the scenes.
  */
 class ComposerSecurityCheck extends Check
 {
@@ -48,7 +46,10 @@ class ComposerSecurityCheck extends Check
         }
 
         if ($checker->getLastVulnerabilityCount() > 0) {
-            $this->addError('Number of found known vulnerabilities after checking "' . $file . '": ' . $checker->getLastVulnerabilityCount());
+            $this->addError(
+                'Number of found known vulnerabilities after checking "' . $file .
+                '": ' . $checker->getLastVulnerabilityCount()
+            );
             $this->addError($alerts);
         } else {
             $this->addInfo('No known vulnerabilities found after checking "' . $file . '".');

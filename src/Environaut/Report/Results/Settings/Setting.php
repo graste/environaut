@@ -83,4 +83,3 @@ class Setting implements ISetting
         );
     }
 }
-

@@ -8,4 +8,3 @@ interface IReportFormatter
 {
     public function getFormatted(IReport $report);
 }
-

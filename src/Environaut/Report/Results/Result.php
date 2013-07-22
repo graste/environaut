@@ -61,14 +61,13 @@ class Result implements IResult
     {
         $settings = array();
 
-        foreach ($this->settings as $setting)
-        {
+        foreach ($this->settings as $setting) {
             $settings = array_merge_recursive($settings, $setting->toArray());
         }
 
         if (null === $group) {
             return $settings;
-        } else if (null !== $group && isset($settings[$group])) {
+        } elseif (null !== $group && isset($settings[$group])) {
             return $settings[$group];
         } else {
             return array();
@@ -85,4 +84,3 @@ class Result implements IResult
         return $this->check;
     }
 }
-

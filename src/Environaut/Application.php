@@ -31,10 +31,11 @@ class Application extends BaseApplication
         $result = parent::doRun($input, $output);
 
         if (isset($start_time)) {
-            $output->writeln(PHP_EOL .
-                '<comment>Memory usage: ' . round(memory_get_usage() / 1024 / 1024, 2) .
+            $output->writeln(
+                PHP_EOL . '<comment>Memory usage: ' . round(memory_get_usage() / 1024 / 1024, 2) .
                 'MB (peak: ' . round(memory_get_peak_usage() / 1024 / 1024, 2) .
-                'MB), time: ' . round(microtime(true) - $start_time, 2) . 's</comment>' . PHP_EOL);
+                'MB), time: ' . round(microtime(true) - $start_time, 2) . 's</comment>' . PHP_EOL
+            );
         }
 
         return $result;
@@ -60,9 +61,15 @@ class Application extends BaseApplication
     {
         $definition = parent::getDefaultInputDefinition();
 
-        $definition->addOption(new InputOption('profile', null, InputOption::VALUE_NONE, 'Display timing and memory usage information.'));
+        $definition->addOption(
+            new InputOption(
+                'profile',
+                null,
+                InputOption::VALUE_NONE,
+                'Display timing and memory usage information.'
+            )
+        );
 
         return $definition;
     }
 }
-

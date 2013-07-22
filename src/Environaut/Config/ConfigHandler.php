@@ -62,10 +62,12 @@ class ConfigHandler extends BaseConfigHandler
                     'Try calling from a different folder or specify a file using the "--config" option.'
                 );
             }
-        } else if (is_file($location)) {
+        } elseif (is_file($location)) {
             $reader = $this->getReaderByExtension($location);
         } else {
-            throw new \InvalidArgumentException('Currently only regular files and directories are supported for config file reading.');
+            throw new \InvalidArgumentException(
+                'Currently only regular files and directories are supported for config file reading.'
+            );
         }
 
         $config_data = $reader->getConfigData($location);
@@ -102,7 +104,8 @@ class ConfigHandler extends BaseConfigHandler
             default:
                 throw new \InvalidArgumentException(
                     'File could not be read: ' . $location . PHP_EOL .
-                    'Supported config file extensions are: ' . implode(', ', $this->supported_file_extensions));
+                    'Supported config file extensions are: ' . implode(', ', $this->supported_file_extensions)
+                );
                 break;
         }
 

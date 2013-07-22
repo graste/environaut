@@ -19,4 +19,3 @@ interface IResult
     public function setCheck(ICheck $check);
     public function getCheck();
 }
-

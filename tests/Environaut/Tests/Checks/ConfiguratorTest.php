@@ -4,7 +4,7 @@ namespace Environaut\Tests\Checks;
 
 use Environaut\Report\Results\Messages\Message;
 use Environaut\Tests\BaseTestCase;
-use Environaut\Tests\Checks\TestableConfigurator;
+use Environaut\Tests\Checks\Fixtures\TestableConfigurator;
 
 class ConfiguratorTest extends BaseTestCase
 {
@@ -35,11 +35,11 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertCount(1, $check->getResult()->getMessages());
 
         $settings = $check->getResult()->getSettingsAsArray();
-        $this->assertCount(1, $settings, 'expected all settings when group is ot specified');
+        $this->assertCount(1, $settings, 'expected all settings when group is not specified');
         $settings = $check->getResult()->getSettingsAsArray('default');
         $this->assertCount(0, $settings, 'expected default group to be empty/nonexisting as "trololo" was the group name.');
         $settings = $check->getResult()->getSettingsAsArray('trololo');
-        $this->assertCount(1, $settings, 'group "trololo" sould contain the setting');
+        $this->assertCount(1, $settings, 'group "trololo" should contain the setting');
         $this->assertArrayHasKey('core.email', $settings);
         $this->assertEquals($email, $settings['core.email']);
     }

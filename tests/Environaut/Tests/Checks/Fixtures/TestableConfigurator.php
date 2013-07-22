@@ -1,6 +1,6 @@
 <?php
 
-namespace Environaut\Tests\Checks;
+namespace Environaut\Tests\Checks\Fixtures;
 
 use Environaut\Checks\Configurator;
 

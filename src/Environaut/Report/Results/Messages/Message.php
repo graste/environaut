@@ -64,4 +64,3 @@ class Message implements IMessage
         );
     }
 }
-

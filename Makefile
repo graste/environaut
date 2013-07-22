@@ -41,6 +41,15 @@ docs:
 	@if [ -d ./docs/api ]; then rm -rf ./docs/api; fi
 	@$(PHP) vendor/bin/sami.php update ./bin/sami.cfg
 
-.PHONY: tests docs help phar install-composer install-dependencies-dev
+code-sniffer:
+
+	@if [ ! -d ./build/reports ]; then mkdir -p ./build/reports; fi
+	-@$(PHP) ./vendor/bin/phpcs --extensions=php --report=checkstyle --report-file=./build/reports/checkstyle.xml --standard=psr2 ./src/
+
+code-sniffer-cli:
+
+	@./vendor/bin/phpcs -p --report=full --standard=psr2 ./src
+
+.PHONY: tests docs help phar install-composer install-dependencies-dev code-sniffer code-sniffer-cli
 
 # vim: ts=4:sw=4:noexpandtab:

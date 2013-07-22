@@ -22,9 +22,26 @@ abstract class Command extends BaseCommand
     {
         parent::configure();
 
-        $this->addOption('bootstrap', 'b', InputArgument::OPTIONAL, 'Path to bootstrap file that should be required prior start.');
-        $this->addOption('include_path', 'i', InputArgument::OPTIONAL, 'Path that should be prepended to the default PHP include_path.');
-        $this->addOption('autoload_dir', 'a', InputArgument::OPTIONAL, 'Path from where to load custom classes specified in config etc.');
+        $this->addOption(
+            'bootstrap',
+            'b',
+            InputArgument::OPTIONAL,
+            'Path to bootstrap file that should be required prior start.'
+        );
+
+        $this->addOption(
+            'include_path',
+            'i',
+            InputArgument::OPTIONAL,
+            'Path that should be prepended to the default PHP include_path.'
+        );
+
+        $this->addOption(
+            'autoload_dir',
+            'a',
+            InputArgument::OPTIONAL,
+            'Path from where to load custom classes specified in config etc.'
+        );
     }
 
     /**
@@ -64,9 +81,10 @@ abstract class Command extends BaseCommand
         // we autoload classes from the current working directory or the specified autoload_dir
         $autoload_dir = $input->getOption('autoload_dir');
         if (!empty($autoload_dir)) {
-            if (!is_readable($autoload_dir))
-            {
-                throw new \InvalidArgumentException('Autoload path "' . $autoload_dir . '" is not readable. Please specify an existing directory.');
+            if (!is_readable($autoload_dir)) {
+                throw new \InvalidArgumentException(
+                    'Autoload path "' . $autoload_dir . '" is not readable. Please specify an existing directory.'
+                );
             }
 
             if ($this->input->getOption('verbose')) {
@@ -74,7 +92,10 @@ abstract class Command extends BaseCommand
             }
         } else {
             if ($this->input->getOption('verbose')) {
-                $output->writeln('<comment>No autoload_dir specified, using "' . $this->getCurrentWorkingDirectory() . '" to autoload classes from.</comment>');
+                $output->writeln(
+                    '<comment>No autoload_dir specified, using "' . $this->getCurrentWorkingDirectory() .
+                    '" to autoload classes from.</comment>'
+                );
             }
         }
 

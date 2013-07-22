@@ -16,24 +16,20 @@ use Environaut\Report\IReport;
  */
 class Export implements IExport
 {
-
     /**
      * @var Command
      */
-    protected
-        $command;
+    protected $command;
 
     /**
      * @var IReport
      */
-    protected
-        $report;
+    protected $report;
 
     /**
      * @var Parameters
      */
-    protected
-        $parameters;
+    protected $parameters;
 
     /**
      * Construct a new exporter for the given report.
@@ -74,7 +70,7 @@ class Export implements IExport
         $output->writeln('---------------------');
         $output->writeln('');
 
-        foreach ($this->parameters->get('files', array()) as $options) {
+        foreach ($this->parameters->get('files', array(array('format' => 'json'))) as $options) {
             $this->exportSettings($options);
         }
     }
@@ -95,7 +91,10 @@ class Export implements IExport
                 $this->exportJsonFile($options);
                 break;
             default:
-                $output->writeln('<error>Format "' . $format . '" is not supported for settings file export. Use "xml" or "json" instead.</error>');
+                $output->writeln(
+                    '<error>Format "' . $format . '" is not supported for settings file export.' .
+                    'Use "xml" or "json" instead.</error>'
+                );
                 break;
         }
     }
@@ -160,7 +159,11 @@ class Export implements IExport
 
         $default_file_template = <<<EOT
 <?xml version="1.0" encoding="UTF-8"?>
-<ae:configurations xmlns:ae="http://agavi.org/agavi/config/global/envelope/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns="http://agavi.org/agavi/config/parts/settings/1.0">
+<ae:configurations
+    xmlns:ae="http://agavi.org/agavi/config/global/envelope/1.0"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns="http://agavi.org/agavi/config/parts/settings/1.0"
+>
     <ae:configuration>
 %group_template\$s
     </ae:configuration>
@@ -301,24 +304,27 @@ EOT;
 
         $map = array_flip(array_keys($args));
 
-        $new_str = preg_replace_callback('/(^|[^%])%([a-zA-Z0-9_-]+)\$/', function($m) use ($map) {
-            if (isset($map[$m[2]])) {
-                return $m[1] . '%' . ($map[$m[2]] + 1) . '$';
-            } else {
-                /*
-                 * HACK!
-                 * vsprintf all time removes '% and the following character'
-                 *
-                 * so we add 6 x # to the string.
-                 * vsprintf will remove '%#' and later we remove the rest #
-                 */
-                return $m[1] . '%######' . $m[2][0] . '%' . $m[2] . '$';
-            }
-        }, $str);
+        $new_str = preg_replace_callback(
+            '/(^|[^%])%([a-zA-Z0-9_-]+)\$/',
+            function ($m) use ($map) {
+                if (isset($map[$m[2]])) {
+                    return $m[1] . '%' . ($map[$m[2]] + 1) . '$';
+                } else {
+                    /*
+                     * HACK!
+                     * vsprintf all time removes '% and the following character'
+                     *
+                     * so we add 6 x # to the string.
+                     * vsprintf will remove '%#' and later we remove the rest #
+                     */
+                    return $m[1] . '%######' . $m[2][0] . '%' . $m[2] . '$';
+                }
+            },
+            $str
+        );
 
         $replaced_str = vsprintf($new_str, $args);
 
         return str_replace('#####', '%', $replaced_str);
     }
-
 }
