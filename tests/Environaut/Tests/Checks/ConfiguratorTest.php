@@ -100,9 +100,9 @@ class ConfiguratorTest extends BaseTestCase
                     $email,
                     $email,
                     $email,
-                    "correct@example.com" . PHP_EOL
+                    "correct@example.com"
                 )
-            ),
+            ) . PHP_EOL,
             array(
                 'question' => 'Your email?',
                 'setting' => 'core.email',
