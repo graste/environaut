@@ -69,7 +69,16 @@ class ConfiguratorTest extends BaseTestCase
         $email = "nonworking-email";
         $this->setExpectedException('InvalidArgumentException');
         $this->runConfigurator(
-            $email . "\n" . $email . "\n" . $email . "\n" . $email . "\n" . $email . "\n",
+            implode(
+                PHP_EOL,
+                array(
+                    $email,
+                    $email,
+                    $email,
+                    $email,
+                    $email
+                )
+            ) . PHP_EOL,
             array(
                 'question' => 'Your email?',
                 'setting' => 'core.email',
@@ -81,10 +90,19 @@ class ConfiguratorTest extends BaseTestCase
 
     public function testSimpleValueQuestionWithSuccessValidationAfterSomeAttempts()
     {
-        $email = "nonworking-email\n";
+        $email = "nonworking-email";
 
         $check = $this->runConfigurator(
-            $email . $email . $email . $email . "correct@example.com\n",
+            implode(
+                PHP_EOL,
+                array(
+                    $email,
+                    $email,
+                    $email,
+                    $email,
+                    "correct@example.com"
+                )
+            ) . PHP_EOL,
             array(
                 'question' => 'Your email?',
                 'setting' => 'core.email',
@@ -114,7 +132,7 @@ class ConfiguratorTest extends BaseTestCase
         $choices = array('foo', 'bar', 'baz');
 
         $check = $this->runConfigurator(
-            "asdf\n1\n",
+            "asdf" . PHP_EOL . "1" . PHP_EOL,
             array(
                 'question' => 'Take a pick',
                 'setting' => 'pick',
@@ -141,7 +159,7 @@ class ConfiguratorTest extends BaseTestCase
     public function testSimpleDefaultValue()
     {
         $check = $this->runConfigurator(
-            "\n",
+            PHP_EOL,
             array(
                 'question' => 'Type something long',
                 'setting' => 'pick',
@@ -167,7 +185,7 @@ class ConfiguratorTest extends BaseTestCase
     public function testHiddenInputValue()
     {
         $check = $this->runConfigurator(
-            "password\n",
+            "password" . PHP_EOL,
             array(
                 'question' => 'Type something long',
                 'setting' => 'pick',
@@ -193,7 +211,7 @@ class ConfiguratorTest extends BaseTestCase
     public function testHiddenInputValueWithValidatorSucceeds()
     {
         $check = $this->runConfigurator(
-            __DIR__ . "\n",
+            __DIR__ . PHP_EOL,
             array(
                 'question' => 'Type something long',
                 'setting' => 'pick',
@@ -221,7 +239,7 @@ class ConfiguratorTest extends BaseTestCase
     {
         $this->setExpectedException('InvalidArgumentException');
         $this->runConfigurator(
-            __DIR__ . "nonexisting\n",
+            __DIR__ . "nonexisting" . PHP_EOL,
             array(
                 'question' => 'Type something long',
                 'setting' => 'pick',
@@ -235,7 +253,7 @@ class ConfiguratorTest extends BaseTestCase
     public function testSimpleConfirmation()
     {
         $check = $this->runConfigurator(
-            "\n",
+            PHP_EOL,
             array(
                 'question' => 'Do you like testing?',
                 'confirm' => true,
@@ -255,7 +273,7 @@ class ConfiguratorTest extends BaseTestCase
     public function testSimpleYesConfirmation()
     {
         $check = $this->runConfigurator(
-            "y\n",
+            "y" . PHP_EOL,
             array(
                 'question' => 'Do you like testing?',
                 'confirm' => true,
@@ -275,7 +293,7 @@ class ConfiguratorTest extends BaseTestCase
     public function testSimpleNoConfirmation()
     {
         $check = $this->runConfigurator(
-            "n\n",
+            "n" . PHP_EOL,
             array(
                 'question' => 'Do you like testing?',
                 'confirm' => true,
@@ -295,7 +313,7 @@ class ConfiguratorTest extends BaseTestCase
     public function testSimpleNoConfirmationViaDefault()
     {
         $check = $this->runConfigurator(
-            "\n",
+            PHP_EOL,
             array(
                 'question' => 'Do you like testing?',
                 'confirm' => true,
@@ -323,7 +341,7 @@ some multiline
 introductory purposes
 EOT;
         $check = $this->runConfigurator(
-            "\n",
+            PHP_EOL,
             array(
                 'introduction' => $intro,
                 'question' => 'Do you like testing?',
@@ -344,7 +362,7 @@ EOT;
         );
 
         $check = $this->runConfigurator(
-            "\n",
+            PHP_EOL,
             array(
                 'introduction' => $intro,
                 'question' => 'Do you like testing?',

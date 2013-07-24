@@ -19,7 +19,7 @@ class ExecutableCheckTest extends BaseTestCase
     public function testDefaults()
     {
         $check = $this->runExecutableCheck(
-            "\n",
+            PHP_EOL,
             array(
             ),
             'trololo',
@@ -43,7 +43,7 @@ class ExecutableCheckTest extends BaseTestCase
     public function testDefaultCommand()
     {
         $check = $this->runExecutableCheck(
-            "\n",
+            PHP_EOL,
             array(
                 'setting' => 'command_curl',
                 'default' => '/usr/sbin/some_wrapper'
@@ -59,7 +59,7 @@ class ExecutableCheckTest extends BaseTestCase
     public function testDefaultIsWorking()
     {
         $check = $this->runExecutableCheck(
-            "\n",
+            PHP_EOL,
             array(
                 'setting' => 'command_curl',
                 'default' => '/usr/sbin/some_wrapper'
@@ -75,7 +75,7 @@ class ExecutableCheckTest extends BaseTestCase
     public function testInputIsWorking()
     {
         $check = $this->runExecutableCheck(
-            "/usr/sbin/trololo\n",
+            "/usr/sbin/trololo" . PHP_EOL,
             array(),
             'trololo',
             'curl'
