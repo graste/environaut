@@ -90,7 +90,7 @@ class ConfiguratorTest extends BaseTestCase
 
     public function testSimpleValueQuestionWithSuccessValidationAfterSomeAttempts()
     {
-        $email = "nonworking-email" . PHP_EOL;
+        $email = "nonworking-email";
 
         $check = $this->runConfigurator(
             implode(
