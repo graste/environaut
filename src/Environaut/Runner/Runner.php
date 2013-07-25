@@ -38,41 +38,7 @@ class Runner implements IRunner
     /**
      * @var Parameters
      */
-    protected $parameters;
-
-    /**
-     * Create new instance with given config and command.
-     *
-     * @param IConfig $config
-     * @param Command $command
-     */
-    public function __construct(IConfig $config, Command $command, array $parameters = array())
-    {
-        $this->setConfig($config);
-        $this->setCommand($command);
-        $this->parameters = new Parameters($parameters);
-    }
-
-    /**
-     * Sets the given config on the runner.
-     *
-     * @param IConfig $config config data
-     */
-    public function setConfig(IConfig $config)
-    {
-        $this->config = $config;
-    }
-
-    /**
-     * Sets the command on the runner to have
-     * access to the input and output.
-     *
-     * @param Command $command
-     */
-    public function setCommand(Command $command)
-    {
-        $this->command = $command;
-    }
+    protected $options;
 
     /**
      * Execute the checks that are defined in the config
@@ -141,10 +107,43 @@ class Runner implements IRunner
     }
 
     /**
+     * Returns the report that contains the results of the checks.
+     *
      * @return IReport report created by the runner
      */
     public function getReport()
     {
         return $this->report;
+    }
+
+    /**
+     * Sets the given options on the runner.
+     *
+     * @param array $options associative array with options understood by the runner
+     */
+    public function setOptions(array $options = array())
+    {
+        $this->options = new Parameters($options);
+    }
+
+    /**
+     * Sets the given config on the runner.
+     *
+     * @param IConfig $config config data
+     */
+    public function setConfig(IConfig $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * Sets the command on the runner to have
+     * access to the input and output.
+     *
+     * @param Command $command
+     */
+    public function setCommand(Command $command)
+    {
+        $this->command = $command;
     }
 }

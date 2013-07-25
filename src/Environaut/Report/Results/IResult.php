@@ -6,6 +6,9 @@ use Environaut\Checks\ICheck;
 use Environaut\Report\Results\Messages\IMessage;
 use Environaut\Report\Results\Settings\ISetting;
 
+/**
+ * Interface that check results must implement.
+ */
 interface IResult
 {
     public function addMessage(IMessage $message);

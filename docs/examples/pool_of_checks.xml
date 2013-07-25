@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<environaut xmlns="http://mivesto.de/environaut/config/1.0">
+
+    <!--
+        EXAMPLE CHECKS for XInclude usage elsewhere:
+
+        <xi:include
+            href="path/to/pool_of_checks.xml"
+            xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks[@name='executables']/*)">
+            <xi:fallback>
+                you could put some fallback checks here...in case your xpointer fails
+            </xi:fallback>
+        </xi:include>
+
+    -->
+
+    <sandbox>
+
+        <checks name="security" description="some security related checks">
+
+            <check class="Environaut\Checks\ComposerSecurityCheck" name="composer-security">
+                <parameter name="file">../agavi-boilerplate/composer.lock</parameter>
+                <parameter name="silent">false</parameter>
+            </check>
+
+        </checks>
+
+        <checks name="executables" description="some checks to get paths to commonly used executables">
+
+            <check class="Environaut\Checks\ExecutableCheck" name="ls">
+                <parameter name="default">ls</parameter>
+                <parameter name="version_mask" space="preserve" literalize="false">/ls.*/</parameter>
+            </check>
+            <check class="Environaut\Checks\ExecutableCheck" name="cat">
+                <parameter name="default">cat</parameter>
+                <parameter name="version_mask" space="preserve" literalize="false">/cat.*/</parameter>
+            </check>
+            <check class="Environaut\Checks\ExecutableCheck" name="cut">
+                <parameter name="default">cut</parameter>
+                <parameter name="version_mask" space="preserve" literalize="false">/cut.*/</parameter>
+            </check>
+            <check class="Environaut\Checks\ExecutableCheck" name="head">
+                <parameter name="default">head</parameter>
+                <parameter name="version_mask" space="preserve" literalize="false">/head.*/</parameter>
+            </check>
+            <check class="Environaut\Checks\ExecutableCheck" name="tail">
+                <parameter name="default">tail</parameter>
+                <parameter name="version_mask" space="preserve" literalize="false">/tail.*/</parameter>
+            </check>
+            <check class="Environaut\Checks\ExecutableCheck" name="sort">
+                <parameter name="default">sort</parameter>
+                <parameter name="version_mask" space="preserve" literalize="false">/sort.*/</parameter>
+            </check>
+            <check class="Environaut\Checks\ExecutableCheck" name="find">
+                <parameter name="default">find</parameter>
+                <parameter name="version_mask" space="preserve" literalize="false">/find.*/</parameter>
+            </check>
+            <check class="Environaut\Checks\ExecutableCheck" name="grep">
+                <parameter name="default">grep</parameter>
+                <parameter name="version_mask" space="preserve" literalize="false">/grep.+?(\d+\.\d+\.?\d?)/</parameter>
+            </check>
+            <check class="Environaut\Checks\ExecutableCheck" name="bzip2">
+                <parameter name="default">bzip2</parameter>
+                <parameter name="version_mask" space="preserve" literalize="false">/bzip2.+?Version (\d+\.\d+\.\d+).*/</parameter>
+            </check>
+            <check class="Environaut\Checks\ExecutableCheck" name="php">
+                <parameter name="default">php</parameter>
+                <parameter name="version_mask" space="preserve" literalize="false">/^PHP ([^\-\s]+).*/</parameter>
+            </check>
+            <check class="Environaut\Checks\ExecutableCheck" name="curl">
+                <parameter name="default">curl</parameter>
+                <parameter name="version_mask" space="preserve" literalize="false">/curl (\d+\.\d+\.\d+) .*/</parameter>
+            </check>
+
+        </checks>
+
+        <checks name="configurator" description="some example checks for the Configurator that asks the user for settings">
+
+            <check class="Environaut\Checks\Configurator" name="cache_dir">
+                <parameter name="setting">cache_dir</parameter>
+                <parameter name="question">Please specify a writable cache directory to use for the application</parameter>
+                <parameter name="choices">
+                    <parameter>cache</parameter>
+                    <parameter>/tmp</parameter>
+                    <parameter>./tests</parameter>
+                </parameter>
+                <parameter name="validator">Environaut\Checks\Validator::writableDirectory</parameter>
+            </check>
+
+            <check name="valid_ip" class="Environaut\Checks\Configurator">
+                <parameter name="setting">ipv4</parameter>
+                <parameter name="question">Please input a valid (non-reserved, non-private) IPv4 address</parameter>
+                <parameter name="default">195.74.70.239</parameter>
+                <parameter name="choices">
+                    <parameter>240.0.0.1</parameter>
+                    <parameter>192.168.1.100</parameter>
+                    <parameter>127.0.0.1</parameter>
+                    <parameter>172.16.1.100</parameter>
+                    <parameter>10.0.0.1</parameter>
+                </parameter>
+                <parameter name="validator">Environaut\Checks\Validator::validIpv4NotReserved</parameter>
+            </check>
+
+            <check name="selection" class="Environaut\Checks\Configurator">
+                <parameter name="setting">selected_url</parameter>
+                <parameter name="question">What URL do you prefer?</parameter>
+                <parameter name="choices">
+                    <parameter>http://cms.honeybee-showcase.dev/</parameter>
+                    <parameter>http://google.de/</parameter>
+                    <parameter>http://heise.de/</parameter>
+                </parameter>
+                <parameter name="select">true</parameter>
+            </check>
+
+            <check name="base_href" class="Environaut\Checks\Configurator">
+                <parameter name="setting">base_href</parameter>
+                <parameter name="question">Wie lautet der BaseHref?</parameter>
+                <parameter name="default">http://honeybee-showcase.dev/</parameter>
+                <parameter name="choices">
+                    <parameter>http://cms.honeybee-showcase.dev/</parameter>
+                    <parameter>http://google.de/</parameter>
+                    <parameter>http://heise.de/</parameter>
+                </parameter>
+                <parameter name="validator">Environaut\Checks\Validator::validUrl</parameter>
+                <parameter name="max_attempts">5</parameter>
+            </check>
+
+            <check name="confirm" class="Environaut\Checks\Configurator">
+                <parameter name="setting">testing_enabled</parameter>
+                <parameter name="question">Enable testing?</parameter>
+                <parameter name="default">false</parameter>
+                <parameter name="confirm">true</parameter>
+            </check>
+
+            <check name="password" class="Environaut\Checks\Configurator">
+                <parameter name="setting">password</parameter>
+                <parameter name="question">Please type a super secret password</parameter>
+                <parameter name="hidden">true</parameter>
+                <parameter name="allow_fallback">true</parameter>
+            </check>
+
+        </checks>
+
+        <checks name="trololo" description="some settings questions that belong to a custom 'trololo' group instead of 'default'">
+
+            <check group="trololo">
+                <parameter name="setting">contact.name</parameter>
+                <parameter name="introduction"><![CDATA[
+
+Trololo is a video of the nationally-honored Russian singer Eduard Khil (AKA Edward Khill, Edward Hill)
+performing the Soviet-era pop song “I am Glad, ‘cause I’m Finally Returning Back Home”
+(Russian: Я очень рад, ведь я, наконец, возвращаюсь домой).
+The video is often used as a bait-and-switch prank, in similar vein to the practice of Rickrolling.
+
+Source: http://knowyourmeme.com/memes/trololo-russian-rickroll
+
+]]></parameter>
+                <parameter name="question">What's the given name of the Trololo man?</parameter>
+                <parameter name="choices">
+                    <parameter>Mr.</parameter>
+                    <parameter>Eduard</parameter>
+                    <parameter>Edward</parameter>
+                    <parameter>omgomgomg</parameter>
+                </parameter>
+            </check>
+
+            <check group="trololo">
+                <parameter name="setting">contact.email</parameter>
+                <parameter name="question">What's his email address?</parameter>
+                <parameter name="choices">
+                    <parameter>mr.trololo@example.com</parameter>
+                    <parameter>i-dont-know@example.com</parameter>
+                </parameter>
+                <parameter name="validator">Environaut\Checks\Validator::validEmail</parameter>
+                <parameter name="max_attempts">5</parameter>
+            </check>
+
+        </checks>
+
+    </sandbox>
+
+</environaut>

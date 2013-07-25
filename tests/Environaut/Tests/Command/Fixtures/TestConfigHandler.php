@@ -10,5 +10,4 @@ class TestConfigHandler extends \Environaut\Config\ConfigHandler
     {
         return new Config(array('introduction' => 'introductory text'));
     }
-
 }

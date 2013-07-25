@@ -33,7 +33,7 @@ class ExecutableCheckTest extends BaseTestCase
         $settings = $check->getResult()->getSettingsAsArray();
         $this->assertCount(1, $settings, 'expected all settings when group is not specified');
         $settings = $check->getResult()->getSettingsAsArray('default');
-        $this->assertCount(0, $settings, 'expected default group to be empty/nonexisting as "trololo" was the group name.');
+        $this->assertCount(0, $settings, 'expected default group to be empty as "trololo" was the group name.');
         $settings = $check->getResult()->getSettingsAsArray('trololo');
         $this->assertCount(1, $settings, 'group "trololo" should contain the setting');
         $this->assertArrayHasKey('cmd.curl', $settings); // default setting name is "cmd.__NAME"
@@ -97,8 +97,12 @@ class ExecutableCheckTest extends BaseTestCase
      *
      * @return \Environaut\Tests\Checks\Fixtures\TestableExecutableCheck
      */
-    protected function runExecutableCheck($input, array $params = array(), $group = 'default', $name = 'executable_check')
-    {
+    protected function runExecutableCheck(
+        $input,
+        array $params = array(),
+        $group = 'default',
+        $name = 'executable_check'
+    ) {
         $check = new TestableExecutableCheck($name, $group, $params);
         $check->setInput($input);
         $check->run();

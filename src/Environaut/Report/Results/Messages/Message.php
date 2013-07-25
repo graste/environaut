@@ -4,11 +4,30 @@ namespace Environaut\Report\Results\Messages;
 
 use Environaut\Report\Results\Messages\IMessage;
 
+/**
+ * A message may be emitted by checks to be presented in a report
+ * and supports different severities.
+ */
 class Message implements IMessage
 {
+    /**
+     * @var string
+     */
     protected $name;
+
+    /**
+     * @var string
+     */
     protected $group;
+
+    /**
+     * @var string
+     */
     protected $text;
+
+    /**
+     * @var int
+     */
     protected $severity;
 
     public function __construct($name = '', $text = '', $group = null, $severity = IMessage::SEVERITY_INFO)
@@ -27,11 +46,18 @@ class Message implements IMessage
     public function setGroup($group)
     {
         $this->group = $group;
+        return $this;
     }
 
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
     }
 
     public function getText()
@@ -42,6 +68,7 @@ class Message implements IMessage
     public function setText($text)
     {
         $this->text = $text;
+        return $this;
     }
 
     public function getSeverity()
@@ -52,8 +79,12 @@ class Message implements IMessage
     public function setSeverity($severity)
     {
         $this->severity = $severity;
+        return $this;
     }
 
+    /**
+     * @return array representation of this message
+     */
     public function toArray()
     {
         return array(

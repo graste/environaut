@@ -4,38 +4,19 @@ namespace Environaut\Export\Formatter;
 
 use Environaut\Report\IReport;
 use Environaut\Report\Results\Messages\Message;
-use Environaut\Export\Formatter\IReportFormatter;
+use Environaut\Export\Formatter\BaseFormatter;
 
 /**
  * Simple formatter that takes messages from the results
  * of the given report and enhances them according to their
  * severity etc.
  */
-class ConsoleMessageFormatter implements IReportFormatter
+class ConsoleMessageFormatter extends BaseFormatter
 {
     /**
-     * Default sprintf compatible format for messages.
+     * Default sprintf compatible format for messages. May be changed via options.
      */
     const DEFAULT_FORMAT = '[%1$s] [%2$s] %3$s';
-
-    /**
-     * @var string current format used for formatting
-     */
-    protected $format;
-
-    /**
-     * Create new instance of formatter.
-     *
-     * @param string $format sprintf compatible format for the result messages
-     */
-    public function __construct($format = null)
-    {
-        if ($format !== null) {
-            $this->format = $format;
-        } else {
-            $this->format = self::DEFAULT_FORMAT . PHP_EOL;
-        }
-    }
 
     /**
      * Returns a formatted string consisting of all
@@ -45,9 +26,10 @@ class ConsoleMessageFormatter implements IReportFormatter
      *
      * @return string messages formatted with the configured format
      */
-    public function getFormatted(IReport $report)
+    public function format(IReport $report)
     {
         $output = '';
+        $format = $this->getOptions()->get('format', self::DEFAULT_FORMAT);
 
         $results = $report->getResults();
         foreach ($results as $result) {
@@ -57,7 +39,7 @@ class ConsoleMessageFormatter implements IReportFormatter
                     case Message::SEVERITY_FATAL:
                     case Message::SEVERITY_ERROR:
                         $output .= sprintf(
-                            $this->format,
+                            $format,
                             $message->getGroup(),
                             $message->getName(),
                             '<error>' . $message->getText() . '</error>'
@@ -66,7 +48,7 @@ class ConsoleMessageFormatter implements IReportFormatter
                     case Message::SEVERITY_NOTICE:
                     case Message::SEVERITY_WARN:
                         $output .= sprintf(
-                            $this->format,
+                            $format,
                             $message->getGroup(),
                             $message->getName(),
                             '<comment>' . $message->getText() . '</comment>'
@@ -74,7 +56,7 @@ class ConsoleMessageFormatter implements IReportFormatter
                         break;
                     case Message::SEVERITY_INFO:
                         $output .= sprintf(
-                            $this->format,
+                            $format,
                             $message->getGroup(),
                             $message->getName(),
                             '<info>' . $message->getText() . '</info>'
@@ -83,13 +65,15 @@ class ConsoleMessageFormatter implements IReportFormatter
                     case Message::SEVERITY_DEBUG:
                     default:
                         $output .= sprintf(
-                            $this->format,
+                            $format,
                             $message->getGroup(),
                             $message->getName(),
                             $message->getText()
                         );
                         break;
                 }
+
+                $output .= PHP_EOL;
             }
         }
 

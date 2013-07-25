@@ -17,19 +17,19 @@ interface IReport
     public function addResult(IResult $result);
 
     /**
+     * Sets the given results on this report.
+     *
+     * @param array $results array of IResult instances
+     */
+    public function setResults(array $results);
+
+    /**
      * Returns all results currently compiled
      * for the report.
      *
      * @return array of IResult instances
      */
     public function getResults();
-
-    /**
-     * Sets the given results on this report.
-     *
-     * @param array $results array of IResult instances
-     */
-    public function setResults(array $results);
 
     /**
      * Returns an associative array of settings

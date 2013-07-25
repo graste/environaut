@@ -2,7 +2,6 @@
 
 namespace Environaut\Report;
 
-use Environaut\Config\Parameters;
 use Environaut\Report\Results\IResult;
 
 /**
@@ -10,28 +9,60 @@ use Environaut\Report\Results\IResult;
  */
 class Report implements IReport
 {
+    /**
+     * Holds the results of all checks.
+     *
+     * @var array for results of processed checks
+     */
     protected $results = array();
 
+    /**
+     * Creates a new Report instance.
+     *
+     * @param array $results array of IResult instances to prefill the isntance
+     */
     public function __construct(array $results = array())
     {
         $this->results = $results;
     }
 
+    /**
+     * Adds the given result to this report.
+     *
+     * @param \Environaut\Report\Results\IResult $result result to add to this report
+     */
     public function addResult(IResult $result)
     {
         $this->results[] = $result;
+        return $this;
     }
 
+    /**
+     * Replaces the current results with the given IResult instances.
+     *
+     * @param array $results array of IResult instances
+     */
     public function setResults(array $results)
     {
         $this->results = $results;
+        return $this;
     }
 
+    /**
+     * Returns all results of the already processed checks.
+     *
+     * @return array of IResult instances
+     */
     public function getResults()
     {
         return $this->results;
     }
 
+    /**
+     * Returns all settings of all results of all processed checks as an associative nested array.
+     *
+     * @return array of settings
+     */
     public function getSettings()
     {
         $settings = array();
@@ -71,6 +102,11 @@ class Report implements IReport
         return $settings;
     }
 
+    /**
+     * @param mixed $groups string with comma separated group names or an array of group names
+     *
+     * @return array of group names or null if empty groups were given
+     */
     protected function getGroupNames($groups)
     {
         $group_names = array();

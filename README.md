@@ -12,6 +12,19 @@ assertions and requirements of the application environment as well as some
 configuration that may be necessary to make an application run. See the
 [wiki](https://github.com/graste/environaut/wiki) for more information.
 
+## Quickstart
+
+Environaut parses a configuration file that contains defined environment checks.
+After that each check is processed and the results of each check are compiled
+into a report. Each check can emit messages and settings. The messages will be
+printed to the shell and the settings can be exported in specified formats.
+
+1. Download the `environaut.phar` binary.
+2. Download the `environaut.xml` sample configuration file from the `docs/examples/` folder.
+3. Put both files in a folder and run: `environaut.phar`
+4. ???
+5. You should have the collected settings in files in the `/tmp` folder
+
 ## Requirements and installation
 
 - Non-Windows operating system (tested on Ubuntu 12.04/13.04 and MacOS X)
@@ -76,10 +89,7 @@ For the help command the following works:
 
 ## Documentation
 
-Environaut parses a configuration file that contains defined environment checks.
-After that each check is processed and the results of each check are compiled
-into a report. Each check can emit messages and settings. The messages will be
-printed to the shell and the settings are exported in a specified format.
+tbd. topics?
 
 ## Community
 
@@ -89,17 +99,18 @@ Please contribute by [forking](http://help.github.com/forking/) and sending a [p
 
 ## Changelog
 
-See `CHANGELOG.md` for more information about changes.
+See [`CHANGELOG.md`](CHANGELOG.md) for more information about changes.
 
 ## Contributors
 
-See `AUTHORS.md` for a list of contributors.
+See [`AUTHORS.md`](AUTHORS.md) for a list of contributors.
 
 ## License
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Environaut</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
 
-CC-BY-SA-3.0 means, you are free to share, remix and make commercial use of the work as long as you attribute and share alike. See linked license for details.
+CC-BY-SA-3.0 means, you are free to share, remix and make commercial use of the
+work as long as you attribute and share alike. See linked license for details.
 
 [1]: https://github.com/graste/environaut/archive/0.2.0.zip
 

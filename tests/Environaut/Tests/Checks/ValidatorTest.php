@@ -52,11 +52,15 @@ class ValidatorTest extends BaseTestCase
 
     public function testValidValidIp()
     {
-        $this->assertEquals('192.168.0.1', Validator::validIp('192.168.0.1'), 'ipv4 address');
-        $this->assertEquals('2001:db8:0:8d3:0:8a2e:70:7344', Validator::validIp('2001:db8:0:8d3:0:8a2e:70:7344'), 'ipv6 address');
-        $this->assertEquals('2001:db8::1428:57ab', Validator::validIp('2001:db8::1428:57ab'), 'blocks with 0 may be omitted in ipv6 addresses');
+        $this->assertEquals('192.168.0.1', Validator::validIp('192.168.0.1'), 'ipv4');
+        $this->assertEquals(
+            '2001:db8:0:8d3:0:8a2e:70:7344',
+            Validator::validIp('2001:db8:0:8d3:0:8a2e:70:7344'),
+            'ipv6'
+        );
+        $this->assertEquals('2001:db8::1428:57ab', Validator::validIp('2001:db8::1428:57ab'), 'omit blocks with 0');
         $this->assertEquals('::ffff:7f00:1', Validator::validIp('::ffff:7f00:1'), 'embedded ipv4 in ipv6 address');
-        $this->assertEquals('::ffff:127.0.0.1', Validator::validIp('::ffff:127.0.0.1'), 'embedded ipv4 in ipv6 address alternative');
+        $this->assertEquals('::ffff:127.0.0.1', Validator::validIp('::ffff:127.0.0.1'), 'embedded ipv4 in ipv6');
         $this->assertEquals('10.0.0.1', Validator::validIp('10.0.0.1'), '10.0.0.1');
         $this->assertEquals('193.137.42.15', Validator::validIp('193.137.42.15'), '193.137.42.15');
         $this->assertEquals('192.168.0.1', Validator::validIp('192.168.0.1'), 'ipv4 address');
@@ -70,39 +74,61 @@ class ValidatorTest extends BaseTestCase
 
     public function testValidUrl()
     {
-        $this->assertEquals('https://sub.domain.co.uk:8080/foo/bar?foo=bar#baz', Validator::validUrl('https://sub.domain.co.uk:8080/foo/bar?foo=bar#baz'));
+        $this->assertEquals(
+            'https://sub.domain.co.uk:8080/foo/bar?foo=bar#baz',
+            Validator::validUrl('https://sub.domain.co.uk:8080/foo/bar?foo=bar#baz')
+        );
+        $this->assertEquals('http://heise.de', Validator::validUrl('http://heise.de'));
     }
 
     public function testValidIpv6Url()
     {
-        $this->assertEquals('http://[2001:0db8:85a3:08d3:1319:8a2e:0370:7344]:8080/', Validator::validUrl('http://[2001:0db8:85a3:08d3:1319:8a2e:0370:7344]:8080/'));
+        $this->assertEquals(
+            'http://[2001:0db8:85a3:08d3:1319:8a2e:0370:7344]:8080/',
+            Validator::validUrl('http://[2001:0db8:85a3:08d3:1319:8a2e:0370:7344]:8080/')
+        );
     }
 
     public function testInvalidIpv6Url()
     {
         $this->setExpectedException('InvalidArgumentException');
-        $this->assertEquals('http://2001:0db8:85a3:08d3:1319:8a2e:0370:7344:8080/', Validator::validUrl('http://2001:0db8:85a3:08d3:1319:8a2e:0370:7344:8080/'));
+        $this->assertEquals(
+            'http://2001:0db8:85a3:08d3:1319:8a2e:0370:7344:8080/',
+            Validator::validUrl('http://2001:0db8:85a3:08d3:1319:8a2e:0370:7344:8080/')
+        );
     }
 
     public function testValidEmails()
     {
-        $this->assertEquals('user@example.com', Validator::validEmail('user@example.com'), 'user@example.com');
-        $this->assertEquals('user+folder@example.com', Validator::validEmail('user+folder@example.com'), 'user+folder@example.com');
-        $this->assertEquals('someone@example.business', Validator::validEmail('someone@example.business'), 'someone@example.business');
-        $this->assertEquals('new-asdf@trololo.co.uk', Validator::validEmail('new-asdf@trololo.co.uk'), 'new-asdf@trololo.co.uk');
-        $this->assertEquals('omg@nsfw.xxx', Validator::validEmail('omg@nsfw.xxx'), 'omg@nsfw.xxx');
-        $this->assertEquals('A-Za-z0-9.!#$%&*+-/=?^_`{|}~@example.com', Validator::validEmail('A-Za-z0-9.!#$%&*+-/=?^_`{|}~@example.com'), 'A lot of special characters should be valid in the local part of email addresses');
-        $this->assertEquals("o'hare@example.com", Validator::validEmail("o'hare@example.com"), "Single quotes are not working");
-        $this->assertEquals("o'hare@xn--mller-kva.example", Validator::validEmail("o'hare@xn--mller-kva.example"), "International domains should be supported via Punycode ACE strings");
-        $this->assertEquals('user@example123example123example123example123example123example123456.com', Validator::validEmail('user@example123example123example123example123example123example123456.com'), '63 characters long domain names should be valid');
-        $this->assertEquals('user@example123example123example123example123example123example123456.co.nz', Validator::validEmail('user@example123example123example123example123example123example123456.co.nz'), '63 characters long domain names with top level domain "co.nz" should be valid');
-        $this->assertEquals('example123example123example123example123example123example1234567@example.com', Validator::validEmail('example123example123example123example123example123example1234567@example.com'), '64 characters are valid according to SMTP in the local part');
+        $emails = array(
+            'user@example.com',
+            'user+folder@example.com',
+            'someone@example.business',
+            'new-asdf@trololo.co.uk',
+            'omg@nsfw.xxx',
+            'A-Za-z0-9.!#$%&*+-/=?^_`{|}~@example.com',
+            "o'hare@example.com",
+            "o'hare@xn--mller-kva.example",
+            'user@example123example123example123example123example123example123456.com',
+            'user@example123example123example123example123example123example123456.co.nz',
+            'example123example123example123example123example123example1234567@example.com',
+        );
+
+        foreach ($emails as $email) {
+            $this->assertEquals($email, Validator::validEmail($email), $email);
+        }
 
         // this should be valid, but is not according to PHPs email filter:
-        //$this->assertEquals('"foo bar"@example.com', Validator::validEmail('"foo bar"@example.com'), 'Spaces in email addresses should be allowed when they are in duoble quotes');
+        //$this->assertEquals(
+        //'"foo bar"@example.com',
+        //Validator::validEmail('"foo bar"@example.com'),
+        //'Spaces in email addresses should be allowed when they are in duoble quotes');
         //$this->assertEquals('user@localhost', Validator::validEmail('user@localhost'), 'user@localhost');
 
-        // TODO add other tests for length constraints - 320 octets overall, 64 for local part according to SMTP, 254 chars overall if you combine RFCs etc.
+        // TODO add other tests for length constraints:
+        // - 320 octets overall,
+        // - 64 for local part according to SMTP,
+        // - 254 chars overall if you combine RFCs etc.
     }
 
     public function testInvalidEmails()
@@ -114,7 +140,7 @@ class ValidatorTest extends BaseTestCase
     public function testInvalidEmails1()
     {
         $this->setExpectedException('InvalidArgumentException');
-        Validator::validEmail('umlaut@müller.com'); // Umlauts etc. in the domain part should only be accepted punycode encoded
+        Validator::validEmail('umlaut@müller.com'); // Umlauts in the domain part should be accepted punycode encoded
     }
 
     public function testInvalidEmails2()
@@ -180,28 +206,38 @@ class ValidatorTest extends BaseTestCase
     public function testInvalidEmails12()
     {
         $this->setExpectedException('InvalidArgumentException');
-        Validator::validEmail('user@example123example123example123example123example123example1234567.com'); // Domain names longer than 63 characters are invalid
+        // Domain names longer than 63 characters are invalid
+        Validator::validEmail('user@example123example123example123example123example123example1234567.com');
     }
 
     public function testInvalidEmails13()
     {
         $this->setExpectedException('InvalidArgumentException');
-        Validator::validEmail('example123example123example123example123example123example123example123example123example123example123example123example123example123example123example123example123example123example123456789012@example1example.example123example123example123example123example123.example123example123example123example123example123example123.com'); // 320 octets/bytes are the maximum allowed length according to RFC 5322 and RFC 5321 valid emails
+        // 320 octets/bytes are the maximum allowed length according to RFC 5322 and RFC 5321 valid emails
+        Validator::validEmail(
+            'example123example123example123example123example123example123example123example123example123example123' .
+            'example123example123example123example123example123example123example123example123456789012@example1' .
+            'example.example123example123example123example123example123.example123example123example123example123' .
+            'example123example123.com'
+        );
     }
 
     public function testInvalidEmails14()
     {
         $this->setExpectedException('InvalidArgumentException');
-        Validator::validEmail('Someone other <someone@example.com>'); // Display names with email addresses may be valid, but are not support by us
+        // Display names with email addresses may be valid, but are not support by us
+        Validator::validEmail('Someone other <someone@example.com>');
     }
 
     public function testInvalidEmails15()
     {
         $this->setExpectedException('InvalidArgumentException');
-        Validator::validEmail('"Someone other" <someone@example.com>'); // Quoted display names with email addresses may be valid, but are not support by us
+        // Quoted display names with email addresses may be valid, but are not support by us
+        Validator::validEmail('"Someone other" <someone@example.com>');
 
         // this should be invalid according to SMTP, but is not according to PHPs email filter:
-        // Validator::validEmail('example123example123example123example123example123example1234567@example.com'); // 64 characters are valid according to SMTP in the local part
+        // 64 characters are valid according to SMTP in the local part
+        // Validator::validEmail('example123example123example123example123example123example1234567@example.com');
     }
 
     public function testInvalidEmails16()

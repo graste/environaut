@@ -8,61 +8,71 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class CheckCommandTest extends BaseTestCase
 {
-    public function testExecuteFailsWithoutExistingConfigFile()
+    public function testExecuteFailsWithNonExistantConfigFile()
     {
         $this->setExpectedException('InvalidArgumentException');
-        $this->executeCheckCommand('trololo');
+        $this->executeCheckCommand('trololo-nonexistant.json');
     }
 
     public function testExecuteWorksWithEmptyConfigFile()
     {
         $text = $this->executeCheckCommand('empty.json');
 
-        $this->assertRegExp('/Environment Check/', $text);
-        $this->assertRegExp('/Report follows:/', $text);
-        $this->assertRegExp('/Config follows:/', $text);
-        $this->assertRegExp('/Reading configuration from: ' . preg_quote($this->getFixture('empty.json'), '/') . '/', $text);
+        $this->assertContains('Environment Check', $text);
+        $this->assertContains('Reading configuration from: ' . $this->getFixture('empty.json'), $text);
     }
 
     public function testVerboseExecute()
     {
-        $text = $this->executeCheckCommand('empty.json', array(
-            '--verbose' => true
-        ));
+        $text = $this->executeCheckCommand(
+            'empty.json',
+            array(
+                '--verbose' => true
+            )
+        );
 
-        $this->assertRegExp('/No autoload_dir specified/', $text);
-        $this->assertRegExp('/PHP Version/', $text);
-        $this->assertRegExp('/Loaded php\.ini File/', $text);
+        $this->assertContains('No autoload_dir specified', $text);
+        $this->assertContains('PHP Version', $text);
+        $this->assertContains('Loaded php.ini File', $text);
     }
 
     public function testAutoloadDirOption()
     {
-        $text = $this->executeCheckCommand('empty.json', array(
-            '--autoload_dir' => __DIR__,
-            '--verbose' => true
-        ));
+        $text = $this->executeCheckCommand(
+            'empty.json',
+            array(
+                '--autoload_dir' => __DIR__,
+                '--verbose' => true
+            )
+        );
 
-        $this->assertRegExp('/Classes will be autoloaded from "' . preg_quote(__DIR__, '/') . '"/', $text);
+        $this->assertContains('Classes will be autoloaded from "' . __DIR__ . '"', $text);
     }
 
     public function testNonExistingAutoloadDirOption()
     {
         $this->setExpectedException('InvalidArgumentException');
-        $this->executeCheckCommand('empty.json', array(
-            '--autoload_dir' => __DIR__ . 'trololo'
-        ));
+        $this->executeCheckCommand(
+            'empty.json',
+            array(
+                '--autoload_dir' => __DIR__ . 'trololo-nonexistant'
+            )
+        );
     }
 
     public function testCustomConfigHandlerOption()
     {
         $this->assertTrue(class_exists('Fixtures\TestConfigHandler')); // autoloaded by bootstrap.php and composer
 
-        $text = $this->executeCheckCommand('empty.json', array(
-            '--config_handler' => 'Fixtures\TestConfigHandler',
-            '--verbose' => true,
-        ));
+        $text = $this->executeCheckCommand(
+            'empty.json',
+            array(
+                '--config_handler' => 'Fixtures\TestConfigHandler',
+                '--verbose' => true,
+            )
+        );
 
-        $this->assertRegExp('/introductory text/', $text);
+        $this->assertContains('introductory text', $text);
     }
 
     /**
@@ -76,7 +86,7 @@ class CheckCommandTest extends BaseTestCase
     protected function executeCheckCommand($filename, array $options = array())
     {
         $application = new Application();
-        $application->add(new \Environaut\Command\CheckCommand());
+        $application->add(new Fixtures\TestableCheckCommand()); // extends \Environaut\Command\CheckCommand but does not run checks
 
         $command = $application->find('check');
 

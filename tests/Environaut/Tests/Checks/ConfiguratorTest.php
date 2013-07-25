@@ -37,7 +37,7 @@ class ConfiguratorTest extends BaseTestCase
         $settings = $check->getResult()->getSettingsAsArray();
         $this->assertCount(1, $settings, 'expected all settings when group is not specified');
         $settings = $check->getResult()->getSettingsAsArray('default');
-        $this->assertCount(0, $settings, 'expected default group to be empty/nonexisting as "trololo" was the group name.');
+        $this->assertCount(0, $settings, 'expected default group to be empty as "trololo" was the group name.');
         $settings = $check->getResult()->getSettingsAsArray('trololo');
         $this->assertCount(1, $settings, 'group "trololo" should contain the setting');
         $this->assertArrayHasKey('core.email', $settings);

@@ -15,9 +15,29 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CheckCommand extends Command
 {
+    /**
+     * @var \Environaut\Config\IConfig
+     */
+    protected $config;
+
+    /**
+     * @var \Environaut\Report\IReport
+     */
+    protected $report;
+
+    /**
+     * @var string config path from CLI option (or default fallback name)
+     */
     protected $config_path;
+
+    /**
+     * @var \Environaut\Config\IConfigHandler
+     */
     protected $config_handler;
 
+    /**
+     * Define options supported by this command and set name, description and help texts.
+     */
     protected function configure()
     {
         parent::configure();
@@ -60,26 +80,58 @@ EOT
     {
         $this->displayIntro();
 
-        $config = $this->getConfigHandler()->getConfig();
+        $this->readConfig();
 
-        if ($config->has('introduction')) {
-            $output->writeln($config->get('introduction'));
-            $output->writeln('');
-        }
+        $this->runChecks();
 
-        // TODO: use setters instead of construct?
-        $runner_impl = $config->getRunnerImplementor();
-        $runner = new $runner_impl($config, $this, $config->get('runner', array()));
-        $runner->run();
-
-        $report = $runner->getReport();
-
-        // TODO: use setters instead of construct?
-        $export_impl = $config->getExportImplementor();
-        $exporter = new $export_impl($report, $this, $config->get('export', array()));
-        $exporter->run();
+        $this->runExport();
 
         $this->displayOutro();
+    }
+
+    /**
+     * Reads configuration via default or given config file handler
+     */
+    protected function readConfig()
+    {
+        $this->config = $this->getConfigHandler()->getConfig();
+
+        if ($this->config->has('introduction')) {
+            $this->output->writeln($this->config->get('introduction'));
+            $this->output->writeln('');
+        }
+    }
+
+    /**
+     * Runs all checks and collects results in a report.
+     */
+    protected function runChecks()
+    {
+        $runner_impl = $this->config->getRunnerImplementor();
+
+        $runner = new $runner_impl();
+        $runner->setConfig($this->config);
+        $runner->setCommand($this);
+        $runner->setOptions($this->config->get('runner', array()));
+
+        $runner->run();
+
+        $this->report = $runner->getReport();
+    }
+
+    /**
+     * Runs the export with the collected report from the checks.
+     */
+    protected function runExport()
+    {
+        $export_impl = $this->config->getExportImplementor();
+
+        $exporter = new $export_impl();
+        $exporter->setCommand($this);
+        $exporter->setReport($this->report);
+        $exporter->setOptions($this->config->get('export', array()));
+
+        $exporter->run();
     }
 
     /**

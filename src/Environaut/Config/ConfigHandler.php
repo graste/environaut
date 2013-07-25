@@ -24,7 +24,7 @@ class ConfigHandler extends BaseConfigHandler
     /**
      * @var array default config file names (order is important)
      */
-    protected $default_filenames = array('environaut.json', 'environaut.xml', 'environaut.php');
+    protected $default_filenames = array('environaut.xml', 'environaut.json', 'environaut.php');
 
     /**
      * Reads a config file from the given location and returns it's

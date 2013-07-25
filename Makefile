@@ -7,7 +7,7 @@ endif
 help:
 
 	@echo ""
-	@echo "Possible targets:"
+	@echo "Available targets:"
 	@echo "  docs - generate API documentation into 'docs/api' folder"
 	@echo "  install-composer - download and install composer to 'bin/composer.phar'"
 	@echo "  install-dependencies-dev - install composer if necessary and install or update all vendor libraries (including --dev)"
