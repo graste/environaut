@@ -7,9 +7,6 @@ use Environaut\Config\Parameters;
 use Environaut\Export\IExport;
 use Environaut\Export\Formatter\IReportFormatter;
 use Environaut\Export\Formatter\ConsoleMessageFormatter;
-use Environaut\Export\Formatter\JsonSettingsWriter;
-use Environaut\Export\Formatter\PhpSettingsWriter;
-use Environaut\Export\Formatter\XmlSettingsWriter;
 use Environaut\Report\IReport;
 
 /**

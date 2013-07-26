@@ -75,6 +75,9 @@ EOT;
             $settings_content = '';
 
             foreach ($settings as $key => $value) {
+                if (is_bool($value)) {
+                    $value = var_export($value, true);
+                }
                 $settings_content .= self::vksprintf(
                     $setting_template,
                     array(
