@@ -19,7 +19,7 @@ class PhpSettingCheck extends Check
             );
         }
 
-        $custom_name = $params->get('custom_name', 'PHP Settings');
+        $custom_name = $params->get('custom_name', $setting === $this->getName() ? 'PHP Settings' : $this->getName());
         $help = $params->get('help');
         $setting_value = $params->get('value');
         $infinite_value = $params->get('infinite');
@@ -50,40 +50,16 @@ class PhpSettingCheck extends Check
             switch ($comparison) {
                 case 'integer':
                     if (null !== $infinite_value && $value != $infinite_value) {
-                        $operator = $this->getOperator($setting_value);
-                        $actual = $this->getIntegerValue($value);
-                        $expected = $this->getIntegerValue($setting_value);
-                        switch ($operator) {
-                            case '>':
-                                $okay = $actual > $expected;
-                                break;
-                            case '>=':
-                                $okay = $actual >= $expected;
-                                break;
-                            case '<':
-                                $okay = $actual < $expected;
-                                break;
-                            case '<=':
-                                $okay = $actual < $expected;
-                                break;
-                            case '!=':
-                            case '<>':
-                                $okay = $actual != $expected;
-                                break;
-                            case '=':
-                            default:
-                                $okay = $actual == $expected;
-                                break;
+                        $okay = self::compareIntegers($value, $setting_value);
+                        if (!$okay) {
+                            $this->addError(
+                                'Value of "' . $setting . '" should be "' . $setting_value .
+                                '", but is: "' . $value . '"',
+                                $custom_name
+                            );
                         }
-                        $this->addError(
-                            'Value of "' . $setting . '" should be "' . $setting_value .
-                            '", but is: "' . $value . '"',
-                            $custom_name
-                        );
-                        $okay = false;
                     }
                     break;
-
                 case 'regex':
                     if (!preg_match($setting_value, $value)) {
                         $this->addError(
@@ -94,7 +70,6 @@ class PhpSettingCheck extends Check
                         $okay = false;
                     }
                     break;
-
                 case 'version':
                     $operator = $this->getOperator($setting_value);
                     if (version_compare($value, $setting_value, $operator)) {
@@ -106,7 +81,6 @@ class PhpSettingCheck extends Check
                         $okay = false;
                     }
                     break;
-
                 case 'notempty':
                     if ($value === null || $value === "") {
                         $this->addError(
@@ -117,7 +91,6 @@ class PhpSettingCheck extends Check
                         $okay = false;
                     }
                     break;
-
                 case 'null':
                     if ($value !== "") {
                         $this->addError(
@@ -127,7 +100,6 @@ class PhpSettingCheck extends Check
                         $okay = false;
                     }
                     break;
-
                 case 'equals':
                 default:
                     if ($value !== $setting_value) {
@@ -155,6 +127,38 @@ class PhpSettingCheck extends Check
         return $okay;
     }
 
+    public static function compareIntegers($value, $setting_value)
+    {
+        $okay = false;
+
+        $actual = self::getIntegerValue($value);
+        $operator = self::getOperator($setting_value);
+        $expected = self::getIntegerValue($setting_value);
+        switch ($operator) {
+            case '>':
+                $okay = $actual > $expected;
+                break;
+            case '>=':
+                $okay = $actual >= $expected;
+                break;
+            case '<':
+                $okay = $actual < $expected;
+                break;
+            case '<=':
+                $okay = $actual <= $expected;
+                break;
+            case '!=':
+                $okay = $actual != $expected;
+                break;
+            case '=':
+            default:
+                $okay = $actual == $expected;
+                break;
+        }
+
+        return $okay;
+    }
+
     public static function getSupportedComparisons()
     {
         return array(
@@ -167,11 +171,11 @@ class PhpSettingCheck extends Check
         );
     }
 
-    protected function getOperator($value)
+    public static function getOperator($value)
     {
-        $operator = strpos($value, '>') === 0 ? '>' : null;
+        $operator = strpos($value, '>=') === 0 ? '>=' : null;
         if (null === $operator) {
-            $operator = strpos($value, '>=') === 0 ? '>=' : null;
+            $operator = strpos($value, '>') === 0 ? '>' : null;
         }
         if (null === $operator) {
             $operator = strpos($value, '=') === 0 ? '=' : null;
@@ -186,20 +190,23 @@ class PhpSettingCheck extends Check
             $operator = strpos($value, '!=') === 0 ? '!=' : null;
         }
         if (null === $operator) {
-            $operator = strpos($value, '<>') === 0 ? '!=' : null;
-        }
-        if (null === $operator) {
             $operator = '>=';
         }
 
         return $operator;
     }
 
-    protected function getIntegerValue($value)
+    public static function getIntegerValue($value)
     {
         if (!is_numeric($value)) {
+            $value = trim($value);
+            $value = ltrim($value, '<>!=');
             $len = strlen($value);
-            $quantity = substr($value, 0, $len - 1);
+            if (!is_numeric($value)) {
+                $quantity = substr($value, 0, $len - 1);
+            } else {
+                $quantity = $value;
+            }
             $unit = strtolower(substr($value, $len - 1));
             switch ($unit) {
                 case 'k':
