@@ -5,8 +5,6 @@
     "keywords": ["environment", "requirements", "configuration", "check", "cli", "web", "php", "configuration management"],
     "homepage": "https://github.com/graste/environaut",
     "license": "CC-BY-SA-3.0",
-    "version": "dev-0.2.0",
-    "time": "2013-07-31",
     "authors": [
         {
             "name": "Steffen Gransow",
