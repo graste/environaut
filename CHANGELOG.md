@@ -10,6 +10,7 @@ via different formatters into XML, JSON and PHP format files.
 
 New checks:
 
+* [new] added `PhpSettingCheck` that checks PHP ini settings for correct values
 * [new] added `ExecutableCheck` that adds absolute paths to executables as settings
 * [new] added `ComposerSecurityCheck` to check `composer.lock` files for known security vulnerabilities
 * [new] added `Configurator` check to ask for users for settings (value input, selection, confirmation and hidden input with autocompletion and validation)

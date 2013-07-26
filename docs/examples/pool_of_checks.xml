@@ -28,33 +28,32 @@
         <!-- phpsettings are a work in progress and do not run... -->
         <checks name="phpsettings" description="some php ini settings checks">
 
-            <check name="allow_url_fopen" class="&phpsetting;">
-                <parameter name="value">0</parameter>
-            </check>
+            <check name="file_uploads" value="1" class="&phpsetting;" />
+            <check name="upload_max_filesize" value=">=256M" comparison="integer" infinite="0" class="&phpsetting;" />
+            <check name="max_file_uploads" value=">=60" comparison="integer" infinite="" class="&phpsetting;" />
+            <check name="date.timezone" comparison="notempty" class="&phpsetting;" />
+            <check name="asp_tags" value="" class="&phpsetting;" />
+            <check name="short_open_tag" value="0" class="&phpsetting;" />
+            <check name="max_input_time" value=">=300" comparison="integer" infinite="-1" class="&phpsetting;" />
+            <check name="max_execution_time" value=">=30" comparison="integer" infinite="0" class="&phpsetting;" />
+            <check name="memory_limit" value=">=768M" comparison="integer" infinite="-1" class="&phpsetting;" />
+            <check name="post_max_size" value=">=256M" comparison="integer" infinite="0" class="&phpsetting;" />
+            <check name="user_ini.filename" value="" class="&phpsetting;">
+                <parameter name="help"><![CDATA[
+This setting is only relevant when you use CGI/FastCGI-SAPI,
+but if you use it, then PHP scans for INI files in each directory,
+starting with the directory of the requested PHP file, and
+working its way up to the current document root!
 
-            <check name="max_post_size" class="&phpsetting;">
-                <parameter name="value"><![CDATA[>=512M]]></parameter>
-            </check>
+Only INI settings with the modes PHP_INI_PERDIR and PHP_INI_USER
+will be recognized in .user.ini-style INI files.
 
-            <check name="boolean_string" class="&phpsetting;">
-                <parameter name="value" literalize="false">true</parameter>
+"user_ini.filename" sets the name of the file PHP looks for in each directory.
+If you set it to an empty string, PHP doesn't scan at all. The default is ".user.ini".
+]]></parameter>
             </check>
-
-            <check name="allow_uploads" class="&phpsetting;">
-                <parameter name="value">0</parameter>
-            </check>
-
-            <check name="user_ini.filename" class="&phpsetting;">
-                <parameter name="value" literalize="false"></parameter>
-            </check>
-
-            <check name="user_ini.cache_ttl" class="&phpsetting;">
-                <parameter name="value">300</parameter>
-            </check>
-
-            <check name="mbstring.func_overload" class="&phpsetting;">
-                <parameter name="value">true</parameter>
-            </check>
+            <check name="allow_url_fopen" value="0" class="&phpsetting;" />
+            <check name="hahahahaha" value="0" class="&phpsetting;" />
 
         </checks>
 
