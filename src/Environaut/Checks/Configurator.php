@@ -32,7 +32,7 @@ class Configurator extends Check
             $output->writeln($introduction);
         }
 
-        $name = $this->parameters->get('setting', $this->getName() . 'default_key_name');
+        $name = $this->parameters->get('setting', $this->getName());
         $choices = $this->parameters->get('choices', array());
         $default = $this->parameters->get('default', null);
         $validator = $this->parameters->get('validator', false);

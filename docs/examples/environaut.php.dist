@@ -5,22 +5,20 @@ return array(
   'introduction' => array('This is some', 'multiline', 'introductory text.'),
   'export' => array(
     '__class' => 'Environaut\\Export\\Export',
-    'files' => array(
+    'formatters' => array(
       array(
-        'format' => 'json',
+        'location' => 'config.json',
       ),
       array(
-        'format' => 'xml',
+        'location' => 'configxml',
       ),
       array(
-        'format' => 'json',
+        'location' => 'trololo.json',
         'groups' => array('trololo'),
-        'file' => 'trololo.json',
       ),
       array(
-        'format' => 'xml',
+        'location' => 'trololo.xml',
         'groups' => array('trololo'),
-        'file' => 'trololo.xml',
       ),
     ),
   ),

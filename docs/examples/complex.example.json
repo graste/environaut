@@ -14,22 +14,20 @@
     ],
     "export": {
         "__class": "Environaut\\Export\\Export",
-        "files": [
+        "formatters": [
             {
-                "format": "json"
+                "location": "config.json"
             },
             {
-                "format": "xml"
+                "location": "config.xml"
             },
             {
-                "format": "json",
-                "groups": ["trololo"],
-                "file": "trololo.json"
+                "location": "trololo.json",
+                "groups": ["trololo"]
             },
             {
-                "format": "xml",
-                "groups": ["trololo"],
-                "file": "trololo.xml"
+                "location": "trololo.xml",
+                "groups": ["trololo"]
             }
         ]
     },
@@ -40,7 +38,6 @@
         "__class": "Environaut\\Report\\Report"
     },
     "checks": [
-
 
 
         {

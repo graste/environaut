@@ -1,6 +1,0 @@
-{
-    "default": {
-        "cmd.grep": "\/bin\/grep",
-        "cache_dir": "\/tmp"
-    }
-}

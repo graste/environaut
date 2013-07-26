@@ -4,17 +4,18 @@ namespace Environaut\Checks;
 
 use Environaut\Checks\Check;
 
-class PhpSetting extends Check
+class PhpSettingCheck extends Check
 {
     public function run()
     {
-        $setting = $this->parameters->get('setting');
+        $setting = $this->parameters->get('setting', $this->getName());
         if (empty($setting)) {
             throw new \InvalidArgumentException(
                 'Parameter "setting" must be a valid php.ini setting to check on class "' . get_class($this) . '".'
             );
         }
-        $setting_value = $this->parameters->get('setting_value');
+
+        $setting_value = $this->parameters->get('value');
         $infinite_value = $this->parameters->get('infinite_value');
         $operator = $this->parameters->get('operator');
         $comparison = $this->parameters->get('comparison', 'simple');
@@ -27,10 +28,10 @@ class PhpSetting extends Check
          */
         $value = ini_get($setting);
 
-        var_dump(ini_get_all());
+        //var_dump(ini_get_all());
 
-        $this->addInfo('Successfully got value for "' . $setting . '".');
+        //$this->addInfo('Successfully got value for "' . $setting . '".');
 
-        return $this->result;
+        return true;
     }
 }

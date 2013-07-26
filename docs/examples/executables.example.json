@@ -3,13 +3,9 @@
     "description": "Some executable check example questions.",
     "keywords": [ "environment", "requirements", "configuration", "check", "cli", "php" ],
     "export": {
-        "__class": "Environaut\\Export\\Export",
-        "files": [
+        "formatters": [
             {
-                "format": "json"
-            },
-            {
-                "format": "xml"
+                "location": "absolute_paths.json"
             }
         ]
     },

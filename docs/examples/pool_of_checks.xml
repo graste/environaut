@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE shortcuts [
+    <!ENTITY phpsetting "Environaut\Checks\PhpSettingCheck">
+    <!ENTITY executable "Environaut\Checks\ExecutableCheck">
+    <!ENTITY configurator "Environaut\Checks\Configurator">
+    <!ENTITY composersecurity "Environaut\Checks\ComposerSecurityCheck">
+    <!ENTITY mbstring "Environaut\Checks\MbInternalEncodingCheck">
+]>
 <environaut xmlns="http://mivesto.de/environaut/config/1.0">
 
     <!--
@@ -8,13 +15,50 @@
             href="path/to/pool_of_checks.xml"
             xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks[@name='executables']/*)">
             <xi:fallback>
-                you could put some fallback checks here...in case your xpointer fails
+                you could put some fallback checks here...(in case your xpointer fails)
             </xi:fallback>
         </xi:include>
 
     -->
 
     <sandbox>
+
+
+
+        <!-- phpsettings are a work in progress and do not run... -->
+        <checks name="phpsettings" description="some php ini settings checks">
+
+            <check name="allow_url_fopen" class="&phpsetting;">
+                <parameter name="value">0</parameter>
+            </check>
+
+            <check name="max_post_size" class="&phpsetting;">
+                <parameter name="value"><![CDATA[>=512M]]></parameter>
+            </check>
+
+            <check name="boolean_string" class="&phpsetting;">
+                <parameter name="value" literalize="false">true</parameter>
+            </check>
+
+            <check name="allow_uploads" class="&phpsetting;">
+                <parameter name="value">0</parameter>
+            </check>
+
+            <check name="user_ini.filename" class="&phpsetting;">
+                <parameter name="value" literalize="false"></parameter>
+            </check>
+
+            <check name="user_ini.cache_ttl" class="&phpsetting;">
+                <parameter name="value">300</parameter>
+            </check>
+
+            <check name="mbstring.func_overload" class="&phpsetting;">
+                <parameter name="value">true</parameter>
+            </check>
+
+        </checks>
+
+
 
         <checks name="security" description="some security related checks">
 
@@ -25,59 +69,77 @@
 
         </checks>
 
-        <checks name="executables" description="some checks to get paths to commonly used executables">
 
-            <check class="Environaut\Checks\ExecutableCheck" name="ls">
+
+        <checks name="encoding" description="some checks that are related to character encodings">
+
+            <check class="Environaut\Checks\MbInternalEncodingCheck" name="encoding">
+                <parameter name="handle_as_error">true</parameter>
+            </check>
+
+        </checks>
+
+
+
+        <checks name="executables" description="some checks to get absolute paths to commonly used executables">
+
+            <check class="&executable;" name="ls">
                 <parameter name="default">ls</parameter>
                 <parameter name="version_mask" space="preserve" literalize="false">/ls.*/</parameter>
             </check>
-            <check class="Environaut\Checks\ExecutableCheck" name="cat">
+            <check class="&executable;" name="cat">
                 <parameter name="default">cat</parameter>
                 <parameter name="version_mask" space="preserve" literalize="false">/cat.*/</parameter>
             </check>
-            <check class="Environaut\Checks\ExecutableCheck" name="cut">
+            <check class="&executable;" name="cut">
                 <parameter name="default">cut</parameter>
                 <parameter name="version_mask" space="preserve" literalize="false">/cut.*/</parameter>
             </check>
-            <check class="Environaut\Checks\ExecutableCheck" name="head">
+            <check class="&executable;" name="head">
                 <parameter name="default">head</parameter>
                 <parameter name="version_mask" space="preserve" literalize="false">/head.*/</parameter>
             </check>
-            <check class="Environaut\Checks\ExecutableCheck" name="tail">
+            <check class="&executable;" name="tail">
                 <parameter name="default">tail</parameter>
                 <parameter name="version_mask" space="preserve" literalize="false">/tail.*/</parameter>
             </check>
-            <check class="Environaut\Checks\ExecutableCheck" name="sort">
+            <check class="&executable;" name="sort">
                 <parameter name="default">sort</parameter>
                 <parameter name="version_mask" space="preserve" literalize="false">/sort.*/</parameter>
             </check>
-            <check class="Environaut\Checks\ExecutableCheck" name="find">
+            <check class="&executable;" name="find">
                 <parameter name="default">find</parameter>
                 <parameter name="version_mask" space="preserve" literalize="false">/find.*/</parameter>
             </check>
-            <check class="Environaut\Checks\ExecutableCheck" name="grep">
+            <check class="&executable;" name="grep">
                 <parameter name="default">grep</parameter>
                 <parameter name="version_mask" space="preserve" literalize="false">/grep.+?(\d+\.\d+\.?\d?)/</parameter>
             </check>
-            <check class="Environaut\Checks\ExecutableCheck" name="bzip2">
+            <check class="&executable;" name="bzip2">
                 <parameter name="default">bzip2</parameter>
                 <parameter name="version_mask" space="preserve" literalize="false">/bzip2.+?Version (\d+\.\d+\.\d+).*/</parameter>
             </check>
-            <check class="Environaut\Checks\ExecutableCheck" name="php">
+            <check class="&executable;" name="php">
                 <parameter name="default">php</parameter>
                 <parameter name="version_mask" space="preserve" literalize="false">/^PHP ([^\-\s]+).*/</parameter>
             </check>
-            <check class="Environaut\Checks\ExecutableCheck" name="curl">
+            <check class="&executable;" name="curl">
                 <parameter name="default">curl</parameter>
                 <parameter name="version_mask" space="preserve" literalize="false">/curl (\d+\.\d+\.\d+) .*/</parameter>
             </check>
 
         </checks>
 
+
+
         <checks name="configurator" description="some example checks for the Configurator that asks the user for settings">
 
-            <check class="Environaut\Checks\Configurator" name="cache_dir">
-                <parameter name="setting">cache_dir</parameter>
+            <!--
+                When no class attribute is specified Environaut uses the "Configurator" by default (with
+                the name attribute being used as the "setting" parameter value if that's missing).
+            -->
+
+            <check name="cache_dir">
                 <parameter name="question">Please specify a writable cache directory to use for the application</parameter>
                 <parameter name="choices">
                     <parameter>cache</parameter>
@@ -87,8 +149,7 @@
                 <parameter name="validator">Environaut\Checks\Validator::writableDirectory</parameter>
             </check>
 
-            <check name="valid_ip" class="Environaut\Checks\Configurator">
-                <parameter name="setting">ipv4</parameter>
+            <check name="valid_ipv4">
                 <parameter name="question">Please input a valid (non-reserved, non-private) IPv4 address</parameter>
                 <parameter name="default">195.74.70.239</parameter>
                 <parameter name="choices">
@@ -101,8 +162,7 @@
                 <parameter name="validator">Environaut\Checks\Validator::validIpv4NotReserved</parameter>
             </check>
 
-            <check name="selection" class="Environaut\Checks\Configurator">
-                <parameter name="setting">selected_url</parameter>
+            <check name="selected_url">
                 <parameter name="question">What URL do you prefer?</parameter>
                 <parameter name="choices">
                     <parameter>http://cms.honeybee-showcase.dev/</parameter>
@@ -112,9 +172,8 @@
                 <parameter name="select">true</parameter>
             </check>
 
-            <check name="base_href" class="Environaut\Checks\Configurator">
-                <parameter name="setting">base_href</parameter>
-                <parameter name="question">Wie lautet der BaseHref?</parameter>
+            <check name="base_href">
+                <parameter name="question">What's the base HREF of the application?</parameter>
                 <parameter name="default">http://honeybee-showcase.dev/</parameter>
                 <parameter name="choices">
                     <parameter>http://cms.honeybee-showcase.dev/</parameter>
@@ -125,21 +184,20 @@
                 <parameter name="max_attempts">5</parameter>
             </check>
 
-            <check name="confirm" class="Environaut\Checks\Configurator">
-                <parameter name="setting">testing_enabled</parameter>
+            <check name="testing_enabled">
                 <parameter name="question">Enable testing?</parameter>
                 <parameter name="default">false</parameter>
                 <parameter name="confirm">true</parameter>
             </check>
 
-            <check name="password" class="Environaut\Checks\Configurator">
-                <parameter name="setting">password</parameter>
+            <check name="password">
                 <parameter name="question">Please type a super secret password</parameter>
                 <parameter name="hidden">true</parameter>
-                <parameter name="allow_fallback">true</parameter>
             </check>
 
         </checks>
+
+
 
         <checks name="trololo" description="some settings questions that belong to a custom 'trololo' group instead of 'default'">
 
@@ -176,6 +234,8 @@ Source: http://knowyourmeme.com/memes/trololo-russian-rickroll
             </check>
 
         </checks>
+
+
 
     </sandbox>
 

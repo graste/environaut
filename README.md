@@ -19,11 +19,14 @@ After that each check is processed and the results of each check are compiled
 into a report. Each check can emit messages and settings. The messages will be
 printed to the shell and the settings can be exported in specified formats.
 
-1. Download the `environaut.phar` binary.
-2. Download the `environaut.xml` sample configuration file from the `docs/examples/` folder.
-3. Put both files in a folder and run: `environaut.phar`
-4. ???
-5. You should have the collected settings in files in the `/tmp` folder
+1. Clone this repository and change into that directory
+2. Run ```make install-dependencies-dev```
+3. Run ```bin/environaut check```
+
+Notice the checks and questions and that there's an ```environaut-config.xml```
+afterwards in your working directory. Change the sample ```environaut.xml```
+to use ```environaut-config.json``` instead of the XML variant as the settings
+export formatter and re-run the checks to get your settings as JSON.
 
 ## Requirements and installation
 
@@ -48,15 +51,19 @@ Another way to install `Environaut` is via [composer](http://getcomposer.org).
 Just create a `composer.json` file and run the `php composer.phar install`
 command to install it:
 
-    {
-        "require": {
-            "graste/environaut": "~0.2.0"
-        }
+```json
+{
+    "require": {
+        "graste/environaut": "~0.2.0"
     }
+}
+```
 
 Alternatively, you can download the [`environaut.zip`][1] file and extract it.
 
 ## Usage examples
+
+You may combine multiple commandline options:
 
     environaut.phar help check
     environaut.phar check --verbose --profile
