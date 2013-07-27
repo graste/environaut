@@ -7,7 +7,7 @@ See <https://github.com/graste/environaut/issues/7>;
   option?)
 - add functionality to KNOW what's been asked before to not ask again
     - this helps with releases/updates
-    - may be implemented via `.environaut.cache` or `~/.environaut/cache` dir?
+    - may be implemented via `.environaut.cache` or `~/.cache/environaut/cache` dir?
 - add general php ini settings check
     - beware: ```post_max_size = 0.25M``` or ```post_max_size =   10M``` (multiple spaces before the 10M)
 - add general php extensions check (including options)

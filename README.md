@@ -102,15 +102,17 @@ tbd. topics?
 
 None, but you may join the freenode IRC [`#environaut`](irc://irc.freenode.org/environaut) channel anytime. :-)
 
-Please contribute by [forking](http://help.github.com/forking/) and sending a [pull request](http://help.github.com/pull-requests/).
-
-## Changelog
-
-See [`CHANGELOG.md`](CHANGELOG.md) for more information about changes.
+Please contribute by [forking](http://help.github.com/forking/) and sending a
+[pull request](http://help.github.com/pull-requests/). More information may be
+found in the [`CONTRIBUTING.md`](CONTRIBUTING.md) file.
 
 ## Contributors
 
 See [`AUTHORS.md`](AUTHORS.md) for a list of contributors.
+
+## Changelog
+
+See [`CHANGELOG.md`](CHANGELOG.md) for more information about changes.
 
 ## License
 
