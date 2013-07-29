@@ -23,6 +23,9 @@ class PhpSettingCheckTest extends BaseTestCase
         $actual = $check::getIntegerValue('>=1M');
         $this->assertEquals($actual, 1024*1024);
 
+        $actual = $check::getIntegerValue(' <1M ');
+        $this->assertEquals($actual, 1024*1024);
+
         $actual = $check::getIntegerValue('1M');
         $this->assertEquals($actual, 1024*1024);
 
@@ -37,6 +40,17 @@ class PhpSettingCheckTest extends BaseTestCase
 
         $actual = $check::getIntegerValue('500K');
         $this->assertEquals($actual, 500*1024);
+
+        // PHP treats string with decimal numbers on integer values in php.ini as integer values
+        // (it's okay, just read that again)
+        $actual = $check::getIntegerValue('2.75M');
+        $this->assertEquals($actual, 2*1024*1024);
+
+        $actual = $check::getIntegerValue(2.75);
+        $this->assertEquals($actual, 2);
+
+        $actual = $check::getIntegerValue("1e3");
+        $this->assertEquals($actual, 1);
     }
 
     public function testGetOperator()
@@ -78,5 +92,8 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue($check::compareIntegers('1G', '>=0'));
         $this->assertTrue($check::compareIntegers('2G', '=2048M'));
         $this->assertTrue($check::compareIntegers('1025', '!=1K'));
+        $this->assertTrue($check::compareIntegers('2047M', '<2G'));
+
+        $this->assertTrue($check::compareIntegers('2e3', '>=2'));
     }
 }

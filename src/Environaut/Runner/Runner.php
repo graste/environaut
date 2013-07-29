@@ -55,7 +55,7 @@ class Runner implements IRunner
         }
 
         $progress = $this->command->getHelperSet()->get('progress');
-        $progress->setFormat(PHP_EOL . ' %current%/%max% [%bar%] %percent%% Elapsed: %elapsed%' . PHP_EOL . PHP_EOL);
+        $progress->setFormat(' %current%/%max% [%bar%] %percent%% Elapsed: %elapsed% ');
 
         $progress->start($this->command->getOutput(), count($checks));
 

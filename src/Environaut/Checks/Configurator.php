@@ -27,9 +27,11 @@ class Configurator extends Check
         $dialog = $this->getDialogHelper();
         $output = $this->getOutputStream();
 
+        $output->writeln(PHP_EOL); // to get some margin to the progress bar
+
         $introduction = $this->parameters->get('introduction', false);
         if (false !== $introduction) {
-            $output->writeln($introduction);
+            $output->writeln($introduction . PHP_EOL);
         }
 
         $name = $this->parameters->get('setting', $this->getName());
@@ -103,6 +105,8 @@ class Configurator extends Check
 
         $this->addInfo('Successfully configured "' . $name . '".');
         $this->addSetting($name, $value);
+
+        $output->writeln('');
 
         return true;
     }

@@ -25,7 +25,6 @@
 
 
 
-        <!-- phpsettings are a work in progress and do not run... -->
         <checks name="phpsettings" description="some php ini settings checks">
 
             <check name="file_uploads" value="1" class="&phpsetting;" />
@@ -37,6 +36,7 @@
             <check name="max_input_time" value=">=300" comparison="integer" infinite="-1" class="&phpsetting;" />
             <check name="max_execution_time" value=">=30" comparison="integer" infinite="0" class="&phpsetting;" />
             <check name="memory_limit" value=">=768M" comparison="integer" infinite="-1" class="&phpsetting;" />
+            <check name="enable_post_data_reading" value="1" class="&phpsetting;" />
             <check name="post_max_size" value=">=256M" comparison="integer" infinite="0" class="&phpsetting;" />
             <check name="user_ini.filename" value="" class="&phpsetting;">
                 <parameter name="help"><![CDATA[
@@ -53,7 +53,7 @@ If you set it to an empty string, PHP doesn't scan at all. The default is ".user
 ]]></parameter>
             </check>
             <check name="allow_url_fopen" value="0" class="&phpsetting;" />
-            <check name="hahahahaha" value="0" class="&phpsetting;" />
+            <check name="allow_url_include" value="0" class="&phpsetting;" />
 
         </checks>
 
@@ -210,7 +210,6 @@ performing the Soviet-era pop song “I am Glad, ‘cause I’m Finally Returnin
 The video is often used as a bait-and-switch prank, in similar vein to the practice of Rickrolling.
 
 Source: http://knowyourmeme.com/memes/trololo-russian-rickroll
-
 ]]></parameter>
                 <parameter name="question">What's the given name of the Trololo man?</parameter>
                 <parameter name="choices">
