@@ -69,6 +69,11 @@
     </export>
 
     <checks>
+<!--
+        <xi:include href="&checksdb;" xpointer="&xiec; xpointer(//ec:checks[@name='phpextensions']/*)">
+            <xi:fallback />
+        </xi:include>
+-->
 
         <xi:include href="&checksdb;" xpointer="&xiec; xpointer(//ec:checks[@name='phpsettings']/*)">
             <xi:fallback />

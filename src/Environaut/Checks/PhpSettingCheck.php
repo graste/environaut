@@ -31,7 +31,6 @@ class PhpSettingCheck extends Check
 {
     public function run()
     {
-        $output = $this->getOutputStream();
         $params = $this->getParameters();
 
         $setting = $params->get('setting', $this->getName());
@@ -47,10 +46,10 @@ class PhpSettingCheck extends Check
         $infinite_value = $params->get('infinite');
         $comparison = strtolower($params->get('comparison', 'equals'));
 
-        if (!in_array($comparison, $this->getSupportedComparisons())) {
+        if (!in_array($comparison, self::getSupportedComparisons())) {
             throw new \InvalidArgumentException(
                 'Unsupported comparison name: "' . $comparison .
-                '". Supported are: ' . implode(', ', $this->getSupportedComparisons())
+                '". Supported are: ' . implode(', ', self::getSupportedComparisons())
             );
         }
 
@@ -81,7 +80,7 @@ class PhpSettingCheck extends Check
                         break;
                     }
 
-                    if (null !== $infinite_value && $value != $infinite_value) {
+                    if ((null !== $infinite_value && $value != $infinite_value) || null === $infinite_value) {
                         $okay = self::compareIntegers($value, $setting_value);
                         if (!$okay) {
                             $this->addError(
@@ -103,8 +102,9 @@ class PhpSettingCheck extends Check
                     }
                     break;
                 case 'version':
-                    $operator = $this->getOperator($setting_value);
-                    if (version_compare($value, $setting_value, $operator)) {
+                    $operator = self::getOperator($setting_value);
+                    $setting_value_without_operator = ltrim($setting_value, '<>!=');
+                    if (!version_compare($value, $setting_value_without_operator, $operator)) {
                         $this->addError(
                             'Version of "' . $setting . '" should be "' . $setting_value .
                             '", but is: "' . $value . '"',
@@ -228,6 +228,7 @@ class PhpSettingCheck extends Check
      */
     public static function getOperator($value)
     {
+        // TODO make this smarter and perhaps support "eq", "ne", "le", "ge" etc.
         $operator = strpos($value, '>=') === 0 ? '>=' : null;
         if (null === $operator) {
             $operator = strpos($value, '>') === 0 ? '>' : null;

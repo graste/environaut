@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE shortcuts [
     <!ENTITY phpsetting "Environaut\Checks\PhpSettingCheck">
+    <!ENTITY phpextension "Environaut\Checks\PhpExtensionCheck">
     <!ENTITY executable "Environaut\Checks\ExecutableCheck">
     <!ENTITY configurator "Environaut\Checks\Configurator">
     <!ENTITY composersecurity "Environaut\Checks\ComposerSecurityCheck">
@@ -22,6 +23,41 @@
     -->
 
     <sandbox>
+
+
+
+        <checks name="phpextensions" description="some php extension checks">
+
+            <check name="apc" class="&phpextension;" />
+            <check name="libxml" class="&phpextension;">
+                <parameter name="version">
+                    <parameter name="regex"><![CDATA[#libXML (Compiled )?Version => (?P<version>\d+.+?)\n#]]></parameter>
+                    <parameter name="value"><![CDATA[>=2.6.30]]></parameter>
+                </parameter>
+            </check>
+            <check name="curl" class="&phpextension;" />
+            <check name="dom" class="&phpextension;" />
+            <check name="xsl" class="&phpextension;" />
+            <check name="SimpleXML" class="&phpextension;" />
+            <check name="mysql" class="&phpextension;" />
+            <check name="SPL" class="&phpextension;" />
+            <check name="fileinfo" class="&phpextension;" />
+            <check name="ftp" class="&phpextension;" />
+            <check name="zlib" class="&phpextension;" />
+            <check name="zip" class="&phpextension;" />
+            <check name="json" class="&phpextension;" />
+            <check name="iconv" class="&phpextension;" />
+            <check name="mbstring" class="&phpextension;" />
+            <check name="memcache" class="&phpextension;" />
+            <check name="ctype" class="&phpextension;" />
+            <check name="PDO" class="&phpextension;" />
+            <check name="pdo_mysql" class="&phpextension;" />
+            <check name="soap" class="&phpextension;" />
+            <check name="session" class="&phpextension;" />
+            <check name="Reflection" class="&phpextension;" />
+            <check name="imagick" class="&phpextension;" />
+
+        </checks>
 
 
 

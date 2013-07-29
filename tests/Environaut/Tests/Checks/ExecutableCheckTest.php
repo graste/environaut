@@ -16,6 +16,20 @@ class ExecutableCheckTest extends BaseTestCase
         $this->assertEquals(null, $check->getCommand());
     }
 
+    public function testEmptySettingThrows()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        $check = $this->runExecutableCheck(
+            PHP_EOL,
+            array(
+                'setting' => ''
+            ),
+            'trololo',
+            'curl'
+        );
+
+    }
+
     public function testDefaults()
     {
         $check = $this->runExecutableCheck(

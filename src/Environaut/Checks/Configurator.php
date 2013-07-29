@@ -31,7 +31,8 @@ class Configurator extends Check
 
         $introduction = $this->parameters->get('introduction', false);
         if (false !== $introduction) {
-            $output->writeln($introduction . PHP_EOL);
+            $output->writeln($introduction);
+            $output->writeln('');
         }
 
         $name = $this->parameters->get('setting', $this->getName());
