@@ -34,18 +34,39 @@
                     <parameter name="regex"><![CDATA[#libXML (Compiled )?Version => (?P<version>\d+.+?)\n#]]></parameter>
                     <parameter name="value"><![CDATA[>=2.6.30]]></parameter>
                 </parameter>
+                <parameter name="regex">
+                    <parameter><![CDATA[#libXML support => active#]]></parameter>
+                    <parameter><![CDATA[#libXML streams => enabled#]]></parameter>
+                </parameter>
             </check>
-            <check name="curl" class="&phpextension;" />
+            <check name="curl" class="&phpextension;">
+                <parameter name="version">
+                    <parameter name="regex"><![CDATA[#cURL Information => (?P<version>\d+\.\d+\.\d+)#]]></parameter>
+                    <parameter name="value"><![CDATA[>=7.22]]></parameter>
+                </parameter>
+                <parameter name="regex">
+                    <parameter><![CDATA[#cURL support => enabled#]]></parameter>
+                    <parameter><![CDATA[#IDN => Yes#]]></parameter>
+                    <parameter><![CDATA[#SSL => Yes#]]></parameter>
+                    <parameter name="ftp, ftps, http, https, trololo"><![CDATA[#Protocols => (?P<contains>.+?)\n#]]></parameter>
+                </parameter>
+            </check>
             <check name="dom" class="&phpextension;" />
             <check name="xsl" class="&phpextension;" />
             <check name="SimpleXML" class="&phpextension;" />
             <check name="mysql" class="&phpextension;" />
             <check name="SPL" class="&phpextension;" />
-            <check name="fileinfo" class="&phpextension;" />
+            <check name="fileinfo" class="&phpextension;">
+                <parameter name="version"><![CDATA[>=1.0.0]]></parameter>
+                <parameter name="regex"><![CDATA[#fileinfo support => enabled#]]></parameter>
+            </check>
             <check name="ftp" class="&phpextension;" />
             <check name="zlib" class="&phpextension;" />
             <check name="zip" class="&phpextension;" />
-            <check name="json" class="&phpextension;" />
+            <check name="json" class="&phpextension;">
+                <parameter name="version"><![CDATA[>=1.0.0]]></parameter>
+                <parameter name="regex"><![CDATA[#json support => enabled#]]></parameter>
+            </check>
             <check name="iconv" class="&phpextension;" />
             <check name="mbstring" class="&phpextension;" />
             <check name="memcache" class="&phpextension;" />

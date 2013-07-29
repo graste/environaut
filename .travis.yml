@@ -6,5 +6,5 @@ php:
 before_script: "make install-dependencies-dev"
 script:
   - "make tests"
-  - "make code-sniffer"
+  - "make code-sniffer-cli"
 

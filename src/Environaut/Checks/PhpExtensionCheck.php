@@ -6,27 +6,28 @@ use Environaut\Checks\Check;
 use Environaut\Checks\PhpSettingCheck;
 
 /**
- * This check compares PHP runtime configuration options (from php.ini etc.) against given values.
- * The following comparison operations are supported:
- * - "equals": the default comparison; checks whether the setting is exactly as given (e.g. "foo")
- * - "null": checks whether the setting is NULL
- * - "notempty": checks whether the setting has a value set (that is, not null or empty string)
- * - "version": checks how versions compare (e.g. "=>2.6.30")
- * - "regex": checks whether the PHP setting's value matches the given regular expression (e.g. "/file\.ini/"
- * - "integer": checks whether the integer or byte value of the PHP setting is correct (e.g. ">30" or ">=256M")
- *
- * By default the name of the check will be used as the PHP runtime setting name to check. For integer
- * or byte values that may be set to infinite values (like "-1" or "0") you can specify the setting's
- * infite value via the "infinite" parameter. The comparison operation is "equals" by default and
- * may be specified via the "comparison" parameter.
+ * This check compares PHP extensions and their version and settings against given values.
+ * By default the name of the check will be used as the PHP extension name that is checked.
  *
  * All supported parameters are:
- * - "setting": name of setting to check (defaults to the "name" of the check)
- * - "custom_name": name to be used for messages if the check's name is used as setting name
- * - "value": the value to compare the setting's value against
- * - "infinite": the infinite value of the setting to check (e.g. "-1" or "0" for integer or byte values)
- * - "comparison": the comparison operation to use (see above)
- * - "help": message to display when the setting's value is not correct
+ * - "extension": name of extension to check (defaults to the "name" of the check)
+ * - "custom_name": name to be used for messages if the check's name is used as extension name
+ * - "loaded": boolean parameter to determine if the extension should be loaded or not
+ * - "version": the version string the extension should match (e.g. ">=2.6.30" or ">1.0.2")
+ * - "regex": regular expression(s) that should match on the extension's info (see phpinfo)
+ * - "help": message to display when the extension does not fulfil the "version", "regex" and/or "loaded" parameters
+ * - "debug": var_dump's extension name, version and info string for regex analysis
+ *
+ * As the version of a PHP extension may be empty or some weird value you can use a version comparison of a phpinfo()
+ * string by using a nested "version" parameter like this:
+ *
+ * <parameter name="version">
+ *     <parameter name="regex"><![CDATA[#libXML (Compiled )?Version => (?P<version>\d+.+?)\n#]]></parameter>
+ *     <parameter name="value"><![CDATA[>=2.6.30]]></parameter>
+ * </parameter>
+ *
+ * Notice, that you need a NAMED CAPTURING GROUP "version" in you regular expression. The "value" then specifies the
+ * version comparison operation that should be done with that matching group.
  */
 class PhpExtensionCheck extends Check
 {
@@ -37,41 +38,114 @@ class PhpExtensionCheck extends Check
         $extension = $params->get('extension', $this->getName());
         if (empty($extension)) {
             throw new \InvalidArgumentException(
-                'Parameter "extension" must be a (valid) php extension name to check on class "' . get_class($this) . '".'
+                'Parameter "extension" must be a php extension name to check on class "' . get_class($this) . '".'
             );
         }
 
-        $custom_name = $params->get('custom_name', $extension === $this->getName() ? 'PHP Extensions' : $this->getName());
+        $default_custom_name = $extension === $this->getName() ? 'PHP Extensions' : $this->getName();
+        $custom_name = $params->get('custom_name', $default_custom_name);
         $help = $params->get('help');
 
         $wanted_version = $params->get('version');
         $loaded = $params->get('loaded');
         $regex = $params->get('regex');
+        $debug_mode = $params->get('debug', false);
 
         $okay = true;
 
         try {
+            // GATHER DATA
             $extension_class = new \ReflectionExtension($extension);
             $extension_version = $extension_class->getVersion();
             ob_start();
             $extension_class->info();
             $info = ob_get_clean();
 
-//var_dump($extension, $extension_version, $wanted_version, $info, '===============================================================================');
+            if ($debug_mode) {
+                var_dump($extension, $extension_version, $info, '============================================');
+            }
 
-            if (null !== $wanted_version) {
-                if (is_array($wanted_version) &&
-                    array_key_exists('regex', $wanted_version) &&
-                    array_key_exists('value', $wanted_version)) {
-                    $regex_matches = preg_match($wanted_version['regex'], $info, $matches);
-                    if (!array_key_exists('version', $matches)) {
-                        throw new \InvalidArgumentException(
-                            'you need a valid named capturing group "version" in the ' .
-                            'regexp, e.g.: #libXML (Compiled )?Version => (?P<version>\d+.+?)\n#'
+            // OPTIONS CHECK
+            if (null !== $regex) {
+                if (is_array($regex)) { // multiple regular expressions
+                    foreach ($regex as $key => $test) {
+                        if (!is_string($test)) {
+                            throw new \InvalidArgumentException(
+                                'The extension requirements must be strings that are valid regular expressions.'
+                            );
+                        }
+
+                        if (strpos($test, '(?P<contains>') !== false && !is_numeric($key)) {
+                            // explode "name" attribute & match each item in the named capturing group "contains" w/ it
+                            $values = explode(',', $key);
+                            $values = array_map('trim', $values);
+                            $regex_matches = preg_match($test, $info, $matches);
+                            if ($regex_matches) {
+                                $pool = $matches['contains'];
+                                foreach ($values as $value) {
+                                    if (strpos($pool, $value) === false) {
+                                        $this->addError(
+                                            'The extension "' . $extension . '" does not have "' .
+                                            $value . '" support.',
+                                            $custom_name
+                                        );
+                                        $okay = false;
+                                    } else {
+                                        $this->addInfo(
+                                            'The extension "' . $extension . '" does have "' . $value . '" support.',
+                                            $custom_name
+                                        );
+                                    }
+                                }
+                            }
+                        } else { // just preg_match the given regex string
+                            if (!preg_match($test, $info)) {
+                                $this->addError(
+                                    'The extension "' . $extension . '" does not match the requirement: ' . $test,
+                                    $custom_name
+                                );
+                                $okay = false;
+                            } else {
+                                $this->addInfo(
+                                    'The extension "' . $extension . '" does match the requirement: ' . $test,
+                                    $custom_name
+                                );
+                            }
+                        }
+                    }
+                } else { // single regex to test
+                    if (!preg_match($regex, $info)) {
+                        $this->addError(
+                            'The extension "' . $extension . '" does not match the requirement: ' . $regex,
+                            $custom_name
+                        );
+                        $okay = false;
+                    } else {
+                        $this->addInfo(
+                            'The extension "' . $extension . '" does match the requirement: ' . $regex,
+                            $custom_name
                         );
                     }
+                }
+            }
 
-                    if ($regex_matches) {
+            // VERSION COMPARISON
+            if (null !== $wanted_version) {
+                if (is_array($wanted_version) && array_key_exists('regex', $wanted_version) &&
+                    array_key_exists('value', $wanted_version)) {
+
+                    $regex_matches = preg_match($wanted_version['regex'], $info, $matches);
+
+                    if (!$regex_matches || !array_key_exists('version', $matches)) {
+                        $this->addError(
+                            'Version information of "' . $extension . '" could not be determined, as ' .
+                            'the given regular expression did not match: "' . $wanted_version['regex'] .
+                            'Remember that you need a valid named capturing group "version" in the ' .
+                            'regexp, e.g.: #libXML (Compiled )?Version => (?P<version>\d+.+?)\n#',
+                            $custom_name
+                        );
+                        $okay = false;
+                    } elseif ($regex_matches) {
                         $operator = PhpSettingCheck::getOperator($wanted_version['value']);
                         $wanted_version_without_operator = ltrim($wanted_version['value'], '<>!=');
                         if (!version_compare($matches['version'], $wanted_version_without_operator, $operator)) {
@@ -81,13 +155,13 @@ class PhpExtensionCheck extends Check
                                 $custom_name
                             );
                             $okay = false;
+                        } else {
+                            $this->addInfo(
+                                'Version of extension "' . $extension . '" is "' . $matches['version'] .
+                                '" ("' . $wanted_version['value'] . '").',
+                                $custom_name
+                            );
                         }
-                    } else {
-                        $this->addError(
-                            'Version information of "' . $extension . '" could not be determined, as' .
-                            'the given regular expression "' . $wanted_version['regex'] . '" did not match.'
-                        );
-                        $okay = false;
                     }
                 } elseif (is_string($wanted_version)) {
                     $operator = PhpSettingCheck::getOperator($wanted_version);
@@ -99,16 +173,25 @@ class PhpExtensionCheck extends Check
                             $custom_name
                         );
                         $okay = false;
+                    } else {
+                        $this->addInfo(
+                            'Version of extension "' . $extension . '" is "' . $extension_version . '"' .
+                            ' ("' . $wanted_version. '").',
+                            $custom_name
+                        );
                     }
                 } else {
-                    $this->addError(
-                        'A nested version parameter needs exactly two keys: ' .
-                        '"regex" (with one matching group) and "value" (version comparison).'
+                    throw new \InvalidArgumentException(
+                        'A nested version parameter needs exactly two keys: ' . PHP_EOL .
+                        '- "regex" with one matching named capturing group "version" (e.g. ' .
+                        '"#libXML (Compiled )?Version => (?P<version>\d+.+?)\n#") and ' . PHP_EOL .
+                        '- "value" to compare the named capturing group content against' .
+                        '(version comparison, e.g. ">=2.6.26").'
                     );
-                    $okay = false;
                 }
             }
 
+            // LOADED CHECK
             if (null !== $loaded) {
                 if ($loaded != extension_loaded($extension)) {
                     $loaded_string = $loaded ? 'not loaded, but should be.' : 'loaded, but should not be.';
@@ -129,7 +212,7 @@ class PhpExtensionCheck extends Check
         }
 
         if ($okay) {
-            $this->addInfo('Extension "' . $extension . '" is available.', $custom_name);
+            $this->addInfo('Extension "' . $extension . '" is available and correct.', $custom_name);
         }
 
         return $okay;

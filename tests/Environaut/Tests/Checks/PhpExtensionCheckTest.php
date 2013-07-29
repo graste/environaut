@@ -126,7 +126,53 @@ class PhpExtensionCheckTest extends BaseTestCase
         $this->assertTrue($check->run());
     }
 
-    public function testNestedVersionParameterThrows()
+    public function testNestedVersionParameterFails()
+    {
+        $extensions = get_loaded_extensions();
+        if (!in_array('libxml', $extensions)) {
+            $this->markTestSkipped('There is no libxml extension available to run this test.');
+            return;
+        }
+
+        $check = new \Environaut\Checks\PhpExtensionCheck(
+            'asfdasdf',
+            'default',
+            array(
+                'extension' => 'libxml',
+                'version' => array(
+                    'regex' => '|libXML (Compiled )?Version => (?P<version>\d+.+?)\n|',
+                    'value' => '<=2.0'
+                )
+            )
+        );
+
+        $this->assertFalse($check->run());
+    }
+
+    public function testNestedNonMatchingVersionParameterFails()
+    {
+        $extensions = get_loaded_extensions();
+        if (!in_array('libxml', $extensions)) {
+            $this->markTestSkipped('There is no libxml extension available to run this test.');
+            return;
+        }
+
+        $check = new \Environaut\Checks\PhpExtensionCheck(
+            'asfdasdf',
+            'default',
+            array(
+                'extension' => 'libxml',
+                'version' => array(
+                    'regex' => '|libXML hahaha Version => (?P<version>\d+.+?)\n|',
+                    'value' => '>=2.0'
+                )
+            )
+        );
+
+        $this->assertFalse($check->run());
+    }
+
+    public function testNestedVersionParameterWithoutNamedCapturingGroupFails()
     {
         $extensions = get_loaded_extensions();
         if (!in_array('libxml', $extensions)) {
@@ -142,6 +188,142 @@ class PhpExtensionCheckTest extends BaseTestCase
                 'version' => array(
                     'regex' => '|libXML (Compiled )?Version => (\d+.+?)\n|',
                     'value' => '>=2.6.26'
+                )
+            )
+        );
+
+        $this->assertFalse($check->run());
+    }
+
+    public function testNestedVersionParameterWithMissingKeysThrows()
+    {
+        $extensions = get_loaded_extensions();
+        if (!in_array('libxml', $extensions)) {
+            $this->markTestSkipped('There is no libxml extension available to run this test.');
+            return;
+        }
+
+        $check = new \Environaut\Checks\PhpExtensionCheck(
+            'asfdasdf',
+            'default',
+            array(
+                'extension' => 'libxml',
+                'version' => array(
+                    'regex' => '|libXML (Compiled )?Version => (\d+.+?)\n|',
+                    'vale' => '>=2.6.26',
+                    'some' => 'more'
+                )
+            )
+        );
+
+        $this->setExpectedException('InvalidArgumentException');
+        $check->run();
+    }
+
+    public function testRegexFails()
+    {
+        $extensions = get_loaded_extensions();
+        if (!in_array('libxml', $extensions)) {
+            $this->markTestSkipped('There is no libxml extension available to run this test.');
+            return;
+        }
+
+        $check = new \Environaut\Checks\PhpExtensionCheck(
+            'asfdasdf',
+            'default',
+            array(
+                'extension' => 'libxml',
+                'regex' => '|HAHAHAHA (Compiled )?Version => (\d+.+?)\n|',
+            )
+        );
+
+        $this->assertFalse($check->run(), 'The regex should not have matched and thus the check should FALSE.');
+    }
+
+    public function testRegexWorks()
+    {
+        $extensions = get_loaded_extensions();
+        if (!in_array('libxml', $extensions)) {
+            $this->markTestSkipped('There is no libxml extension available to run this test.');
+            return;
+        }
+
+        $check = new \Environaut\Checks\PhpExtensionCheck(
+            'asfdasdf',
+            'default',
+            array(
+                'extension' => 'libxml',
+                'regex' => '|libXML (Compiled )?Version => (\d+.+?)\n|',
+            )
+        );
+
+        $this->assertTrue($check->run());
+    }
+
+    public function testMultipleRegexWorks()
+    {
+        $extensions = get_loaded_extensions();
+        if (!in_array('libxml', $extensions)) {
+            $this->markTestSkipped('There is no libxml extension available to run this test.');
+            return;
+        }
+
+        $check = new \Environaut\Checks\PhpExtensionCheck(
+            'asfdasdf',
+            'default',
+            array(
+                'extension' => 'libxml',
+                'regex' => array(
+                    '|libXML (Compiled )?Version => (\d+.+?)\n|',
+                    '/libXML.+?Version => .+?\n/',
+                    '#libxml#i',
+                )
+            )
+        );
+
+        $this->assertTrue($check->run());
+    }
+
+    public function testMultipleRegexWithOneFailingWorks()
+    {
+        $extensions = get_loaded_extensions();
+        if (!in_array('libxml', $extensions)) {
+            $this->markTestSkipped('There is no libxml extension available to run this test.');
+            return;
+        }
+
+        $check = new \Environaut\Checks\PhpExtensionCheck(
+            'asfdasdf',
+            'default',
+            array(
+                'extension' => 'libxml',
+                'regex' => array(
+                    '/libXML.+?Version => .+?\n/',
+                    '#trololo#', // should not be there .-)
+                )
+            )
+        );
+
+        $this->assertFalse($check->run());
+    }
+
+    public function testMultipleRegexFailsWhenRegexIsMissing()
+    {
+        $extensions = get_loaded_extensions();
+        if (!in_array('libxml', $extensions)) {
+            $this->markTestSkipped('There is no libxml extension available to run this test.');
+            return;
+        }
+
+        $check = new \Environaut\Checks\PhpExtensionCheck(
+            'asfdasdf',
+            'default',
+            array(
+                'extension' => 'libxml',
+                'regex' => array(
+                    '|libXML (Compiled )?Version => (\d+.+?)\n|',
+                    '/libXML.+?Version => .+?\n/',
+                    true,
                 )
             )
         );
