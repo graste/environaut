@@ -18,3 +18,7 @@ Commits are continously integrated via [TravisCI](https://travis-ci.org/graste/e
 and failing the PHPUnit or PHP CodeSniffer tests will fail the builds. Usually
 the build status will be shown on your pull request by Github. If something
 fails please try to fix your changes as otherwise they can't simply be incorporated.
+
+There is no Contributor License Agreement (CLA) to sign, but you have to accept
+and agree to the [License](LICENSE.md) to get your patches included. Please add
+yourself to the [list of authors](AUTHORS.md) when submitting your changes.
