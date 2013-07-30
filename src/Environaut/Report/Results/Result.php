@@ -35,16 +35,12 @@ class Result implements IResult
 
     /**
      * Create a new Result instance.
-     *
-     * @param \Environaut\Checks\ICheck $check this result belongs to
-     * @param array $messages array of IMessage implementing messages
-     * @param array $settings array of ISetting implementing settings
      */
-    public function __construct(ICheck $check, array $messages = array(), array $settings = array())
+    public function __construct()
     {
-        $this->check = $check;
-        $this->messages = $messages;
-        $this->settings = $settings;
+        $this->check = null;
+        $this->messages = array();
+        $this->settings = array();
     }
 
     /**

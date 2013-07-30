@@ -48,7 +48,9 @@ abstract class Check implements ICheck
         $this->name = self::getRandomString(8);
         $this->group = $this->getDefaultGroupName();
         $this->parameters = new Parameters(array());
-        $this->result = new Result($this);
+
+        $this->result = new Result();
+        $this->result->setCheck($this);
     }
 
     /**
