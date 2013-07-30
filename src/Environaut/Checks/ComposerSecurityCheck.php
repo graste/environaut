@@ -14,6 +14,20 @@ use SensioLabs\Security\SecurityChecker;
 class ComposerSecurityCheck extends Check
 {
     /**
+     * Returns the default group name this check uses when none is specified.
+     *
+     * @return string default group name of the check
+     */
+    public function getDefaultGroupName()
+    {
+        if ($this->group !== self::DEFAULT_GROUP_NAME) {
+            return $this->group;
+        }
+
+        return 'Security';
+    }
+
+    /**
      * @throws \RuntimeException in case of curl missing, file not found, server not responding etc.
      * @throws \InvalidArgumentException in case of wrong format parameter
      */

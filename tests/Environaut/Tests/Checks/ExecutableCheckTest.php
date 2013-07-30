@@ -9,7 +9,8 @@ class ExecutableCheckTest extends BaseTestCase
 {
     public function testConstruct()
     {
-        $check = new \Environaut\Checks\ExecutableCheck('foo');
+        $check = new \Environaut\Checks\ExecutableCheck();
+        $check->setName('foo');
 
         $this->assertEquals('foo', $check->getName());
         $this->assertInstanceOf('\Environaut\Report\Results\IResult', $check->getResult());
@@ -19,7 +20,7 @@ class ExecutableCheckTest extends BaseTestCase
     public function testEmptySettingThrows()
     {
         $this->setExpectedException('InvalidArgumentException');
-        $check = $this->runExecutableCheck(
+        $this->runExecutableCheck(
             PHP_EOL,
             array(
                 'setting' => ''
@@ -117,7 +118,10 @@ class ExecutableCheckTest extends BaseTestCase
         $group = 'default',
         $name = 'executable_check'
     ) {
-        $check = new TestableExecutableCheck($name, $group, $params);
+        $check = new TestableExecutableCheck();
+        $check->setName($name);
+        $check->setGroup($group);
+        $check->setParameters(new \Environaut\Config\Parameters($params));
         $check->setInput($input);
         $check->run();
         return $check;

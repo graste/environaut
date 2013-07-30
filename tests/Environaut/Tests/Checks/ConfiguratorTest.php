@@ -11,11 +11,99 @@ class ConfiguratorTest extends BaseTestCase
     public function testConstruct()
     {
         $intro = 'some text for introductory purposes';
-        $check = new \Environaut\Checks\Configurator('foo', array('introduction' => $intro));
+        $check = new \Environaut\Checks\Configurator();
+        $check->setName('foo');
+        $check->setParameters(new \Environaut\Config\Parameters(array('introduction' => $intro)));
 
-        $this->assertEquals('foo', $check->getName());
+        $this->assertSame('foo', $check->getName());
+        $this->assertSame($check->getDefaultGroupName(), $check->getGroup());
+        $this->assertSame($intro, $check->getParameters()->get('introduction'));
         $this->assertInstanceOf('\Environaut\Report\Results\IResult', $check->getResult());
-        $this->assertEquals(null, $check->getCommand());
+        $this->assertSame(null, $check->getCommand());
+    }
+
+    public function testCorrectSetting()
+    {
+        $check = new TestableConfigurator();
+        $check->setName('foo');
+        $check->setGroup(null);
+        $check->setParameters(
+            new \Environaut\Config\Parameters(
+                array(
+                    'setting' => 'core.foo',
+                    'setting_group' => 'custom',
+                )
+            )
+        );
+        $check->setInput('asdf' . PHP_EOL);
+        $this->assertTrue($check->run());
+
+        $result = $check->getResult();
+        $this->assertInstanceOf('\Environaut\Report\Results\IResult', $result);
+        $settings = $result->getSettings();
+        $this->assertCount(1, $settings, 'expected exactly 1 setting');
+        $setting =  array_shift($settings);
+        $this->assertSame('core.foo', $setting->getName());
+        $this->assertSame('asdf', $setting->getValue());
+        $this->assertSame('custom', $setting->getGroup());
+    }
+
+    public function testCorrectSettingWithDefaultSettingGroup()
+    {
+        $check = new TestableConfigurator();
+        $check->setName('foo');
+        $check->setInput('value' . PHP_EOL);
+        $this->assertTrue($check->run());
+
+        $this->assertEquals($check::DEFAULT_CUSTOM_GROUP_NAME, $check->getGroup());
+        $result = $check->getResult();
+        $this->assertInstanceOf('\Environaut\Report\Results\IResult', $result);
+        $settings = $result->getSettings();
+        $this->assertCount(1, $settings, 'expected exactly 1 setting');
+        $setting =  array_shift($settings);
+        $this->assertSame('foo', $setting->getName());
+        $this->assertSame('value', $setting->getValue());
+        $this->assertEquals($check::DEFAULT_SETTING_GROUP_NAME, $setting->getGroup());
+        $this->assertEquals('config', $setting->getGroup());
+    }
+
+    public function testCorrectSettingWithCustomGroupFromCheck()
+    {
+        $check = new TestableConfigurator();
+        $check->setName('foo');
+        $check->setGroup('muahahaha');
+        $check->setInput('value' . PHP_EOL);
+        $this->assertTrue($check->run());
+
+        $this->assertEquals('muahahaha', $check->getGroup());
+        $result = $check->getResult();
+        $this->assertInstanceOf('\Environaut\Report\Results\IResult', $result);
+        $settings = $result->getSettings();
+        $this->assertCount(1, $settings, 'expected exactly 1 setting');
+        $setting =  array_shift($settings);
+        $this->assertSame('foo', $setting->getName());
+        $this->assertSame('value', $setting->getValue());
+        $this->assertEquals('muahahaha', $setting->getGroup());
+    }
+
+    public function testCorrectSettingWithCustomGroupNotFromCheck()
+    {
+        $check = new TestableConfigurator();
+        $check->setName('foo');
+        $check->setGroup('trololo');
+        $check->setInput('value' . PHP_EOL);
+        $check->setParameters(new \Environaut\Config\Parameters(array('setting_group' => 'muahahaha')));
+        $this->assertTrue($check->run());
+
+        $this->assertEquals('trololo', $check->getGroup());
+        $result = $check->getResult();
+        $this->assertInstanceOf('\Environaut\Report\Results\IResult', $result);
+        $settings = $result->getSettings();
+        $this->assertCount(1, $settings, 'expected exactly 1 setting');
+        $setting =  array_shift($settings);
+        $this->assertSame('foo', $setting->getName());
+        $this->assertSame('value', $setting->getValue());
+        $this->assertEquals('muahahaha', $setting->getGroup());
     }
 
     public function testGroupSimpleValueQuestion()
@@ -30,18 +118,20 @@ class ConfiguratorTest extends BaseTestCase
             'trololo'
         );
 
-        $this->assertEquals('trololo', $check->getGroup());
+        $this->assertSame('trololo', $check->getGroup());
         $this->assertContains('Your email?', $check->getOutput());
         $this->assertCount(1, $check->getResult()->getMessages());
 
         $settings = $check->getResult()->getSettingsAsArray();
         $this->assertCount(1, $settings, 'expected all settings when group is not specified');
-        $settings = $check->getResult()->getSettingsAsArray('default');
+        $settings = $check->getResult()->getSettingsAsArray(\Environaut\Checks\Configurator::DEFAULT_GROUP_NAME);
         $this->assertCount(0, $settings, 'expected default group to be empty as "trololo" was the group name.');
+        $settings = $check->getResult()->getSettingsAsArray(\Environaut\Checks\Configurator::DEFAULT_CUSTOM_GROUP_NAME);
+        $this->assertCount(0, $settings, 'expected default custom group to be empty as "trololo" was the group name.');
         $settings = $check->getResult()->getSettingsAsArray('trololo');
         $this->assertCount(1, $settings, 'group "trololo" should contain the setting');
         $this->assertArrayHasKey('core.email', $settings);
-        $this->assertEquals($email, $settings['core.email']);
+        $this->assertSame($email, $settings['core.email']);
     }
 
     public function testSimpleValueQuestion()
@@ -58,10 +148,10 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertContains('Your email?', $check->getOutput());
         $this->assertCount(1, $check->getResult()->getMessages());
 
-        $settings = $check->getResult()->getSettingsAsArray('default');
+        $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('core.email', $settings);
-        $this->assertEquals($email, $settings['core.email']);
+        $this->assertSame($email, $settings['core.email']);
     }
 
     public function testSimpleValueQuestionWithFailedValidationAfterSomeAttempts()
@@ -121,10 +211,10 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertInstanceOf('Environaut\Report\Results\Messages\Message', $message);
         $this->assertTrue($message->getSeverity() === Message::SEVERITY_INFO);
 
-        $settings = $check->getResult()->getSettingsAsArray('default');
+        $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('core.email', $settings);
-        $this->assertEquals('correct@example.com', $settings['core.email']);
+        $this->assertSame('correct@example.com', $settings['core.email']);
     }
 
     public function testSimpleChoice()
@@ -150,10 +240,10 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertInstanceOf('Environaut\Report\Results\Messages\Message', $message);
         $this->assertTrue($message->getSeverity() === Message::SEVERITY_INFO);
 
-        $settings = $check->getResult()->getSettingsAsArray('default');
+        $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('pick', $settings);
-        $this->assertEquals('bar', $settings['pick']);
+        $this->assertSame('bar', $settings['pick']);
     }
 
     public function testSimpleDefaultValue()
@@ -176,10 +266,10 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertInstanceOf('Environaut\Report\Results\Messages\Message', $message);
         $this->assertTrue($message->getSeverity() === Message::SEVERITY_INFO);
 
-        $settings = $check->getResult()->getSettingsAsArray('default');
+        $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('pick', $settings);
-        $this->assertEquals('hooray for default values!', $settings['pick']);
+        $this->assertSame('hooray for default values!', $settings['pick']);
     }
 
     public function testHiddenInputValue()
@@ -202,10 +292,10 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertInstanceOf('Environaut\Report\Results\Messages\Message', $message);
         $this->assertTrue($message->getSeverity() === Message::SEVERITY_INFO);
 
-        $settings = $check->getResult()->getSettingsAsArray('default');
+        $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('pick', $settings);
-        $this->assertEquals('password', $settings['pick']);
+        $this->assertSame('password', $settings['pick']);
     }
 
     public function testHiddenInputValueWithValidatorSucceeds()
@@ -229,10 +319,10 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertInstanceOf('Environaut\Report\Results\Messages\Message', $message);
         $this->assertTrue($message->getSeverity() === Message::SEVERITY_INFO);
 
-        $settings = $check->getResult()->getSettingsAsArray('default');
+        $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('pick', $settings);
-        $this->assertEquals(__DIR__, $settings['pick']);
+        $this->assertSame(__DIR__, $settings['pick']);
     }
 
     public function testHiddenInputValueWithValidatorFails()
@@ -264,10 +354,10 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertContains('Do you like testing?', $check->getOutput());
         $this->assertCount(1, $check->getResult()->getMessages());
 
-        $settings = $check->getResult()->getSettingsAsArray('default');
+        $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('core.testing', $settings);
-        $this->assertEquals(true, $settings['core.testing']);
+        $this->assertSame(true, $settings['core.testing']);
     }
 
     public function testSimpleYesConfirmation()
@@ -284,10 +374,10 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertContains('Do you like testing?', $check->getOutput());
         $this->assertCount(1, $check->getResult()->getMessages());
 
-        $settings = $check->getResult()->getSettingsAsArray('default');
+        $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('core.testing', $settings);
-        $this->assertEquals(true, $settings['core.testing']);
+        $this->assertSame(true, $settings['core.testing']);
     }
 
     public function testSimpleNoConfirmation()
@@ -304,10 +394,10 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertContains('Do you like testing?', $check->getOutput());
         $this->assertCount(1, $check->getResult()->getMessages());
 
-        $settings = $check->getResult()->getSettingsAsArray('default');
+        $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('core.testing', $settings);
-        $this->assertEquals(false, $settings['core.testing']);
+        $this->assertSame(false, $settings['core.testing']);
     }
 
     public function testSimpleNoConfirmationViaDefault()
@@ -327,10 +417,10 @@ class ConfiguratorTest extends BaseTestCase
 
         $this->assertCount(1, $check->getResult()->getMessages());
 
-        $settings = $check->getResult()->getSettingsAsArray('default');
+        $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
         $this->assertArrayHasKey('core.testing', $settings);
-        $this->assertEquals(false, $settings['core.testing']);
+        $this->assertSame(false, $settings['core.testing']);
     }
 
     public function testIntroductionIsDisplayed()
@@ -390,8 +480,10 @@ EOT;
      */
     protected function runConfigurator($input, array $params = array(), $group = 'default')
     {
-        $check = new TestableConfigurator('confirmation', $group, $params);
-
+        $check = new TestableConfigurator();
+        $check->setName('confirmation');
+        $check->setGroup($group);
+        $check->setParameters(new \Environaut\Config\Parameters($params));
         $check->setInput($input);
 
         $check->run();

@@ -60,7 +60,7 @@ class Runner implements IRunner
         $progress->start($this->command->getOutput(), count($checks));
 
         foreach ($checks as $check) {
-            $check->run();
+            $succeeded = (bool) $check->run();
 
             $result = $check->getResult();
             if (!$result instanceof IResult) {
@@ -78,7 +78,7 @@ class Runner implements IRunner
     }
 
     /**
-     * Returns a new check instance based on the given parameters.
+     * Returns a new check instance based on the given parameters (from config).
      *
      * @param array $parameters check definition parameters
      *
@@ -88,20 +88,18 @@ class Runner implements IRunner
     {
         $params = new Parameters($parameters);
 
-        $name = $params->get(IConfig::PARAM_NAME, Check::getRandomString(8, 'check_'));
-        $group = $params->get(IConfig::PARAM_GROUP, ICheck::DEFAULT_GROUP_NAME);
         $class = $params->get(IConfig::PARAM_CLASS, self::DEFAULT_CHECK_IMPLEMENTOR);
 
-        unset($parameters[IConfig::PARAM_CLASS]);
-        unset($parameters[IConfig::PARAM_NAME]);
-        unset($parameters[IConfig::PARAM_GROUP]);
-
-        $check = new $class($name, $group, $parameters);
-        $check->setCommand($this->command);
+        $check = new $class();
 
         if (!$check instanceof ICheck) {
             throw new \InvalidArgumentException('The given check "' . $class . '" does not implement ICheck.');
         }
+
+        $check->setCommand($this->command);
+        $check->setName($params->get(IConfig::PARAM_NAME));
+        $check->setGroup($params->get(IConfig::PARAM_GROUP));
+        $check->setParameters($params);
 
         return $check;
     }

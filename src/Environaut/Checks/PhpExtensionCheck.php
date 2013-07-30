@@ -31,6 +31,22 @@ use Environaut\Checks\PhpSettingCheck;
  */
 class PhpExtensionCheck extends Check
 {
+    /**
+     * Default group name used in messages of the report.
+     * By default also used as default setting group name if not customized.
+     */
+    const DEFAULT_CUSTOM_GROUP_NAME = 'PHP Extensions';
+
+    /**
+     * Returns the default group name this check uses when none is specified.
+     *
+     * @return string default group name of the check
+     */
+    public function getDefaultGroupName()
+    {
+        return self::DEFAULT_CUSTOM_GROUP_NAME;
+    }
+
     public function run()
     {
         $params = $this->getParameters();
@@ -42,8 +58,7 @@ class PhpExtensionCheck extends Check
             );
         }
 
-        $default_custom_name = $extension === $this->getName() ? 'PHP Extensions' : $this->getName();
-        $custom_name = $params->get('custom_name', $default_custom_name);
+        $custom_name = $params->get('custom_name', $this->getName());
         $help = $params->get('help');
 
         $wanted_version = $params->get('version');

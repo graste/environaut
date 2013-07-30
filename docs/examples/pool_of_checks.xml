@@ -29,6 +29,7 @@
         <checks name="phpextensions" description="some php extension checks">
 
             <check name="apc" class="&phpextension;" />
+
             <check name="libxml" class="&phpextension;">
                 <parameter name="version">
                     <parameter name="regex"><![CDATA[#libXML (Compiled )?Version => (?P<version>\d+.+?)\n#]]></parameter>
@@ -39,6 +40,7 @@
                     <parameter><![CDATA[#libXML streams => enabled#]]></parameter>
                 </parameter>
             </check>
+
             <check name="curl" class="&phpextension;">
                 <parameter name="version">
                     <parameter name="regex"><![CDATA[#cURL Information => (?P<version>\d+\.\d+\.\d+)#]]></parameter>
@@ -51,32 +53,120 @@
                     <parameter name="ftp, ftps, http, https, trololo"><![CDATA[#Protocols => (?P<contains>.+?)\n#]]></parameter>
                 </parameter>
             </check>
-            <check name="dom" class="&phpextension;" />
-            <check name="xsl" class="&phpextension;" />
-            <check name="SimpleXML" class="&phpextension;" />
-            <check name="mysql" class="&phpextension;" />
-            <check name="SPL" class="&phpextension;" />
+
+            <check name="dom" class="&phpextension;">
+                <parameter name="version">
+                    <parameter name="regex"><![CDATA[#libxml Version => (?P<version>\d+\.\d+\.\d+)#]]></parameter>
+                    <parameter name="value"><![CDATA[>=2.6.30]]></parameter>
+                </parameter>
+                <parameter name="regex">
+                    <parameter><![CDATA[#HTML Support => enabled#]]></parameter>
+                    <parameter><![CDATA[#XPath Support => enabled#]]></parameter>
+                    <parameter><![CDATA[#XPointer Support => enabled#]]></parameter>
+                    <parameter><![CDATA[#Schema Support => enabled#]]></parameter>
+                    <parameter><![CDATA[#DOM/XML => enabled#]]></parameter>
+                </parameter>
+            </check>
+
+            <check name="xsl" class="&phpextension;">
+                <parameter name="regex"><![CDATA[#XSL => enabled#]]></parameter>
+            </check>
+
+            <check name="SimpleXML" class="&phpextension;">
+                <parameter name="regex"><![CDATA[#Simplexml support => enabled#]]></parameter>
+            </check>
+
+            <check name="mysql" class="&phpextension;">
+                <parameter name="debug">true</parameter>
+            </check>
+
+            <check name="SPL" class="&phpextension;">
+                <parameter name="regex"><![CDATA[#SPL support => enabled#]]></parameter>
+            </check>
+
             <check name="fileinfo" class="&phpextension;">
                 <parameter name="version"><![CDATA[>=1.0.0]]></parameter>
                 <parameter name="regex"><![CDATA[#fileinfo support => enabled#]]></parameter>
             </check>
-            <check name="ftp" class="&phpextension;" />
-            <check name="zlib" class="&phpextension;" />
-            <check name="zip" class="&phpextension;" />
+
+            <check name="ftp" class="&phpextension;">
+                <parameter name="regex"><![CDATA[#FTP support => enabled#]]></parameter>
+            </check>
+
+            <check name="zlib" class="&phpextension;">
+                <parameter name="regex">
+                    <parameter><![CDATA[#ZLib Support => enabled#]]></parameter>
+                    <parameter><![CDATA[#zlib\.output_compression => Off => Off#]]></parameter>
+                </parameter>
+            </check>
+
+            <check name="zip" class="&phpextension;">
+                <parameter name="version"><![CDATA[>=1.10.0]]></parameter>
+                <parameter name="regex"><![CDATA[#Zip => enabled#]]></parameter>
+            </check>
+
             <check name="json" class="&phpextension;">
                 <parameter name="version"><![CDATA[>=1.0.0]]></parameter>
                 <parameter name="regex"><![CDATA[#json support => enabled#]]></parameter>
             </check>
-            <check name="iconv" class="&phpextension;" />
-            <check name="mbstring" class="&phpextension;" />
+
+            <check name="iconv" class="&phpextension;">
+                <parameter name="regex">
+                    <parameter><![CDATA[#iconv support => enabled#]]></parameter>
+                </parameter>
+            </check>
+
+            <check name="mbstring" class="&phpextension;">
+                <parameter name="version">
+                    <parameter name="regex"><![CDATA[#libmbfl version => (?P<version>\d+\.\d+\.\d+)#]]></parameter>
+                    <parameter name="value"><![CDATA[>=1.3]]></parameter>
+                </parameter>
+                <parameter name="regex">
+                    <parameter><![CDATA[#Multibyte Support => enabled#]]></parameter>
+                </parameter>
+            </check>
+
             <check name="memcache" class="&phpextension;" />
-            <check name="ctype" class="&phpextension;" />
+
+            <check name="ctype" class="&phpextension;">
+                <parameter name="regex">
+                    <parameter><![CDATA[#ctype functions => enabled#]]></parameter>
+                </parameter>
+            </check>
+
             <check name="PDO" class="&phpextension;" />
+
             <check name="pdo_mysql" class="&phpextension;" />
-            <check name="soap" class="&phpextension;" />
-            <check name="session" class="&phpextension;" />
-            <check name="Reflection" class="&phpextension;" />
-            <check name="imagick" class="&phpextension;" />
+
+            <check name="soap" class="&phpextension;">
+                <parameter name="regex">
+                    <parameter><![CDATA[#Soap Client => enabled#]]></parameter>
+                    <parameter><![CDATA[#Soap Server => enabled#]]></parameter>
+                </parameter>
+            </check>
+
+            <check name="session" class="&phpextension;">
+                <parameter name="regex">
+                    <parameter><![CDATA[#Session Support => enabled#]]></parameter>
+                    <parameter name="memcache, memcached, files"><![CDATA[#Registered save handlers => (?P<contains>.+?)\n#]]></parameter>
+                </parameter>
+            </check>
+
+            <check name="Reflection" class="&phpextension;">
+                <parameter name="regex">
+                    <parameter><![CDATA[#Reflection => enabled#]]></parameter>
+                </parameter>
+            </check>
+
+            <check name="imagick" class="&phpextension;">
+                <parameter name="version">
+                    <parameter name="regex"><![CDATA[#ImageMagick (?P<version>\d+\.\d+\.\d+) #]]></parameter>
+                    <parameter name="value"><![CDATA[>=6.4.3]]></parameter>
+                </parameter>
+                <parameter name="regex">
+                    <parameter name="AVI, BMP, BMP2, BMP3, GIF, GIF87, ICO, ICON, JPEG, JPG, MPEG, MPG, PAL, PALM, PAM, PJPEG, PNG, PNG24, PNG32, PNG8, TGA, TIFF, TIFF64"><![CDATA[#ImageMagick [Ss]upported formats => (?P<contains>.+?)\n#]]></parameter>
+                </parameter>
+            </check>
 
         </checks>
 
@@ -84,17 +174,48 @@
 
         <checks name="phpsettings" description="some php ini settings checks">
 
+            <check name="memory_limit" value=">=256M" comparison="integer" infinite="-1" class="&phpsetting;" />
+
             <check name="file_uploads" value="1" class="&phpsetting;" />
             <check name="upload_max_filesize" value=">=256M" comparison="integer" infinite="0" class="&phpsetting;" />
             <check name="max_file_uploads" value=">=60" comparison="integer" infinite="" class="&phpsetting;" />
-            <check name="date.timezone" comparison="notempty" class="&phpsetting;" />
-            <check name="asp_tags" value="" class="&phpsetting;" />
-            <check name="short_open_tag" value="0" class="&phpsetting;" />
             <check name="max_input_time" value=">=300" comparison="integer" infinite="-1" class="&phpsetting;" />
             <check name="max_execution_time" value=">=30" comparison="integer" infinite="0" class="&phpsetting;" />
-            <check name="memory_limit" value=">=768M" comparison="integer" infinite="-1" class="&phpsetting;" />
             <check name="enable_post_data_reading" value="1" class="&phpsetting;" />
             <check name="post_max_size" value=">=256M" comparison="integer" infinite="0" class="&phpsetting;" />
+            <check name="allow_url_fopen" value="0" class="&phpsetting;" />
+            <check name="allow_url_include" value="0" class="&phpsetting;" />
+
+            <check name="log_errors" value="1" class="&phpsetting;" />
+            <check name="error_log" comparison="notempty" class="&phpsetting;" />
+            <check name="error_log" comparison="notequals" value="syslog" class="&phpsetting;" />
+            <check name="log_errors_max_len" value=">=2K" comparison="integer" class="&phpsetting;" />
+
+            <check name="sendmail_path" comparison="notempty" class="&phpsetting;" />
+            <check name="date.timezone" comparison="notempty" class="&phpsetting;" />
+
+            <check name="asp_tags" value="0" class="&phpsetting;" />
+            <check name="short_open_tag" value="0" class="&phpsetting;" />
+            <check name="safe_mode" value="0" class="&phpsetting;" />
+            <check name="expose_php" value="0" class="&phpsetting;" />
+            <check name="open_basedir" comparison="null" class="&phpsetting;" />
+            <check name="magic_quotes_gpc" value="0" class="&phpsetting;" />
+            <check name="register_globals" value="0" class="&phpsetting;" />
+            <check name="auto_detect_line_endings" value="1" class="&phpsetting;" />
+            <check name="default_socket_timeout" value=">0" comparison="integer" class="&phpsetting;" />
+
+            <check name="session.auto_start" value="0" class="&phpsetting;" />
+            <check name="session.use_only_cookies" value="1" class="&phpsetting;" />
+            <check name="session.use_trans_sid" value="0" class="&phpsetting;" />
+            <check name="session.gc_maxlifetime" value=">=1440" comparison="integer" class="&phpsetting;">
+                <parameter name="help"><![CDATA[
+"session.gc_maxlifetime" specifies the number of seconds after which data will be seen as garbage and potentially cleaned up.
+Garbage collection may occur during session start. Note: If different scripts have different values of "session.gc_maxlifetime"
+but share the same place for storing the session data then the script with the MINIMUM VALUE will be cleaning the data. In this
+case, use this directive together with "session.save_path". 1440 seconds = 24 minutes.
+]]></parameter>
+            </check>
+
             <check name="user_ini.filename" value="" class="&phpsetting;">
                 <parameter name="help"><![CDATA[
 This setting is only relevant when you use CGI/FastCGI-SAPI,
@@ -109,8 +230,6 @@ will be recognized in .user.ini-style INI files.
 If you set it to an empty string, PHP doesn't scan at all. The default is ".user.ini".
 ]]></parameter>
             </check>
-            <check name="allow_url_fopen" value="0" class="&phpsetting;" />
-            <check name="allow_url_include" value="0" class="&phpsetting;" />
 
         </checks>
 
@@ -129,7 +248,7 @@ If you set it to an empty string, PHP doesn't scan at all. The default is ".user
 
         <checks name="encoding" description="some checks that are related to character encodings">
 
-            <check class="Environaut\Checks\MbInternalEncodingCheck" name="encoding">
+            <check class="Environaut\Checks\MbInternalEncodingCheck" name="mbstring">
                 <parameter name="handle_as_error">true</parameter>
             </check>
 

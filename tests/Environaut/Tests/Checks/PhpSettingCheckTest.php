@@ -18,7 +18,8 @@ class PhpSettingCheckTest extends BaseTestCase
 
     public function testEmptySettingOrNameThrows()
     {
-        $check = new \Environaut\Checks\PhpSettingCheck('');
+        $check = new \Environaut\Checks\PhpSettingCheck();
+        $check->setName('');
 
         $this->setExpectedException('InvalidArgumentException');
         $check->run();
@@ -26,7 +27,7 @@ class PhpSettingCheckTest extends BaseTestCase
 
     public function testNonExistingIniValueFails()
     {
-        $check = new \Environaut\Checks\PhpSettingCheck(
+        $check = $this->createPhpSettingCheck(
             'hahaha.trololo',
             'default',
             array(
@@ -39,7 +40,7 @@ class PhpSettingCheckTest extends BaseTestCase
 
     public function testNonExistingComparisonThrows()
     {
-        $check = new \Environaut\Checks\PhpSettingCheck(
+        $check = $this->createPhpSettingCheck(
             'hahaha.trololo',
             'default',
             array(
@@ -57,7 +58,7 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue(false !== ini_set('session.name', $ini_value));
         $this->assertSame($ini_value, ini_get('session.name'));
 
-        $check = new \Environaut\Checks\PhpSettingCheck(
+        $check = $this->createPhpSettingCheck(
             'session.name',
             'default',
             array(
@@ -75,7 +76,7 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue(false !== ini_set('session.name', $ini_value));
         $this->assertSame($ini_value, ini_get('session.name'));
 
-        $check = new \Environaut\Checks\PhpSettingCheck(
+        $check = $this->createPhpSettingCheck(
             'session.name',
             'default',
             array(
@@ -92,7 +93,7 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue(false !== ini_set('error_log', null));
         $this->assertSame('', ini_get('error_log'));
 
-        $check = new \Environaut\Checks\PhpSettingCheck('error_log', 'default', array('comparison' => 'null'));
+        $check = $this->createPhpSettingCheck('error_log', 'default', array('comparison' => 'null'));
 
         $this->assertTrue($check->run());
     }
@@ -102,7 +103,7 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue(false !== ini_set('error_log', 'php_errors.log'));
         $this->assertSame('php_errors.log', ini_get('error_log'));
 
-        $check = new \Environaut\Checks\PhpSettingCheck('error_log', 'default', array('comparison' => 'null'));
+        $check = $this->createPhpSettingCheck('error_log', 'default', array('comparison' => 'null'));
 
         $this->assertFalse($check->run());
     }
@@ -112,7 +113,7 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue(false !== ini_set('error_log', null));
         $this->assertSame('', ini_get('error_log'));
 
-        $check = new \Environaut\Checks\PhpSettingCheck('error_log', 'default', array('comparison' => 'notempty'));
+        $check = $this->createPhpSettingCheck('error_log', 'default', array('comparison' => 'notempty'));
 
         $this->assertFalse($check->run());
     }
@@ -122,7 +123,7 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue(false !== ini_set('error_log', 'php_errors.log'));
         $this->assertSame('php_errors.log', ini_get('error_log'));
 
-        $check = new \Environaut\Checks\PhpSettingCheck('error_log', 'default', array('value' => 'php_errors.log'));
+        $check = $this->createPhpSettingCheck('error_log', 'default', array('value' => 'php_errors.log'));
 
         $this->assertTrue($check->run());
     }
@@ -132,7 +133,7 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue(false !== ini_set('error_log', 'php_errors.log'));
         $this->assertSame('php_errors.log', ini_get('error_log'));
 
-        $check = new \Environaut\Checks\PhpSettingCheck('error_log', 'default', array('value' => 'php.log'));
+        $check = $this->createPhpSettingCheck('error_log', 'default', array('value' => 'php.log'));
 
         $this->assertFalse($check->run());
     }
@@ -142,7 +143,7 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue(false !== ini_set('memory_limit', '128M'));
         $this->assertSame('128M', ini_get('memory_limit'));
 
-        $check = new \Environaut\Checks\PhpSettingCheck(
+        $check = $this->createPhpSettingCheck(
             'memory_limit',
             'default',
             array(
@@ -159,7 +160,7 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue(false !== ini_set('memory_limit', '128M'));
         $this->assertSame('128M', ini_get('memory_limit'));
 
-        $check = new \Environaut\Checks\PhpSettingCheck(
+        $check = $this->createPhpSettingCheck(
             'memory_limit',
             'default',
             array(
@@ -176,7 +177,7 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue(false !== ini_set('memory_limit', '128.75M'));
         $this->assertSame('128.75M', ini_get('memory_limit'));
 
-        $check = new \Environaut\Checks\PhpSettingCheck(
+        $check = $this->createPhpSettingCheck(
             'memory_limit',
             'default',
             array(
@@ -193,7 +194,7 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue(false !== ini_set('date.default_latitude', '31.7667'));
         $this->assertSame('31.7667', ini_get('date.default_latitude'));
 
-        $check = new \Environaut\Checks\PhpSettingCheck(
+        $check = $this->createPhpSettingCheck(
             'date.default_latitude',
             'default',
             array(
@@ -211,7 +212,7 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue(false !== ini_set('date.default_latitude', '31.7667'));
         $this->assertSame('31.7667', ini_get('date.default_latitude'));
 
-        $check = new \Environaut\Checks\PhpSettingCheck(
+        $check = $this->createPhpSettingCheck(
             'date.default_latitude',
             'default',
             array(
@@ -229,7 +230,7 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue(false !== ini_set('date.default_latitude', '31.7667'));
         $this->assertSame('31.7667', ini_get('date.default_latitude'));
 
-        $check = new \Environaut\Checks\PhpSettingCheck(
+        $check = $this->createPhpSettingCheck(
             'date.default_latitude',
             'default',
             array(
@@ -321,5 +322,15 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue($check::compareIntegers('2047M', '<2G'));
 
         $this->assertTrue($check::compareIntegers('2e3', '>=2'));
+    }
+
+    protected function createPhpSettingCheck($name, $group, $params)
+    {
+        $check = new \Environaut\Checks\PhpSettingCheck();
+        $check->setName($name);
+        $check->setGroup($group);
+        $check->setParameters(new \Environaut\Config\Parameters($params));
+
+        return $check;
     }
 }

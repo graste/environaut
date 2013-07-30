@@ -16,7 +16,8 @@ class PhpExtensionCheckTest extends BaseTestCase
 
     public function testEmptySettingOrNameThrows()
     {
-        $check = new \Environaut\Checks\PhpExtensionCheck('');
+        $check = new \Environaut\Checks\PhpExtensionCheck();
+        $check->setName('');
 
         $this->setExpectedException('InvalidArgumentException');
         $check->run();
@@ -24,7 +25,8 @@ class PhpExtensionCheckTest extends BaseTestCase
 
     public function testNonExistingExtensionFails()
     {
-        $check = new \Environaut\Checks\PhpExtensionCheck('hahaha.trololo');
+        $check = new \Environaut\Checks\PhpExtensionCheck();
+        $check->setName('hahaha.trololo');
 
         $this->assertFalse($check->run());
         $this->assertNotEmpty($check->getResult()->getMessages());
@@ -34,7 +36,8 @@ class PhpExtensionCheckTest extends BaseTestCase
     {
         $extensions = get_loaded_extensions();
         $this->assertNotEmpty($extensions);
-        $check = new \Environaut\Checks\PhpExtensionCheck(
+
+        $check = $this->createPhpExtensionCheck(
             'asfdasdf',
             'default',
             array(
@@ -62,7 +65,7 @@ class PhpExtensionCheckTest extends BaseTestCase
             return;
         }
 
-        $check = new \Environaut\Checks\PhpExtensionCheck(
+        $check = $this->createPhpExtensionCheck(
             'asfdasdf',
             'default',
             array(
@@ -90,7 +93,7 @@ class PhpExtensionCheckTest extends BaseTestCase
             return;
         }
 
-        $check = new \Environaut\Checks\PhpExtensionCheck(
+        $check = $this->createPhpExtensionCheck(
             'asfdasdf',
             'default',
             array(
@@ -111,7 +114,7 @@ class PhpExtensionCheckTest extends BaseTestCase
             return;
         }
 
-        $check = new \Environaut\Checks\PhpExtensionCheck(
+        $check = $this->createPhpExtensionCheck(
             'asfdasdf',
             'default',
             array(
@@ -134,7 +137,7 @@ class PhpExtensionCheckTest extends BaseTestCase
             return;
         }
 
-        $check = new \Environaut\Checks\PhpExtensionCheck(
+        $check = $this->createPhpExtensionCheck(
             'asfdasdf',
             'default',
             array(
@@ -157,7 +160,7 @@ class PhpExtensionCheckTest extends BaseTestCase
             return;
         }
 
-        $check = new \Environaut\Checks\PhpExtensionCheck(
+        $check = $this->createPhpExtensionCheck(
             'asfdasdf',
             'default',
             array(
@@ -180,7 +183,7 @@ class PhpExtensionCheckTest extends BaseTestCase
             return;
         }
 
-        $check = new \Environaut\Checks\PhpExtensionCheck(
+        $check = $this->createPhpExtensionCheck(
             'asfdasdf',
             'default',
             array(
@@ -203,7 +206,7 @@ class PhpExtensionCheckTest extends BaseTestCase
             return;
         }
 
-        $check = new \Environaut\Checks\PhpExtensionCheck(
+        $check = $this->createPhpExtensionCheck(
             'asfdasdf',
             'default',
             array(
@@ -228,7 +231,7 @@ class PhpExtensionCheckTest extends BaseTestCase
             return;
         }
 
-        $check = new \Environaut\Checks\PhpExtensionCheck(
+        $check = $this->createPhpExtensionCheck(
             'asfdasdf',
             'default',
             array(
@@ -248,7 +251,7 @@ class PhpExtensionCheckTest extends BaseTestCase
             return;
         }
 
-        $check = new \Environaut\Checks\PhpExtensionCheck(
+        $check = $this->createPhpExtensionCheck(
             'asfdasdf',
             'default',
             array(
@@ -268,7 +271,7 @@ class PhpExtensionCheckTest extends BaseTestCase
             return;
         }
 
-        $check = new \Environaut\Checks\PhpExtensionCheck(
+        $check = $this->createPhpExtensionCheck(
             'asfdasdf',
             'default',
             array(
@@ -292,7 +295,7 @@ class PhpExtensionCheckTest extends BaseTestCase
             return;
         }
 
-        $check = new \Environaut\Checks\PhpExtensionCheck(
+        $check = $this->createPhpExtensionCheck(
             'asfdasdf',
             'default',
             array(
@@ -315,7 +318,7 @@ class PhpExtensionCheckTest extends BaseTestCase
             return;
         }
 
-        $check = new \Environaut\Checks\PhpExtensionCheck(
+        $check = $this->createPhpExtensionCheck(
             'asfdasdf',
             'default',
             array(
@@ -330,5 +333,15 @@ class PhpExtensionCheckTest extends BaseTestCase
 
         $this->setExpectedException('InvalidArgumentException');
         $check->run();
+    }
+
+    protected function createPhpExtensionCheck($name, $group, $params)
+    {
+        $check = new \Environaut\Checks\PhpExtensionCheck();
+        $check->setName($name);
+        $check->setGroup($group);
+        $check->setParameters(new \Environaut\Config\Parameters($params));
+
+        return $check;
     }
 }

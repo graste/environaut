@@ -32,6 +32,11 @@
     <export>
 
         <formatter location="&basepath;environaut-config.xml" />
+
+        <formatter>
+            <parameter name="location">/tmp/environaut-config-pretty.json</parameter>
+            <parameter name="pretty">true</parameter>
+        </formatter>
 <!--
         <formatters>
             <formatter />
@@ -69,6 +74,7 @@
     </export>
 
     <checks>
+
         <xi:include href="&checksdb;" xpointer="&xiec; xpointer(//ec:checks[@name='phpsettings']/*)">
             <xi:fallback />
         </xi:include>

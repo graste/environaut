@@ -6,7 +6,14 @@ use Environaut\Report\IReport;
 use Environaut\Export\Formatter\BaseFormatter;
 
 /**
- * Writes all or specific groups of settings as XML to a file.
+ * Writes all or specific groups of settings as XML to a file. Supported Parameters are:
+ * - "location": path and name of the filename to write
+ * - "groups": array with names of setting groups that should be written to that file
+ * - "file_template": template string for the file content; should contain a named argument "%group_template$s"
+ * - "group_template": template that is used as a wrapper for each settings group; should contain two named
+ *                     arguments "%group_name$s" and "%setting_template$s"
+ * - "setting_template": template string to use for each setting that is written; should contain two named
+ *                        arguments "%setting_name$s" and "%setting_value$s"
  */
 class XmlSettingsWriter extends BaseFormatter
 {

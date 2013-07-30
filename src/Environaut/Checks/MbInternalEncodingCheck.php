@@ -6,6 +6,22 @@ use Environaut\Checks\Check;
 
 class MbInternalEncodingCheck extends Check
 {
+    /**
+     * Default group name used in messages of the report.
+     * By default also used as default setting group name if not customized.
+     */
+    const DEFAULT_CUSTOM_GROUP_NAME = 'Configuration';
+
+    /**
+     * Returns the default group name this check uses when none is specified.
+     *
+     * @return string default group name of the check
+     */
+    public function getDefaultGroupName()
+    {
+        return self::DEFAULT_CUSTOM_GROUP_NAME;
+    }
+
     public function run()
     {
         if (!function_exists('mb_substr')) {

@@ -29,6 +29,22 @@ use Environaut\Checks\Check;
  */
 class PhpSettingCheck extends Check
 {
+    /**
+     * Default group name used in messages of the report.
+     * By default also used as default setting group name if not customized.
+     */
+    const DEFAULT_CUSTOM_GROUP_NAME = 'PHP Settings';
+
+    /**
+     * Returns the default group name this check uses when none is specified.
+     *
+     * @return string default group name of the check
+     */
+    public function getDefaultGroupName()
+    {
+        return self::DEFAULT_CUSTOM_GROUP_NAME;
+    }
+
     public function run()
     {
         $params = $this->getParameters();
@@ -40,7 +56,7 @@ class PhpSettingCheck extends Check
             );
         }
 
-        $custom_name = $params->get('custom_name', $setting === $this->getName() ? 'PHP Settings' : $this->getName());
+        $custom_name = $params->get('custom_name', $this->getName());
         $help = $params->get('help');
         $setting_value = $params->get('value');
         $infinite_value = $params->get('infinite');
@@ -132,6 +148,16 @@ class PhpSettingCheck extends Check
                         $okay = false;
                     }
                     break;
+                case 'notequals':
+                    if ($value === $setting_value) {
+                        $this->addError(
+                            'Value of "' . $setting . '" should not be "' . $setting_value . '", but is: "' . $value .
+                            '"',
+                            $custom_name
+                        );
+                        $okay = false;
+                    }
+                    break;
                 case 'equals':
                 default:
                     if ($value !== $setting_value) {
@@ -157,6 +183,24 @@ class PhpSettingCheck extends Check
         }
 
         return $okay;
+    }
+
+    /**
+     * Returns the supported comparison names that may be used in comparison operations.
+     *
+     * @return array of strings (supported comparison names)
+     */
+    public static function getSupportedComparisons()
+    {
+        return array(
+            'equals',
+            'notequals',
+            'regex',
+            'notempty',
+            'null',
+            'version',
+            'integer',
+        );
     }
 
     /**
@@ -198,23 +242,6 @@ class PhpSettingCheck extends Check
         }
 
         return $okay;
-    }
-
-    /**
-     * Returns the supported comparison names that may be used in comparison operations.
-     *
-     * @return array of strings (supported comparison names)
-     */
-    public static function getSupportedComparisons()
-    {
-        return array(
-            'equals',
-            'regex',
-            'notempty',
-            'null',
-            'version',
-            'integer',
-        );
     }
 
     /**

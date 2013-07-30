@@ -21,6 +21,11 @@ abstract class Check implements ICheck
     protected $name;
 
     /**
+     * @var string
+     */
+    protected $group;
+
+    /**
      * @var Parameters
      */
     protected $parameters;
@@ -36,21 +41,13 @@ abstract class Check implements ICheck
     protected $result;
 
     /**
-     * Creates a new Check instance with the given name and parameters.
-     *
-     * @param string $name name of this check
-     * @param string $group group name of this check
-     * @param array $parameters configurational parameters needed for the check to run
+     * Creates a new Check instance with a random name and the default group.
      */
-    public function __construct($name = null, $group = self::DEFAULT_GROUP_NAME, array $parameters = array())
+    public function __construct()
     {
-        if (null === $name) {
-            $this->name = self::getRandomString(8);
-        } else {
-            $this->name = $name;
-        }
-        $this->group = $group;
-        $this->parameters = new Parameters($parameters);
+        $this->name = self::getRandomString(8);
+        $this->group = $this->getDefaultGroupName();
+        $this->parameters = new Parameters(array());
         $this->result = new Result($this);
     }
 
@@ -65,6 +62,22 @@ abstract class Check implements ICheck
     }
 
     /**
+     * Sets the name of the check. When null or a non-string value is given a random name is set.
+     *
+     * @param string $name name of the check
+     */
+    public function setName($name = null)
+    {
+        if (null === $name || !is_string($name)) {
+            $this->name = self::getRandomString(8);
+        } else {
+            $this->name = $name;
+        }
+
+        return $this;
+    }
+
+    /**
      * Returns the name of this check.
      *
      * @return string name of this check
@@ -75,6 +88,22 @@ abstract class Check implements ICheck
     }
 
     /**
+     * Sets the group name of the check (for reports). Null or non-string values will set the default group name.
+     *
+     * @param string $group name of the group the check belongs to
+     */
+    public function setGroup($group = null)
+    {
+        if (null === $group || !is_string($group)) {
+            $this->group = $this->getDefaultGroupName();
+        } else {
+            $this->group = $group;
+        }
+
+        return $this;
+    }
+
+    /**
      * Returns the group name of this check that may be useful to group/namespace settings.
      *
      * @return string group name of this check
@@ -82,6 +111,16 @@ abstract class Check implements ICheck
     public function getGroup()
     {
         return $this->group;
+    }
+
+    /**
+     * Sets the necessary runtime parameters of the check.
+     *
+     * @param \Environaut\Config\Parameters $parameters runtime configuration parameters for this check
+     */
+    public function setParameters(Parameters $parameters)
+    {
+        $this->parameters = $parameters;
     }
 
     /**
@@ -105,10 +144,30 @@ abstract class Check implements ICheck
     }
 
     /**
+     * Returns the default group name this check uses when none is specified.
+     *
+     * @return string default group name of the check
+     */
+    public function getDefaultGroupName()
+    {
+        return self::DEFAULT_GROUP_NAME;
+    }
+
+    /**
+     * Returns the default group name this check uses for settings when none is specified.
+     *
+     * @return string default group name of settings of this check
+     */
+    public function getDefaultSettingGroupName()
+    {
+        return $this->getDefaultGroupName();
+    }
+
+    /**
      * Adds the given value under the given key to the settings
      * of the result. The setting may have a group name to more
      * easily separate them on export. If no group name is specified
-     * the check's group name is used as the default.
+     * the check's default setting group name is used as the default.
      *
      * @param string $name key for that setting
      * @param mixed $value usually a string value
@@ -123,7 +182,7 @@ abstract class Check implements ICheck
         }
 
         if (null === $group) {
-            $group = $this->group;
+            $group = $this->getDefaultSettingGroupName();
         }
 
         $this->result->addSetting(new Setting($name, $value, $group));
@@ -137,10 +196,14 @@ abstract class Check implements ICheck
      * @param string $name message name
      * @param string $group group name
      */
-    protected function addInfo($text = '', $name = null, $group = self::DEFAULT_GROUP_NAME)
+    protected function addInfo($text = '', $name = null, $group = null)
     {
         if (null === $name) {
             $name = $this->name;
+        }
+
+        if (null === $group) {
+            $group = $this->getDefaultGroupName();
         }
 
         $this->result->addMessage(new Message($name, $text, $group, Message::SEVERITY_INFO));
@@ -154,10 +217,14 @@ abstract class Check implements ICheck
      * @param string $name message name
      * @param string $group group name
      */
-    protected function addNotice($text = '', $name = null, $group = self::DEFAULT_GROUP_NAME)
+    protected function addNotice($text = '', $name = null, $group = null)
     {
         if (null === $name) {
             $name = $this->name;
+        }
+
+        if (null === $group) {
+            $group = $this->getDefaultGroupName();
         }
 
         $this->result->addMessage(new Message($name, $text, $group, Message::SEVERITY_NOTICE));
@@ -171,10 +238,14 @@ abstract class Check implements ICheck
      * @param string $name message name
      * @param string $group group name
      */
-    protected function addError($text = '', $name = null, $group = self::DEFAULT_GROUP_NAME)
+    protected function addError($text = '', $name = null, $group = null)
     {
         if (null === $name) {
             $name = $this->name;
+        }
+
+        if (null === $group) {
+            $group = $this->getDefaultGroupName();
         }
 
         $this->result->addMessage(new Message($name, $text, $group, Message::SEVERITY_ERROR));
