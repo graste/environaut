@@ -152,7 +152,8 @@ class Configurator extends Check
         }
 
         $this->addInfo('Successfully configured "' . $name . '".');
-        $this->addSetting($name, $value, $setting_group);
+        //$this->addSetting($name, $value, $setting_group);
+        $this->addCachedSetting($name, $value, $setting_group);
 
         $output->writeln('');
 

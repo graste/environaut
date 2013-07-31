@@ -67,6 +67,17 @@ class Config implements IConfig
     }
 
     /**
+     * Defaults to "Environaut\Cache\Cache".
+     *
+     * @return string (namespaced) class name to use for caching (in runner/checks)
+     */
+    public function getCacheImplementor()
+    {
+        $cache = new Parameters($this->config->get('cache', array()));
+        return $cache->get(self::PARAM_CLASS, 'Environaut\Cache\Cache');
+    }
+
+    /**
      * Returns the config value for the given key.
      *
      * @param string $key name of config key

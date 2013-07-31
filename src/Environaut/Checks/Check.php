@@ -2,10 +2,13 @@
 
 namespace Environaut\Checks;
 
+use Environaut\Cache\Cache;
+use Environaut\Cache\ICache;
 use Environaut\Command\Command;
 use Environaut\Config\Parameters;
 use Environaut\Report\Results\Result;
 use Environaut\Report\Results\Messages\Message;
+use Environaut\Report\Results\Settings\ISetting;
 use Environaut\Report\Results\Settings\Setting;
 
 /**
@@ -41,6 +44,11 @@ abstract class Check implements ICheck
     protected $result;
 
     /**
+     * @var ICache
+     */
+    protected $cache;
+
+    /**
      * Creates a new Check instance with a random name and the default group.
      */
     public function __construct()
@@ -51,6 +59,8 @@ abstract class Check implements ICheck
 
         $this->result = new Result();
         $this->result->setCheck($this);
+
+        $this->cache = new Cache();
     }
 
     /**
@@ -135,6 +145,11 @@ abstract class Check implements ICheck
         return $this->parameters;
     }
 
+    public function setCache(ICache $cache)
+    {
+        $this->cache = $cache;
+    }
+
     /**
      * Returns the tokens that should be available prior to running this check.
      *
@@ -177,7 +192,7 @@ abstract class Check implements ICheck
      *
      * @throws \InvalidArgumentException if no valid setting key was given
      */
-    protected function addSetting($name, $value, $group = null)
+    protected function addSetting($name, $value, $group = null, $flag = ISetting::NORMAL)
     {
         if (empty($name)) {
             throw new \InvalidArgumentException('A setting must have a valid name.');
@@ -188,6 +203,22 @@ abstract class Check implements ICheck
         }
 
         $this->result->addSetting(new Setting($name, $value, $group));
+    }
+
+    protected function addCachedSetting($name, $value, $group = null, $flag = ISetting::NORMAL)
+    {
+        if (empty($name)) {
+            throw new \InvalidArgumentException('A setting must have a valid name.');
+        }
+
+        if (null === $group) {
+            $group = $this->getDefaultSettingGroupName();
+        }
+
+        $setting = new Setting($name, $value, $group, $flag);
+
+        $this->result->addSetting($setting);
+        $this->cache->add($setting);
     }
 
     /**

@@ -2,11 +2,12 @@
 
 namespace Environaut\Runner;
 
-use Environaut\Checks\Check;
+use Environaut\Cache\ICache;
 use Environaut\Checks\ICheck;
 use Environaut\Command\Command;
 use Environaut\Config\IConfig;
 use Environaut\Config\Parameters;
+use Environaut\Report\IReport;
 use Environaut\Report\Results\IResult;
 use Environaut\Runner\IRunner;
 
@@ -38,16 +39,26 @@ class Runner implements IRunner
     /**
      * @var Parameters
      */
-    protected $options;
+    protected $parameters;
 
+    /**
+     * @var ICache cache that checks may use for cached settings (storage and retrieval)
+     */
+    protected $cache;
+
+    public function __construct()
+    {
+        $this->parameters = new Parameters();
+    }
     /**
      * Execute the checks that are defined in the config
      * and generate a report to consume by others.
      */
     public function run()
     {
-        $report_implementor = $this->config->getReportImplementor();
-        $this->report = new $report_implementor();
+        $this->initReport();
+
+        $this->initCache();
 
         $checks = array();
         foreach ($this->config->getCheckDefinitions() as $check_definition) {
@@ -88,20 +99,62 @@ class Runner implements IRunner
     {
         $params = new Parameters($parameters);
 
-        $class = $params->get(IConfig::PARAM_CLASS, self::DEFAULT_CHECK_IMPLEMENTOR);
+        $check_implementor = $params->get(IConfig::PARAM_CLASS, self::DEFAULT_CHECK_IMPLEMENTOR);
 
-        $check = new $class();
+        $check = new $check_implementor();
 
         if (!$check instanceof ICheck) {
-            throw new \InvalidArgumentException('The given check "' . $class . '" does not implement ICheck.');
+            throw new \InvalidArgumentException('The given check "' . $check_implementor . '" does not implement ICheck.');
         }
 
         $check->setCommand($this->command);
+        $check->setCache($this->cache);
+
         $check->setName($params->get(IConfig::PARAM_NAME));
         $check->setGroup($params->get(IConfig::PARAM_GROUP));
         $check->setParameters($params);
 
         return $check;
+    }
+
+    /**
+     * Initializes the internal report instance being used to collect the results of the checks.
+     *
+     * @return IReport report instance
+     */
+    protected function initReport()
+    {
+        $report_implementor = $this->config->getReportImplementor();
+        $report = new $report_implementor();
+
+        if (!$report instanceof IReport) {
+            throw new \InvalidArgumentException('The given report class "' . $report_implementor . '" does not implement IReport.');
+        }
+
+        $this->report = $report;
+        $this->report->setParameters(new Parameters($this->config->get('report', array())));
+
+        return $this->report;
+    }
+
+    /**
+     * Initializes the internal cache instance being used by checks to store and retrieve cached settings.
+     *
+     * @return ICache cache instance
+     */
+    protected function initCache()
+    {
+        $cache_implementor = $this->config->getCacheImplementor();
+        $cache = new $cache_implementor();
+
+        if (!$cache instanceof ICache) {
+            throw new \InvalidArgumentException('The given cache class "' . $cache_implementor . '" does not implement ICache.');
+        }
+
+        $this->cache = $cache;
+        $this->cache->setParameters(new Parameters($this->config->get('cache', array())));
+
+        return $this->cache;
     }
 
     /**
@@ -115,13 +168,13 @@ class Runner implements IRunner
     }
 
     /**
-     * Sets the given options on the runner.
+     * Sets the given runtime parameters on the runner.
      *
-     * @param array $options associative array with options understood by the runner
+     * @param Parameters $parameters runtime parameters understood by the runner
      */
-    public function setOptions(array $options = array())
+    public function setParameters(Parameters $parameters)
     {
-        $this->options = new Parameters($options);
+        $this->parameters = $parameters;
     }
 
     /**

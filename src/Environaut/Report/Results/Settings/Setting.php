@@ -26,17 +26,23 @@ class Setting implements ISetting
     protected $value;
 
     /**
+     * @var int value of this setting
+     */
+    protected $flag;
+
+    /**
      * Create a new setting instance.
      *
      * @param string $name name of setting
      * @param mixed $value value for that key
      * @param string $group group name that may be used to namespace/group settings
      */
-    public function __construct($name, $value, $group = ICheck::DEFAULT_GROUP_NAME)
+    public function __construct($name, $value, $group = ICheck::DEFAULT_GROUP_NAME, $flag = ISetting::NORMAL)
     {
         $this->name = $name;
         $this->value = $value;
         $this->group = $group;
+        $this->flag = $flag;
     }
 
     /**
@@ -67,6 +73,16 @@ class Setting implements ISetting
     public function getGroup()
     {
         return $this->group;
+    }
+
+    /**
+     * Returns the type of setting.
+     *
+     * @return int flag
+     */
+    public function getFlag()
+    {
+        return $this->flag;
     }
 
     /**

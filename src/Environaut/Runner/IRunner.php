@@ -4,6 +4,7 @@ namespace Environaut\Runner;
 
 use Environaut\Command\Command;
 use Environaut\Config\IConfig;
+use Environaut\Config\Parameters;
 
 /**
  * Interface all check running instances must implement. Runners
@@ -27,11 +28,11 @@ interface IRunner
     public function setCommand(Command $command);
 
     /**
-     * Sets the given options on the runner.
+     * Sets the given runtime parameter on the runner.
      *
-     * @param array $options associative array with options understood by the runner
+     * @param Parameters $parameters runtime options understood by the runner
      */
-    public function setOptions(array $options = array());
+    public function setParameters(Parameters $parameters);
 
     /**
      * Execute the checks that are defined in the config and generate a report to consume by others.

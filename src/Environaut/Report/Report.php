@@ -3,6 +3,7 @@
 namespace Environaut\Report;
 
 use Environaut\Report\Results\IResult;
+use Environaut\Config\Parameters;
 
 /**
  * Default class that holds results from checks.
@@ -17,13 +18,20 @@ class Report implements IReport
     protected $results = array();
 
     /**
+     * @var Parameters runtime parameters
+     */
+    protected $parameters;
+
+    /**
      * Creates a new Report instance.
      *
-     * @param array $results array of IResult instances to prefill the isntance
+     * @param array $results array of IResult instances to prefill the instance
+     * @param array $parameters array of runtime parameters
      */
-    public function __construct(array $results = array())
+    public function __construct(array $results = array(), array $parameters = array())
     {
         $this->results = $results;
+        $this->parameters = new Parameters($parameters);
     }
 
     /**
@@ -74,6 +82,15 @@ class Report implements IReport
         return $settings;
     }
 
+    /**
+     * Runtime parameters to configure the report behaviour.
+     *
+     * @param Parameters $parameters runtime parameters to use
+     */
+    public function setParameters(Parameters $parameters)
+    {
+        $this->parameters = $parameters;
+    }
 
     /**
      * Return all settings or the settings of the specified group as an array.

@@ -34,7 +34,7 @@ class Export implements IExport
     /**
      * @var Parameters
      */
-    protected $options;
+    protected $parameters;
 
     /**
      * @var array supported export file extensions
@@ -71,7 +71,7 @@ class Export implements IExport
         $output->writeln('');
 
         $default_formatter = array('location' => self::DEFAULT_EXPORT_LOCATION);
-        $formatter_definitions = $this->options->get('formatters', array($default_formatter));
+        $formatter_definitions = $this->parameters->get('formatters', array($default_formatter));
         foreach ($formatter_definitions as $formatter_definition) {
             $params = new Parameters($formatter_definition);
 
@@ -152,10 +152,10 @@ class Export implements IExport
     /**
      * Runtime parameters to configure the export operations.
      *
-     * @param array $options
+     * @param Parameters $parameters runtime parameters
      */
-    public function setOptions(array $options = array())
+    public function setParameters(Parameters $parameters)
     {
-        $this->options = new Parameters($options);
+        $this->parameters = $parameters;
     }
 }

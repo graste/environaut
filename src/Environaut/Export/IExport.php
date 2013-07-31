@@ -2,6 +2,7 @@
 
 namespace Environaut\Export;
 
+use Environaut\Config\Parameters;
 use Environaut\Report\IReport;
 use Environaut\Command\Command;
 
@@ -27,9 +28,9 @@ interface IExport
     /**
      * Runtime parameters to configure the export operations.
      *
-     * @param array $parameters
+     * @param Parameters $parameters
      */
-    public function setOptions(array $parameters = array());
+    public function setParameters(Parameters $parameters);
 
     /**
      * Starts the exporter. It should then analyze the

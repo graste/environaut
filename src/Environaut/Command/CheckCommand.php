@@ -3,7 +3,7 @@
 namespace Environaut\Command;
 
 use Environaut\Command\Command;
-
+use Environaut\Config\Parameters;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -112,7 +112,7 @@ EOT
         $runner = new $runner_impl();
         $runner->setConfig($this->config);
         $runner->setCommand($this);
-        $runner->setOptions($this->config->get('runner', array()));
+        $runner->setParameters(new Parameters($this->config->get('runner', array())));
 
         $runner->run();
 
@@ -129,7 +129,7 @@ EOT
         $exporter = new $export_impl();
         $exporter->setCommand($this);
         $exporter->setReport($this->report);
-        $exporter->setOptions($this->config->get('export', array()));
+        $exporter->setParameters(new Parameters($this->config->get('export', array())));
 
         $exporter->run();
     }

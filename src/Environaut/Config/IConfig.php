@@ -49,6 +49,13 @@ interface IConfig
     public function getRunnerImplementor();
 
     /**
+     * Defaults to "Environaut\Cache\Cache".
+     *
+     * @return string (namespaced) class name to use for caching (in runner/checks)
+     */
+    public function getCacheImplementor();
+
+    /**
      * Returns the config value for the given key.
      *
      * @param string $key name of config key

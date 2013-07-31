@@ -3,6 +3,7 @@
 namespace Environaut\Report;
 
 use Environaut\Report\Results\IResult;
+use Environaut\Config\Parameters;
 
 /**
  * Interface all reports must implement.
@@ -38,4 +39,11 @@ interface IReport
      * @return array of settings
      */
     public function getSettings();
+
+    /**
+     * Runtime parameters to configure the report behaviour.
+     *
+     * @param Parameters $parameters runtime parameters to use
+     */
+    public function setParameters(Parameters $parameters);
 }

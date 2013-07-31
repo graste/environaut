@@ -8,6 +8,22 @@ namespace Environaut\Report\Results\Settings;
 interface ISetting
 {
     /**
+     * Flag for a normal setting.
+     */
+    const NORMAL = 1;
+
+    /**
+     * Flag for settings that contain sensitive values (like credentials)
+     * that should perhaps handled with care and e.g. not be shown on CLI.
+     */
+    const SENSITIVE = 2;
+
+    /**
+     * Flag for all settings
+     */
+    const ALL = 32768;
+
+    /**
      * Returns the name of the setting (that is, a key for the setting)
      *
      * @return string name of the setting
