@@ -98,4 +98,19 @@ class Setting implements ISetting
             )
         );
     }
+
+    /**
+     * Returns a flat array with four keys.
+     *
+     * @return array flat associative array representation of this setting
+     */
+    public function toFlatArray()
+    {
+        return array(
+            'name' => $this->name,
+            'value' => $this->value,
+            'group' => $this->group,
+            'flag' => $this->flag,
+        );
+    }
 }

@@ -189,23 +189,12 @@ abstract class Check implements ICheck
      * @param string $name key for that setting
      * @param mixed $value usually a string value
      * @param string $group name of group this setting belongs to
+     * @param int $flag type of the setting (normal or sensitive)
+     * @param boolean $cachable whether that setting should also be stored in a cache
      *
      * @throws \InvalidArgumentException if no valid setting key was given
      */
-    protected function addSetting($name, $value, $group = null, $flag = ISetting::NORMAL)
-    {
-        if (empty($name)) {
-            throw new \InvalidArgumentException('A setting must have a valid name.');
-        }
-
-        if (null === $group) {
-            $group = $this->getDefaultSettingGroupName();
-        }
-
-        $this->result->addSetting(new Setting($name, $value, $group));
-    }
-
-    protected function addCachedSetting($name, $value, $group = null, $flag = ISetting::NORMAL)
+    protected function addSetting($name, $value, $group = null, $flag = ISetting::NORMAL, $cachable = false)
     {
         if (empty($name)) {
             throw new \InvalidArgumentException('A setting must have a valid name.');
@@ -217,8 +206,27 @@ abstract class Check implements ICheck
 
         $setting = new Setting($name, $value, $group, $flag);
 
-        $this->result->addSetting($setting);
-        $this->cache->add($setting);
+        $this->result->addSetting($setting, $cachable);
+    }
+
+    /**
+     * Adds the given value under the given key to the settings
+     * of the result. The setting may have a group name to more
+     * easily separate them on export. If no group name is specified
+     * the check's default setting group name is used as the default.
+     * This setting may be written to a cache to be available on re-runs
+     * of the check.
+     *
+     * @param string $name key for that setting
+     * @param mixed $value usually a string value
+     * @param string $group name of group this setting belongs to
+     * @param int $flag type of the setting (ISetting::NORMAL by default)
+     *
+     * @throws \InvalidArgumentException if no valid setting key was given
+     */
+    protected function addCachableSetting($name, $value, $group = null, $flag = ISetting::NORMAL)
+    {
+        $this->addSetting($name, $value, $group, $flag, true);
     }
 
     /**

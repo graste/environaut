@@ -50,6 +50,7 @@ class Runner implements IRunner
     {
         $this->parameters = new Parameters();
     }
+
     /**
      * Execute the checks that are defined in the config
      * and generate a report to consume by others.
@@ -74,12 +75,20 @@ class Runner implements IRunner
             $succeeded = (bool) $check->run();
 
             $result = $check->getResult();
+
             if (!$result instanceof IResult) {
                 throw new \LogicException(
                     'The result of check "' . $check->getName() . '" (group "' . $check->getGroup() . '", class "' .
                     get_class($check) . '") must implement IResult.'
                 );
             }
+
+            if (!$succeeded) {
+                $result->setStatus(IResult::FAIL);
+            } else {
+                $result->setStatus(IResult::SUCCESS);
+            }
+
             $this->report->addResult($result);
 
             $progress->advance();
@@ -104,7 +113,9 @@ class Runner implements IRunner
         $check = new $check_implementor();
 
         if (!$check instanceof ICheck) {
-            throw new \InvalidArgumentException('The given check "' . $check_implementor . '" does not implement ICheck.');
+            throw new \InvalidArgumentException(
+                'The given check class "' . $check_implementor . '" does not implement ICheck.'
+            );
         }
 
         $check->setCommand($this->command);
@@ -128,7 +139,9 @@ class Runner implements IRunner
         $report = new $report_implementor();
 
         if (!$report instanceof IReport) {
-            throw new \InvalidArgumentException('The given report class "' . $report_implementor . '" does not implement IReport.');
+            throw new \InvalidArgumentException(
+                'The given report class "' . $report_implementor . '" does not implement IReport.'
+            );
         }
 
         $this->report = $report;
@@ -148,11 +161,14 @@ class Runner implements IRunner
         $cache = new $cache_implementor();
 
         if (!$cache instanceof ICache) {
-            throw new \InvalidArgumentException('The given cache class "' . $cache_implementor . '" does not implement ICache.');
+            throw new \InvalidArgumentException(
+                'The given cache class "' . $cache_implementor . '" does not implement ICache.'
+            );
         }
 
         $this->cache = $cache;
         $this->cache->setParameters(new Parameters($this->config->get('cache', array())));
+        //$this->cache->load();
 
         return $this->cache;
     }
