@@ -2,7 +2,8 @@
 
 namespace Environaut\Runner;
 
-use Environaut\Cache\ICache;
+use Environaut\Cache\Cache;
+use Environaut\Cache\IReadOnlyCache;
 use Environaut\Checks\ICheck;
 use Environaut\Command\Command;
 use Environaut\Config\IConfig;
@@ -42,9 +43,9 @@ class Runner implements IRunner
     protected $parameters;
 
     /**
-     * @var ICache cache that checks may use for cached settings (storage and retrieval)
+     * @var IReadOnlyCache cache that checks may use for cached settings (storage and retrieval)
      */
-    protected $cache;
+    protected $readonly_cache;
 
     public function __construct()
     {
@@ -57,9 +58,9 @@ class Runner implements IRunner
      */
     public function run()
     {
-        $this->initReport();
+        $successful = true;
 
-        $this->initCache();
+        $this->initReport();
 
         $checks = array();
         foreach ($this->config->getCheckDefinitions() as $check_definition) {
@@ -91,10 +92,20 @@ class Runner implements IRunner
 
             $this->report->addResult($result);
 
+            $successful &= $succeeded;
+
             $progress->advance();
         }
 
         $progress->finish();
+
+        // TODO should cache only be written if all things succeeded? perhaps overwrite cache with successful results?
+        //if ($successful) {
+            $cache = new Cache();
+            //$cache->setLocation($this->readonly_cache->getLocation());
+            $cache->addAll($this->report->getSettings());
+            $cache->save();
+        //}
     }
 
     /**
@@ -119,7 +130,7 @@ class Runner implements IRunner
         }
 
         $check->setCommand($this->command);
-        $check->setCache($this->cache);
+        $check->setCache($this->readonly_cache);
 
         $check->setName($params->get(IConfig::PARAM_NAME));
         $check->setGroup($params->get(IConfig::PARAM_GROUP));
@@ -151,29 +162,6 @@ class Runner implements IRunner
     }
 
     /**
-     * Initializes the internal cache instance being used by checks to store and retrieve cached settings.
-     *
-     * @return ICache cache instance
-     */
-    protected function initCache()
-    {
-        $cache_implementor = $this->config->getCacheImplementor();
-        $cache = new $cache_implementor();
-
-        if (!$cache instanceof ICache) {
-            throw new \InvalidArgumentException(
-                'The given cache class "' . $cache_implementor . '" does not implement ICache.'
-            );
-        }
-
-        $this->cache = $cache;
-        $this->cache->setParameters(new Parameters($this->config->get('cache', array())));
-        //$this->cache->load();
-
-        return $this->cache;
-    }
-
-    /**
      * Returns the report that contains the results of the checks.
      *
      * @return IReport report created by the runner
@@ -201,6 +189,17 @@ class Runner implements IRunner
     public function setConfig(IConfig $config)
     {
         $this->config = $config;
+    }
+
+    /**
+     * Sets the readonly cache used by checks to determine if they've been run before and
+     * if they can reuse prior settings to let users just confirm settings etc.
+     *
+     * @param IReadOnlyCache $cache instance that contains all cached settings for checks
+     */
+    public function setCache(IReadOnlyCache $cache)
+    {
+        $this->readonly_cache = $cache;
     }
 
     /**

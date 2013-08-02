@@ -38,10 +38,13 @@ class Report implements IReport
      * Adds the given result to this report.
      *
      * @param \Environaut\Report\Results\IResult $result result to add to this report
+     *
+     * @return Report this instance for fluent API support
      */
     public function addResult(IResult $result)
     {
         $this->results[] = $result;
+
         return $this;
     }
 
@@ -49,10 +52,13 @@ class Report implements IReport
      * Replaces the current results with the given IResult instances.
      *
      * @param array $results array of IResult instances
+     *
+     * @return Report this instance for fluent API support
      */
     public function setResults(array $results)
     {
         $this->results = $results;
+
         return $this;
     }
 
@@ -67,16 +73,81 @@ class Report implements IReport
     }
 
     /**
-     * Returns all settings of all results of all processed checks as an associative nested array.
+     * Returns an array of ISetting instances that match the given criterias from the results of this report.
      *
-     * @return array of settings
+     * @param mixed $groups string or array of group names settings should match, the default null matches always
+     * @param integer $flag type of settings to get
+     *
+     * @return array of ISetting instances
      */
-    public function getSettings()
+    public function getSettings($groups = null, $flag = null)
     {
         $settings = array();
 
         foreach ($this->results as $result) {
-            $settings = array_merge_recursive($settings, $result->getSettingsAsArray());
+            $settings = array_merge($settings, $result->getSettings($groups, $flag));
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Returns an array of cachable ISetting instances that match the given criterias from the results of this report.
+     *
+     * @param mixed $groups string or array of group names settings should match, the default null matches always
+     * @param integer $flag type of settings to get
+     *
+     * @return array of ISetting instances
+     */
+    public function getCachableSettings($groups = null, $flag = null)
+    {
+        $settings = array();
+
+        foreach ($this->results as $result) {
+            $settings = array_merge($settings, $result->getCachableSettings($groups, $flag));
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Returns an array of associative arrays for each ISetting instance
+     * that matches the given criterias (from the results of this report).
+     *
+     * @param mixed $groups string or array of group names settings should match, the default null matches always
+     * @param integer $flag type of settings to get
+     *
+     * @return array of associative arrays for each ISetting instance that matched
+     */
+    public function getSettingsAsArray($groups = null, $flag = null)
+    {
+        $settings = array();
+
+        foreach ($this->results as $result) {
+            $new_settings = $result->getSettingsAsArray($groups, $flag);
+            foreach ($new_settings as $s) {
+                $settings[] = $s;
+            }
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Returns an array of associative arrays for each cachable ISetting instance
+     * that matches the given criterias (from the results of this report).
+     *
+     * @param mixed $groups string or array of group names settings should match, the default null matches always
+     * @param integer $flag type of settings to get
+     *
+     * @return array of associative arrays for each ISetting instance that matched
+     */
+    public function getCachableSettingsAsArray($groups = null, $flag = null)
+    {
+        $settings = array();
+
+        foreach ($this->results as $result) {
+            $settings[] = array_merge($settings, $result->getCachableSettingsAsArray($groups, $flag));
         }
 
         return $settings;
@@ -86,60 +157,13 @@ class Report implements IReport
      * Runtime parameters to configure the report behaviour.
      *
      * @param Parameters $parameters runtime parameters to use
+     *
+     * @return Report this instance for fluent API support
      */
     public function setParameters(Parameters $parameters)
     {
         $this->parameters = $parameters;
-    }
 
-    /**
-     * Return all settings or the settings of the specified group as an array.
-     *
-     * @param mixed $groups group names of settings to return
-     *
-     * @return array all settings (for the specified group); empty array if group doesn't exist.
-     */
-    public function getSettingsAsArray($groups = null)
-    {
-        $all_settings = $this->getSettings();
-        $group_names = $this->getGroupNames($groups);
-
-        if (null === $group_names) {
-            return $all_settings;
-        }
-
-        $settings = array();
-
-        foreach ($group_names as $group_name) {
-            if (isset($all_settings[$group_name]) || array_key_exists($group_name, $all_settings)) {
-                $settings[$group_name] = $all_settings[$group_name];
-            }
-        }
-
-        return $settings;
-    }
-
-    /**
-     * @param mixed $groups string with comma separated group names or an array of group names
-     *
-     * @return array of group names or null if empty groups were given
-     */
-    protected function getGroupNames($groups)
-    {
-        $group_names = array();
-
-        if (empty($groups)) {
-            return null;
-        }
-
-        if (is_string($groups)) {
-            $groups = explode(',', $groups);
-        }
-
-        foreach ($groups as $group_name) {
-            $group_names[] = trim($group_name);
-        }
-
-        return $group_names;
+        return $this;
     }
 }

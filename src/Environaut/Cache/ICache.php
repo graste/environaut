@@ -2,15 +2,12 @@
 
 namespace Environaut\Cache;
 
-use Environaut\Config\Parameters;
+use Environaut\Cache\IReadOnlyCache;
 use Environaut\Report\Results\Settings\ISetting;
 
-interface ICache
+interface ICache extends IReadOnlyCache
 {
-    public function setLocation($location);
-    public function setParameters(Parameters $parameters);
-
     public function add(ISetting $setting);
-    public function get($name, $group, $flag);
-    public function getAll($groups, $flag);
+    public function addAll(array $settings);
+    public function save();
 }

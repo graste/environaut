@@ -18,6 +18,13 @@ interface IReport
     public function addResult(IResult $result);
 
     /**
+     * Runtime parameters to configure the report behaviour.
+     *
+     * @param Parameters $parameters runtime parameters to use
+     */
+    public function setParameters(Parameters $parameters);
+
+    /**
      * Sets the given results on this report.
      *
      * @param array $results array of IResult instances
@@ -33,17 +40,44 @@ interface IReport
     public function getResults();
 
     /**
-     * Returns an associative array of settings
-     * collected from the results of this report.
+     * Returns an array of ISetting instances that match the given criterias from the results of this report.
      *
-     * @return array of settings
+     * @param mixed $groups string or array of group names settings should match, the default null matches always
+     * @param integer $flag type of settings to get
+     *
+     * @return array of ISetting instances
      */
-    public function getSettings();
+    public function getSettings($groups = null, $flag = null);
 
     /**
-     * Runtime parameters to configure the report behaviour.
+     * Returns an array of associative arrays for each ISetting instance
+     * that matches the given criterias (from the results of this report).
      *
-     * @param Parameters $parameters runtime parameters to use
+     * @param mixed $groups string or array of group names settings should match, the default null matches always
+     * @param integer $flag type of settings to get
+     *
+     * @return array of associative arrays for each ISetting instance that matched
      */
-    public function setParameters(Parameters $parameters);
+    public function getSettingsAsArray($groups = null, $flag = null);
+
+    /**
+     * Returns an array of cachable ISetting instances that match the given criterias from the results of this report.
+     *
+     * @param mixed $groups string or array of group names settings should match, the default null matches always
+     * @param integer $flag type of settings to get
+     *
+     * @return array of ISetting instances
+     */
+    public function getCachableSettings($groups = null, $flag = null);
+
+    /**
+     * Returns an array of associative arrays for each cachable ISetting instance
+     * that matches the given criterias (from the results of this report).
+     *
+     * @param mixed $groups string or array of group names settings should match, the default null matches always
+     * @param integer $flag type of settings to get
+     *
+     * @return array of associative arrays for each ISetting instance that matched
+     */
+    public function getCachableSettingsAsArray($groups = null, $flag = null);
 }

@@ -3,9 +3,10 @@
 namespace Environaut\Checks;
 
 use Environaut\Cache\Cache;
-use Environaut\Cache\ICache;
+use Environaut\Cache\IReadOnlyCache;
 use Environaut\Command\Command;
 use Environaut\Config\Parameters;
+use Environaut\Report\Results\IResult;
 use Environaut\Report\Results\Result;
 use Environaut\Report\Results\Messages\Message;
 use Environaut\Report\Results\Settings\ISetting;
@@ -44,7 +45,7 @@ abstract class Check implements ICheck
     protected $result;
 
     /**
-     * @var ICache
+     * @var IReadOnlyCache
      */
     protected $cache;
 
@@ -77,6 +78,8 @@ abstract class Check implements ICheck
      * Sets the name of the check. When null or a non-string value is given a random name is set.
      *
      * @param string $name name of the check
+     *
+     * @return Check this instance for fluent API support
      */
     public function setName($name = null)
     {
@@ -103,6 +106,8 @@ abstract class Check implements ICheck
      * Sets the group name of the check (for reports). Null or non-string values will set the default group name.
      *
      * @param string $group name of the group the check belongs to
+     *
+     * @return Check this instance for fluent API support
      */
     public function setGroup($group = null)
     {
@@ -128,11 +133,15 @@ abstract class Check implements ICheck
     /**
      * Sets the necessary runtime parameters of the check.
      *
-     * @param \Environaut\Config\Parameters $parameters runtime configuration parameters for this check
+     * @param Parameters $parameters runtime configuration parameters for this check
+     *
+     * @return Check this instance for fluent API support
      */
     public function setParameters(Parameters $parameters)
     {
         $this->parameters = $parameters;
+
+        return $this;
     }
 
     /**
@@ -145,19 +154,29 @@ abstract class Check implements ICheck
         return $this->parameters;
     }
 
-    public function setCache(ICache $cache)
+    /**
+     * Sets the cache instance a check may use to retrieve old values from the cache
+     * to prevent e.g. asking already configured settings.
+     *
+     * @param IReadOnlyCache $cache cache instance
+     *
+     * @return Check this instance for fluent API support
+     */
+    public function setCache(IReadOnlyCache $cache)
     {
         $this->cache = $cache;
+
+        return $this;
     }
 
     /**
      * Returns the tokens that should be available prior to running this check.
      *
-     * @throws array with token names
+     * @return array with token names
      */
     public function getDependencies()
     {
-        throw $this->depend_tokens;
+        return array();
     }
 
     /**
@@ -192,6 +211,8 @@ abstract class Check implements ICheck
      * @param int $flag type of the setting (normal or sensitive)
      * @param boolean $cachable whether that setting should also be stored in a cache
      *
+     * @return Check this instance for fluent API support
+     *
      * @throws \InvalidArgumentException if no valid setting key was given
      */
     protected function addSetting($name, $value, $group = null, $flag = ISetting::NORMAL, $cachable = false)
@@ -207,6 +228,8 @@ abstract class Check implements ICheck
         $setting = new Setting($name, $value, $group, $flag);
 
         $this->result->addSetting($setting, $cachable);
+
+        return $this;
     }
 
     /**
@@ -222,11 +245,15 @@ abstract class Check implements ICheck
      * @param string $group name of group this setting belongs to
      * @param int $flag type of the setting (ISetting::NORMAL by default)
      *
+     * @return Check this instance for fluent API support
+     *
      * @throws \InvalidArgumentException if no valid setting key was given
      */
     protected function addCachableSetting($name, $value, $group = null, $flag = ISetting::NORMAL)
     {
         $this->addSetting($name, $value, $group, $flag, true);
+
+        return $this;
     }
 
     /**
@@ -236,6 +263,8 @@ abstract class Check implements ICheck
      * @param string $text message text
      * @param string $name message name
      * @param string $group group name
+     *
+     * @return Check this instance for fluent API support
      */
     protected function addInfo($text = '', $name = null, $group = null)
     {
@@ -248,6 +277,8 @@ abstract class Check implements ICheck
         }
 
         $this->result->addMessage(new Message($name, $text, $group, Message::SEVERITY_INFO));
+
+        return $this;
     }
 
     /**
@@ -257,6 +288,8 @@ abstract class Check implements ICheck
      * @param string $text message text
      * @param string $name message name
      * @param string $group group name
+     *
+     * @return Check this instance for fluent API support
      */
     protected function addNotice($text = '', $name = null, $group = null)
     {
@@ -269,6 +302,8 @@ abstract class Check implements ICheck
         }
 
         $this->result->addMessage(new Message($name, $text, $group, Message::SEVERITY_NOTICE));
+
+        return $this;
     }
 
     /**
@@ -278,6 +313,8 @@ abstract class Check implements ICheck
      * @param string $text message text
      * @param string $name message name
      * @param string $group group name
+     *
+     * @return Check this instance for fluent API support
      */
     protected function addError($text = '', $name = null, $group = null)
     {
@@ -290,6 +327,8 @@ abstract class Check implements ICheck
         }
 
         $this->result->addMessage(new Message($name, $text, $group, Message::SEVERITY_ERROR));
+
+        return $this;
     }
 
     /**
@@ -310,10 +349,13 @@ abstract class Check implements ICheck
 
     /**
      * @param \Environaut\Command\Command $command
+     *
+     * @return Check this instance for fluent API support
      */
     public function setCommand(Command $command)
     {
         $this->command = $command;
+        return $this;
     }
 
     /**

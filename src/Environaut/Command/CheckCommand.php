@@ -2,8 +2,11 @@
 
 namespace Environaut\Command;
 
+use Environaut\Cache\IReadOnlyCache;
 use Environaut\Command\Command;
 use Environaut\Config\Parameters;
+use Environaut\Runner\IRunner;
+use Environaut\Export\IExport;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -36,6 +39,11 @@ class CheckCommand extends Command
     protected $config_handler;
 
     /**
+     * @var \Environaut\Cache\IReadOnlyCache
+     */
+    protected $readonly_cache;
+
+    /**
      * Define options supported by this command and set name, description and help texts.
      */
     protected function configure()
@@ -56,6 +64,13 @@ class CheckCommand extends Command
             null,
             InputArgument::OPTIONAL,
             'Classname of a custom config handler implementing Environaut\Config\IConfigHandler.'
+        );
+
+        $this->addOption(
+            'cache_location',
+            null,
+            InputArgument::OPTIONAL,
+            'File path and name for the cache location to read from. Overrides defaults and config file value.'
         );
 
         $this->setDescription('Check environment according to a set of checks.');
@@ -110,9 +125,15 @@ EOT
         $runner_impl = $this->config->getRunnerImplementor();
 
         $runner = new $runner_impl();
+
+        if (!$runner instanceof IRunner) {
+            throw new \InvalidArgumentException('The given runner "' . $runner_impl . '" must implement IRunner.');
+        }
+
         $runner->setConfig($this->config);
         $runner->setCommand($this);
         $runner->setParameters(new Parameters($this->config->get('runner', array())));
+        $runner->setCache($this->getLoadedCache());
 
         $runner->run();
 
@@ -127,11 +148,48 @@ EOT
         $export_impl = $this->config->getExportImplementor();
 
         $exporter = new $export_impl();
+
+        if (!$exporter instanceof IExport) {
+            throw new \InvalidArgumentException('The given exporter "' . $export_impl . '" must implement IExport.');
+        }
+
         $exporter->setCommand($this);
         $exporter->setReport($this->report);
         $exporter->setParameters(new Parameters($this->config->get('export', array())));
 
         $exporter->run();
+    }
+
+    /**
+     * Creates a cache instance and tries to load it according to command line argument or config.
+     *
+     * The cache is used in the runner to allow checks to access old values that may already have
+     * been configured and thus improve their flow and e.g. not ask values again or just confirm them.
+     *
+     * @return IReadOnlyCache cache instance
+     */
+    protected function getLoadedCache()
+    {
+        $cache_implementor = $this->config->getReadOnlyCacheImplementor();
+        $cache = new $cache_implementor();
+
+        if (!$cache instanceof IReadOnlyCache) {
+            throw new \InvalidArgumentException(
+                'The given cache class "' . $cache_implementor . '" does not implement IReadOnlyCache.'
+            );
+        }
+
+        $cache_params = new Parameters($this->config->get('cache', array()));
+        $cache_location = $this->input->getOption('cache_location');
+
+        $this->readonly_cache = $cache;
+        $this->readonly_cache->setParameters($cache_params);
+        if (!empty($cache_location) && is_readable($cache_location)) {
+            $this->readonly_cache->setLocation($cache_location);
+        }
+        $this->readonly_cache->load();
+
+        return $this->readonly_cache;
     }
 
     /**

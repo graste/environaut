@@ -49,9 +49,16 @@ interface IConfig
     public function getRunnerImplementor();
 
     /**
+     * Defaults to "Environaut\Cache\ReadOnlyCache".
+     *
+     * @return string (namespaced) class name to use for cache given to checks
+     */
+    public function getReadOnlyCacheImplementor();
+
+    /**
      * Defaults to "Environaut\Cache\Cache".
      *
-     * @return string (namespaced) class name to use for caching (in runner/checks)
+     * @return string (namespaced) class name to use for writing cachable settings after report generation
      */
     public function getCacheImplementor();
 

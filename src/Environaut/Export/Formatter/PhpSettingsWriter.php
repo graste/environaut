@@ -21,10 +21,10 @@ class PhpSettingsWriter extends BaseFormatter
     public function format(IReport $report)
     {
         $output = '';
-        $options = $this->getOptions();
+        $params = $this->getParameters();
 
-        $file = $options->get('location', 'environaut-config.php');
-        $groups = $options->get('groups', array());
+        $file = $params->get('location', 'environaut-config.php');
+        $groups = $params->get('groups');
 
         if (is_writable($file)) {
             $output .= '<comment>Overwriting</comment> ';
@@ -41,7 +41,14 @@ class PhpSettingsWriter extends BaseFormatter
         $output .= 'to file "<comment>' . $file . '</comment>"...';
 
         $all_settings = $report->getSettingsAsArray($groups);
-        $content = '<?php return ' . var_export($all_settings, true) . ';';
+
+        $grouped_settings = array();
+        foreach ($all_settings as $setting) {
+            $grouped_settings[$setting['group']][$setting['name']] = $setting['value'];
+        }
+
+        $content = '<?php return ' . var_export($grouped_settings, true) . ';';
+
         $ok = file_put_contents($file, $content, LOCK_EX);
 
         if ($ok !== false) {

@@ -2,6 +2,7 @@
 
 namespace Environaut\Runner;
 
+use Environaut\Cache\IReadOnlyCache;
 use Environaut\Command\Command;
 use Environaut\Config\IConfig;
 use Environaut\Config\Parameters;
@@ -13,6 +14,16 @@ use Environaut\Config\Parameters;
  */
 interface IRunner
 {
+    /**
+     * Sets the readonly cache used by checks to determine if they've been run before and
+     * if they can reuse prior settings to let users just confirm settings etc.
+     *
+     * The cache instance should've already been loaded and thus contain everything needed for the checks.
+     *
+     * @param IReadOnlyCache $cache instance that already contains all cached settings loaded for checks
+     */
+    public function setCache(IReadOnlyCache $cache);
+
     /**
      * Sets the given config on the runner.
      *

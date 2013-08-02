@@ -12,7 +12,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 abstract class Command extends BaseCommand
 {
+    /**
+     * @var InputInterface
+     */
     protected $input;
+
+    /**
+     * @var OutputInterface
+     */
     protected $output;
 
     /**

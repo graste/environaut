@@ -130,8 +130,8 @@ class ConfiguratorTest extends BaseTestCase
         $this->assertCount(0, $settings, 'expected default custom group to be empty as "trololo" was the group name.');
         $settings = $check->getResult()->getSettingsAsArray('trololo');
         $this->assertCount(1, $settings, 'group "trololo" should contain the setting');
-        $this->assertArrayHasKey('core.email', $settings);
-        $this->assertSame($email, $settings['core.email']);
+        $this->assertSame('core.email', $settings[0]['name']);
+        $this->assertSame($email, $settings[0]['value']);
     }
 
     public function testSimpleValueQuestion()
@@ -150,8 +150,8 @@ class ConfiguratorTest extends BaseTestCase
 
         $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
-        $this->assertArrayHasKey('core.email', $settings);
-        $this->assertSame($email, $settings['core.email']);
+        $this->assertSame('core.email', $settings[0]['name']);
+        $this->assertSame($email, $settings[0]['value']);
     }
 
     public function testSimpleValueQuestionWithFailedValidationAfterSomeAttempts()
@@ -213,8 +213,8 @@ class ConfiguratorTest extends BaseTestCase
 
         $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
-        $this->assertArrayHasKey('core.email', $settings);
-        $this->assertSame('correct@example.com', $settings['core.email']);
+        $this->assertSame('core.email', $settings[0]['name']);
+        $this->assertSame('correct@example.com', $settings[0]['value']);
     }
 
     public function testSimpleChoice()
@@ -242,8 +242,8 @@ class ConfiguratorTest extends BaseTestCase
 
         $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
-        $this->assertArrayHasKey('pick', $settings);
-        $this->assertSame('bar', $settings['pick']);
+        $this->assertSame('pick', $settings[0]['name']);
+        $this->assertSame('bar', $settings[0]['value']);
     }
 
     public function testSimpleDefaultValue()
@@ -268,8 +268,8 @@ class ConfiguratorTest extends BaseTestCase
 
         $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
-        $this->assertArrayHasKey('pick', $settings);
-        $this->assertSame('hooray for default values!', $settings['pick']);
+        $this->assertSame('pick', $settings[0]['name']);
+        $this->assertSame('hooray for default values!', $settings[0]['value']);
     }
 
     public function testHiddenInputValue()
@@ -294,8 +294,8 @@ class ConfiguratorTest extends BaseTestCase
 
         $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
-        $this->assertArrayHasKey('pick', $settings);
-        $this->assertSame('password', $settings['pick']);
+        $this->assertSame('pick', $settings[0]['name']);
+        $this->assertSame('password', $settings[0]['value']);
     }
 
     public function testHiddenInputValueWithValidatorSucceeds()
@@ -321,8 +321,8 @@ class ConfiguratorTest extends BaseTestCase
 
         $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
-        $this->assertArrayHasKey('pick', $settings);
-        $this->assertSame(__DIR__, $settings['pick']);
+        $this->assertSame('pick', $settings[0]['name']);
+        $this->assertSame(__DIR__, $settings[0]['value']);
     }
 
     public function testHiddenInputValueWithValidatorFails()
@@ -356,8 +356,8 @@ class ConfiguratorTest extends BaseTestCase
 
         $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
-        $this->assertArrayHasKey('core.testing', $settings);
-        $this->assertSame(true, $settings['core.testing']);
+        $this->assertSame('core.testing', $settings[0]['name']);
+        $this->assertSame(true, $settings[0]['value']);
     }
 
     public function testSimpleYesConfirmation()
@@ -376,8 +376,8 @@ class ConfiguratorTest extends BaseTestCase
 
         $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
-        $this->assertArrayHasKey('core.testing', $settings);
-        $this->assertSame(true, $settings['core.testing']);
+        $this->assertSame('core.testing', $settings[0]['name']);
+        $this->assertSame(true, $settings[0]['value']);
     }
 
     public function testSimpleNoConfirmation()
@@ -396,8 +396,8 @@ class ConfiguratorTest extends BaseTestCase
 
         $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
-        $this->assertArrayHasKey('core.testing', $settings);
-        $this->assertSame(false, $settings['core.testing']);
+        $this->assertSame('core.testing', $settings[0]['name']);
+        $this->assertSame(false, $settings[0]['value']);
     }
 
     public function testSimpleNoConfirmationViaDefault()
@@ -419,8 +419,8 @@ class ConfiguratorTest extends BaseTestCase
 
         $settings = $check->getResult()->getSettingsAsArray($check->getDefaultSettingGroupName());
         $this->assertCount(1, $settings);
-        $this->assertArrayHasKey('core.testing', $settings);
-        $this->assertSame(false, $settings['core.testing']);
+        $this->assertSame('core.testing', $settings[0]['name']);
+        $this->assertSame(false, $settings[0]['value']);
     }
 
     public function testIntroductionIsDisplayed()

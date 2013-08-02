@@ -91,6 +91,16 @@ class ExecutableCheck extends Check
         $validator = $this->parameters->get('validator', array($this, 'validExecutable'));
         $max_attempts = $this->parameters->get('max_attempts', false);
 
+        if ($this->cache->has($setting, $setting_group)) {
+            $cached_setting = $this->cache->get($setting, $setting_group);
+            $this->addInfo(
+                "Setting [" . $cached_setting->getGroup() . "][$setting] already configured. Using " .
+                'value: ' . var_export($cached_setting->getValue(), true)
+            );
+            $this->result->addSetting($cached_setting);
+            return true;
+        }
+
         $question = '<question>' . $this->parameters->get(
             'question',
             'Path to the executable "' . $command . '"'

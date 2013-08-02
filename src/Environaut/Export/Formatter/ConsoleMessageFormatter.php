@@ -14,7 +14,7 @@ use Environaut\Export\Formatter\BaseFormatter;
 class ConsoleMessageFormatter extends BaseFormatter
 {
     /**
-     * Default sprintf compatible format for messages. May be changed via options.
+     * Default sprintf compatible format for messages. May be changed via parameters.
      */
     const DEFAULT_FORMAT = '[%1$s] [%2$s] %3$s';
 
@@ -29,7 +29,7 @@ class ConsoleMessageFormatter extends BaseFormatter
     public function format(IReport $report)
     {
         $output = '';
-        $format = $this->getOptions()->get('format', self::DEFAULT_FORMAT);
+        $format = $this->getParameters()->get('format', self::DEFAULT_FORMAT);
 
         $results = $report->getResults();
         foreach ($results as $result) {

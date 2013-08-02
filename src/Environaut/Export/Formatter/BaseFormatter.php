@@ -15,7 +15,7 @@ abstract class BaseFormatter implements IReportFormatter
     /**
      * @var Parameters options for formatting
      */
-    protected $options;
+    protected $parameters;
 
     /**
      * Create new instance of the formatter.
@@ -24,21 +24,28 @@ abstract class BaseFormatter implements IReportFormatter
      */
     public function __construct(array $options = array())
     {
-        $this->options = new Parameters($options);
+        $this->parameters = new Parameters($options);
     }
 
     /**
-     * Sets the given options on the formatter.
+     * Sets the given runtime parameters on the formatter.
      *
-     * @param array $options associative array with options understood by this formatter
+     * @param Parameters $parameters associative array with options understood by this formatter
+     *
+     * @return $this for fluent API support
      */
-    public function setOptions(array $options = array())
+    public function setParameters(Parameters $parameters)
     {
-        $this->options = new Parameters($options);
+        $this->parameters = $parameters;
     }
 
-    public function getOptions()
+    /**
+     * Returns all runtime parameters for this formatter from the config.
+     *
+     * @return Parameters
+     */
+    public function getParameters()
     {
-        return $this->options;
+        return $this->parameters;
     }
 }

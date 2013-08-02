@@ -2,6 +2,7 @@
 
 namespace Environaut\Export\Formatter;
 
+use Environaut\Config\Parameters;
 use Environaut\Report\IReport;
 
 /**
@@ -23,9 +24,9 @@ interface IReportFormatter
     public function format(IReport $report);
 
     /**
-     * Sets the given options on the formatter.
+     * Sets the given runtime parameters on the formatter.
      *
-     * @param array $options associative array with options understood by the formatter
+     * @param Parameters $parameters options understood by the formatter
      */
-    public function setOptions(array $options = array());
+    public function setParameters(Parameters $parameters);
 }

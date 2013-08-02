@@ -34,7 +34,7 @@ interface IResult
     /**
      * Adds the given message to the internal list of messages.
      *
-     * @param \Environaut\Report\Results\Messages\IMessage $message
+     * @param IMessage $message
      */
     public function addMessage(IMessage $message);
 
@@ -55,10 +55,20 @@ interface IResult
     /**
      * Adds the given setting to the internal list of settings.
      *
+     * @param ISetting $setting setting to add to the internal lists of settings
+     * @param bool $cachable whether or not the setting may be put into a cache for reuse on re-execution of the check
+     *
+     * @return Result this instance for fluent API support
+     */
+    public function addSetting(ISetting $setting, $cachable = true);
+
+    /**
+     * Adds the given setting to the internal list of settings.
+     *
      * @param \Environaut\Report\Results\Settings\ISetting $setting setting to add
      * @param bool $cachable whether or not the setting may be put into a cache for reuse on re-execution of the check
      */
-    public function addSetting(ISetting $setting, $cachable);
+    public function addSettings(array $setting, $cachable = true);
 
     /**
      * Returns the internal list of settings emitted by the processed check.
@@ -73,13 +83,6 @@ interface IResult
      * @return array of ISetting implementing instances
      */
     public function getCachableSettings();
-
-    /**
-     * Replaces the internal list of settings with the given list.
-     *
-     * @param array $settings array with ISetting implementing instances
-     */
-    public function setSettings(array $settings);
 
     /**
      * Return all settings or the settings of the specified group as an array.

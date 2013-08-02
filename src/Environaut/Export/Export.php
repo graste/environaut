@@ -79,7 +79,7 @@ class Export implements IExport
             $formatter_class = $params->get('__class', $this->getFormatterByExtension($location));
 
             $formatter = new $formatter_class();
-            $formatter->setOptions($formatter_definition);
+            $formatter->setParameters($params);
 
             $output->writeln('Starting export via "' . $formatter_class . '".');
 

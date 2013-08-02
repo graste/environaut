@@ -92,6 +92,16 @@ class Configurator extends Check
         $confirm = (bool) $this->parameters->get('confirm', false);
         $select = (bool) $this->parameters->get('select', false);
 
+        if ($this->cache->has($name, $setting_group)) {
+            $cached_setting = $this->cache->get($name, $setting_group);
+            $this->addInfo(
+                "Setting [" . $cached_setting->getGroup() . "][$name] already configured. Using " .
+                'value: ' . var_export($cached_setting->getValue(), true)
+            );
+            $this->result->addSetting($cached_setting);
+            return true;
+        }
+
         $question = '<question>' . $this->parameters->get('question', '"setting_question" is not set');
 
         // a simple yes(no confirmation dialog
@@ -101,7 +111,7 @@ class Configurator extends Check
             $question .= "</question> (Type [y/n/<return>], default=$default_text): ";
             $value = $dialog->askConfirmation($output, $question, $default);
             $default_text = ($default ? 'enabled' : 'disabled');
-            $this->addSetting($name, $value, $setting_group);
+            $this->addCachableSetting($name, $value, $setting_group);
             $this->addInfo($name . ' is ' . $default_text);
 
             return true;
@@ -118,7 +128,7 @@ class Configurator extends Check
         // selection dialog to choose values from a list of choices
         if ($select) {
             $value = $dialog->select($output, $question, $choices, $default, $max_attempts);
-            $this->addSetting($name, $choices[$value], $setting_group);
+            $this->addCachableSetting($name, $choices[$value], $setting_group);
             $this->addInfo('Selected value for "' . $name . '" is "' . $choices[$value] . '".');
 
             return true;
@@ -152,7 +162,6 @@ class Configurator extends Check
         }
 
         $this->addInfo('Successfully configured "' . $name . '".');
-        //$this->addSetting($name, $value, $setting_group);
         $this->addCachableSetting($name, $value, $setting_group);
 
         $output->writeln('');

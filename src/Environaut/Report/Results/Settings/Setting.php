@@ -86,25 +86,47 @@ class Setting implements ISetting
     }
 
     /**
-     * Returns an array with the group containing the name and value of the setting.
+     * Determines whether this setting's flag value is contained in the given flag value.
      *
-     * @return array representation of this setting
+     * For example: If this setting has a flag of ISetting::NORMAL (1) a given $flag value
+     * of (ISetting::SENSITIVE | ISetting::WHATEVER) would not match.
+     *
+     * @param int $flag setting type value to check against, default is null and matches always
+     *
+     * @return boolean true if this setting's flag is in the given flag
      */
-    public function toArray()
+    public function matchesFlag($flag = null)
     {
-        return array(
-            $this->group => array(
-                $this->name => $this->value
-            )
-        );
+        if (null !== $flag) {
+            return ($this->flag & $flag);
+        }
+
+        return true;
     }
 
     /**
-     * Returns a flat array with four keys.
+     * Determines whether this setting's group matches the given groups.
+     *
+     * @param mixed $groups string or array with group names, default null matches always
+     *
+     * @return boolean true when this setting's group matches the given groups
+     */
+    public function matchesGroup($groups = null)
+    {
+        if (null !== $groups) {
+            $group_names = self::getGroupNames($groups);
+            return in_array($this->group, $group_names);
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns a flat array with four keys (name, group, value and flag).
      *
      * @return array flat associative array representation of this setting
      */
-    public function toFlatArray()
+    public function toArray()
     {
         return array(
             'name' => $this->name,
@@ -112,5 +134,29 @@ class Setting implements ISetting
             'group' => $this->group,
             'flag' => $this->flag,
         );
+    }
+
+    /**
+     * @param mixed $groups string with comma separated group names or an array of group names
+     *
+     * @return array of group names
+     */
+    public static function getGroupNames($groups = null)
+    {
+        $group_names = array();
+
+        if (null === $groups || (!is_string($groups) && !is_array($groups))) {
+            return array();
+        }
+
+        if (is_string($groups)) {
+            $groups = explode(',', $groups);
+        }
+
+        foreach ($groups as $group_name) {
+            $group_names[] = trim($group_name);
+        }
+
+        return $group_names;
     }
 }

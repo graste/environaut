@@ -2,6 +2,8 @@
 
 namespace Environaut\Tests\Checks;
 
+use Environaut\Config\Parameters;
+use Environaut\Checks\ExecutableCheck;
 use Environaut\Tests\BaseTestCase;
 use Environaut\Tests\Checks\Fixtures\TestableExecutableCheck;
 
@@ -9,11 +11,12 @@ class ExecutableCheckTest extends BaseTestCase
 {
     public function testConstruct()
     {
-        $check = new \Environaut\Checks\ExecutableCheck();
+        $check = new ExecutableCheck();
         $check->setName('foo');
 
         $this->assertEquals('foo', $check->getName());
         $this->assertInstanceOf('\Environaut\Report\Results\IResult', $check->getResult());
+        $this->assertInstanceOf('\Environaut\Config\Parameters', $check->getParameters());
         $this->assertEquals(null, $check->getCommand());
     }
 
@@ -28,7 +31,6 @@ class ExecutableCheckTest extends BaseTestCase
             'trololo',
             'curl'
         );
-
     }
 
     public function testDefaults()
@@ -51,8 +53,8 @@ class ExecutableCheckTest extends BaseTestCase
         $this->assertCount(0, $settings, 'expected default group to be empty as "trololo" was the group name.');
         $settings = $check->getResult()->getSettingsAsArray('trololo');
         $this->assertCount(1, $settings, 'group "trololo" should contain the setting');
-        $this->assertArrayHasKey('cmd.curl', $settings); // default setting name is "cmd.__NAME"
-        $this->assertEquals('/usr/bin/curl', $settings['cmd.curl']); // default path prefix is "/usr/bin/"
+        $this->assertSame('cmd.curl', $settings[0]['name']); // default setting name is "cmd.__NAME"
+        $this->assertEquals('/usr/bin/curl', $settings[0]['value']); // default path prefix is "/usr/bin/"
     }
 
     public function testDefaultCommand()
@@ -67,8 +69,8 @@ class ExecutableCheckTest extends BaseTestCase
         );
 
         $settings = $check->getResult()->getSettingsAsArray('trololo');
-        $this->assertArrayHasKey('command_curl', $settings);
-        $this->assertEquals('/usr/sbin/some_wrapper', $settings['command_curl']);
+        $this->assertSame('command_curl', $settings[0]['name']);
+        $this->assertEquals('/usr/sbin/some_wrapper', $settings[0]['value']);
     }
 
     public function testDefaultIsWorking()
@@ -83,8 +85,8 @@ class ExecutableCheckTest extends BaseTestCase
         );
 
         $settings = $check->getResult()->getSettingsAsArray('trololo');
-        $this->assertArrayHasKey('command_curl', $settings);
-        $this->assertEquals('/usr/sbin/some_wrapper', $settings['command_curl']);
+        $this->assertSame('command_curl', $settings[0]['name']);
+        $this->assertEquals('/usr/sbin/some_wrapper', $settings[0]['value']);
     }
 
     public function testInputIsWorking()
@@ -97,8 +99,8 @@ class ExecutableCheckTest extends BaseTestCase
         );
 
         $settings = $check->getResult()->getSettingsAsArray('trololo');
-        $this->assertArrayHasKey('cmd.curl', $settings);
-        $this->assertEquals('/usr/sbin/trololo', $settings['cmd.curl']);
+        $this->assertSame('cmd.curl', $settings[0]['name']);
+        $this->assertEquals('/usr/sbin/trololo', $settings[0]['value']);
     }
 
     /**
@@ -121,9 +123,10 @@ class ExecutableCheckTest extends BaseTestCase
         $check = new TestableExecutableCheck();
         $check->setName($name);
         $check->setGroup($group);
-        $check->setParameters(new \Environaut\Config\Parameters($params));
+        $check->setParameters(new Parameters($params));
         $check->setInput($input);
         $check->run();
+
         return $check;
     }
 }

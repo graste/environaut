@@ -67,9 +67,20 @@ class Config implements IConfig
     }
 
     /**
+     * Defaults to "Environaut\Cache\ReadOnlyCache".
+     *
+     * @return string (namespaced) class name to use for cache given to checks
+     */
+    public function getReadOnlyCacheImplementor()
+    {
+        $cache = new Parameters($this->config->get('cache', array()));
+        return $cache->get('readonly_class', 'Environaut\Cache\ReadOnlyCache');
+    }
+
+    /**
      * Defaults to "Environaut\Cache\Cache".
      *
-     * @return string (namespaced) class name to use for caching (in runner/checks)
+     * @return string (namespaced) class name to use for writing cachable settings after report generation
      */
     public function getCacheImplementor()
     {

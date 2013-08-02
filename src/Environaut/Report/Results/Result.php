@@ -64,7 +64,7 @@ class Result implements IResult
      *
      * @param \Environaut\Report\Results\Messages\IMessage $message
      *
-     * @return Result this instance
+     * @return Result this instance for fluent API support
      */
     public function addMessage(IMessage $message)
     {
@@ -73,12 +73,12 @@ class Result implements IResult
     }
 
     /**
-     * Adds the given setting to the internal list of settings.
+     * Adds the given setting to the internal lists of settings.
      *
-     * @param \Environaut\Report\Results\Settings\ISetting $setting
+     * @param ISetting $setting setting to add to internal lists of settings
      * @param bool $cachable whether or not the setting may be put into a cache for reuse on re-execution of the check
      *
-     * @return Result this instance
+     * @return Result this instance for fluent API support
      */
     public function addSetting(ISetting $setting, $cachable = true)
     {
@@ -92,15 +92,21 @@ class Result implements IResult
     }
 
     /**
-     * Replaces the internal list of settings with the given list.
+     * Adds the given setting to the internal list of settings.
      *
-     * @param array $settings array with ISetting implementing instances
+     * @param array $settings array with ISetting implementing instances to add
+     * @param bool $cachable whether or not the setting may be put into a cache for reuse on re-execution of the check
      *
-     * @return Result this instance
+     * @return Result this instance for fluent API support
      */
-    public function setSettings(array $settings)
+    public function addSettings(array $settings, $cachable = true)
     {
-        $this->settings = $settings;
+        foreach ($settings as $setting) {
+            if ($setting instanceof ISetting) {
+                $this->addSetting($setting);
+            }
+        }
+
         return $this;
     }
 
@@ -109,11 +115,12 @@ class Result implements IResult
      *
      * @param array $messages array with IMessage implementing instances
      *
-     * @return Result this instance
+     * @return Result this instance for fluent API support
      */
     public function setMessages(array $messages)
     {
         $this->messages = $messages;
+
         return $this;
     }
 
@@ -130,45 +137,53 @@ class Result implements IResult
     /**
      * Returns the internal list of settings emitted by the processed check.
      *
-     * @return array of ISetting implementing instances
+     * @param string $groups group names of settings to return
+     * @param integer $flag flag value the settings should belong to
+     *
+     * @return array of ISetting implementing instances matching the arguments
      */
-    public function getSettings()
+    public function getSettings($groups = null, $flag = null)
     {
-        return $this->settings;
+        return $this->getFiltered($this->settings, $groups, $flag);
     }
 
     /**
      * Returns the internal list of cachable settings emitted by the processed check.
      *
-     * @return array of ISetting implementing instances
+     * @param string $groups group names of settings to return
+     * @param integer $flag flag value the settings should belong to
+     *
+     * @return array of ISetting implementing instances matching the arguments
      */
-    public function getCachableSettings()
+    public function getCachableSettings($groups = null, $flag = null)
     {
-        return $this->cachable_settings;
+        return $this->getFiltered($this->cachable_settings, $groups, $flag);
     }
 
     /**
-     * Return all settings or the settings of the specified group as an array.
+     * Return all settings or the settings of the specified groups as an array.
      *
-     * @param string $group group name of settings to return
+     * @param string $groups group names of settings to return
+     * @param integer $flag flag value the settings should belong to
      *
-     * @return array all settings (for the specified group); empty array if group doesn't exist.
+     * @return array all settings (for the specified groups); empty array if groups don't exist.
      */
-    public function getSettingsAsArray($group = null)
+    public function getSettingsAsArray($groups = null, $flag = null)
     {
-        return $this->getAsArray($this->settings, $group);
+        return $this->getFilteredAsArray($this->settings, $groups, $flag);
     }
 
     /**
-     * Return all cachable settings or the cachable settings of the specified group as an array.
+     * Return all cachable settings or the cachable settings of the specified groups as an array.
      *
-     * @param string $group group name of cachable settings to return
+     * @param string $groups group names of cachable settings to return
+     * @param integer $flag flag value the settings should belong to
      *
-     * @return array all cachable settings (for the specified group); empty array if group doesn't exist.
+     * @return array all cachable settings (for the specified groups); empty array if groups don't exist.
      */
-    public function getCachableSettingsAsArray($group = null)
+    public function getCachableSettingsAsArray($groups = null, $flag = null)
     {
-        return $this->getAsArray($this->cachable_settings, $group);
+        return $this->getFilteredAsArray($this->cachable_settings, $groups, $flag);
     }
 
     /**
@@ -176,11 +191,12 @@ class Result implements IResult
      *
      * @param string $status one of the constants from IResult (like IResult::SUCCESS or IResult::FAIL)
      *
-     * @return \Environaut\Report\Results\Result this instance
+     * @return Result this instance for fluent API support
      */
     public function setStatus($status = self::INVALID)
     {
         $this->status = $status;
+
         return $this;
     }
 
@@ -199,11 +215,12 @@ class Result implements IResult
      *
      * @param \Environaut\Checks\ICheck $check check this result belongs to
      *
-     * @return Result this instance
+     * @return Result this instance for fluent API support
      */
     public function setCheck(ICheck $check)
     {
         $this->check = $check;
+
         return $this;
     }
 
@@ -218,27 +235,46 @@ class Result implements IResult
     }
 
     /**
-     * Returns the all or just the settings of the given group as an associative array.
+     * Returns all settings from the given array that match the groups and flag.
      *
-     * @param array $all_settings array of ISetting implementing setting instances
-     * @param string $group name of group to filter given settings for
+     * @param array $all_settings array of ISetting implementing classes
+     * @param string $groups group names of settings to return
+     * @param integer $flag flag value the settings should belong to
      *
-     * @return array associative array of settings content (name, value etc.)
+     * @return array of entries from all_settings that match the given groups and flag
      */
-    protected function getAsArray(array $all_settings, $group = null)
+    protected function getFiltered(array $all_settings = array(), $groups = null, $flag = null)
     {
         $settings = array();
 
         foreach ($all_settings as $setting) {
-            $settings = array_merge_recursive($settings, $setting->toArray());
+            if ($setting->matchesGroup($groups) && $setting->matchesFlag($flag)) {
+                $settings[] = $setting;
+            }
         }
 
-        if (null === $group) {
-            return $settings;
-        } elseif (null !== $group && isset($settings[$group])) {
-            return $settings[$group];
-        } else {
-            return array();
+        return $settings;
+    }
+
+    /**
+     * Returns all or just the matching settings of the given groups as an associative array.
+     *
+     * @param array $all_settings array of ISetting implementing setting instances
+     * @param string $group name of group to filter given settings for
+     * @param integer $flag flag value the setting must be matching
+     *
+     * @return array with associative arrays (for each setting)
+     */
+    protected function getFilteredAsArray(array $all_settings, $groups = null, $flag = null)
+    {
+        $settings = array();
+
+        foreach ($all_settings as $setting) {
+            if ($setting->matchesGroup($groups) && $setting->matchesFlag($flag)) {
+                $settings[] = $setting->toArray();
+            }
         }
+
+        return $settings;
     }
 }

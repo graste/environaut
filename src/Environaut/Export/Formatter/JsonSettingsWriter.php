@@ -21,11 +21,11 @@ class JsonSettingsWriter extends BaseFormatter
     public function format(IReport $report)
     {
         $output = '';
-        $options = $this->getOptions();
+        $params = $this->getParameters();
 
-        $file = $options->get('location', 'environaut-config.json');
-        $pretty = $options->get('pretty', true);
-        $groups = $options->get('groups', array());
+        $file = $params->get('location', 'environaut-config.json');
+        $pretty = $params->get('pretty', true);
+        $groups = $params->get('groups');
 
         if (is_writable($file)) {
             $output .= '<comment>Overwriting</comment> ';
@@ -46,7 +46,14 @@ class JsonSettingsWriter extends BaseFormatter
             $flags |= JSON_PRETTY_PRINT;
         }
 
-        $content = json_encode($report->getSettingsAsArray($groups), $flags);
+        $all_settings = $report->getSettingsAsArray($groups);
+
+        $grouped_settings = array();
+        foreach ($all_settings as $setting) {
+            $grouped_settings[$setting['group']][$setting['name']] = $setting['value'];
+        }
+
+        $content = json_encode($grouped_settings, $flags);
 
         $ok = file_put_contents($file, $content, LOCK_EX);
 

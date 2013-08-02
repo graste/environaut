@@ -28,10 +28,10 @@ class XmlSettingsWriter extends BaseFormatter
     public function format(IReport $report)
     {
         $output = '';
-        $options = $this->getOptions();
+        $params = $this->getParameters();
 
-        $file = $options->get('location', 'environaut-config.xml');
-        $groups = $options->get('groups', array());
+        $file = $params->get('location', 'environaut-config.xml');
+        $groups = $params->get('groups');
 
         if (is_writable($file)) {
             $output .= '<comment>Overwriting</comment> ';
@@ -71,24 +71,31 @@ EOT;
             <setting name="%setting_name\$s">%setting_value\$s</setting>
 EOT;
 
-        $file_template = $options->get('file_template', $default_file_template);
-        $group_template = $options->get('group_template', $default_group_template);
-        $setting_template = $options->get('setting_template', $default_setting_template);
+        $file_template = $params->get('file_template', $default_file_template);
+        $group_template = $params->get('group_template', $default_group_template);
+        $setting_template = $params->get('setting_template', $default_setting_template);
 
-        $all_settings = $report->getSettingsAsArray($groups);
+
+        $all_settings = $report->getSettings($groups);
+
+        $grouped_settings = array();
+        foreach ($all_settings as $setting) {
+            $grouped_settings[$setting->getGroup()][] = $setting;
+        }
 
         $group_content = '';
-        foreach ($all_settings as $group_name => $settings) {
+        foreach ($grouped_settings as $group_name => $settings) {
             $settings_content = '';
 
-            foreach ($settings as $key => $value) {
+            foreach ($settings as $setting) {
+                $value = $setting->getValue();
                 if (is_bool($value)) {
                     $value = var_export($value, true);
                 }
                 $settings_content .= self::vksprintf(
                     $setting_template,
                     array(
-                        'setting_name' => htmlspecialchars($key, ENT_QUOTES, 'UTF-8'),
+                        'setting_name' => htmlspecialchars($setting->getName(), ENT_QUOTES, 'UTF-8'),
                         'setting_value' => htmlspecialchars($value, ENT_QUOTES, 'UTF-8'),
                         'group_name' => htmlspecialchars($group_name, ENT_QUOTES, 'UTF-8')
                     )
