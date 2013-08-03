@@ -88,8 +88,6 @@ class Export implements IExport
         }
 
         $output->writeln('');
-        $output->writeln('Done.');
-        $output->writeln('');
     }
 
     /**

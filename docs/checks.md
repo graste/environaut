@@ -60,7 +60,7 @@ specified `default` value.
 
 ```json
 {
-    "__name": "simple_confirm"
+    "__name": "simple_confirm",
     "__class": "Environaut\\Checks\\Configurator",
     "__group": "default",
     "setting_name": "core.testing_enabled",
@@ -70,7 +70,7 @@ specified `default` value.
 }
 ```
 
-or as XML:
+or as XML (in a shortened version):
 
 ```xml
 <check name="core.testing_enabled">
@@ -186,7 +186,7 @@ example for the question for a writable cache dir is this:
         <parameter>/tmp</parameter>
         <parameter>/app/cache</parameter>
     </parameter>
-    <parameter name="validator">Environaut\\Checks\\Validator::writableDirectory</parameter>
+    <parameter name="validator">Environaut\Checks\Validator::writableDirectory</parameter>
 </check>
 ```
 

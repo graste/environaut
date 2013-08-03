@@ -10,6 +10,7 @@ via different formatters into XML, JSON and PHP format files.
 
 New checks:
 
+* [new] added `PhpExtensionCheck` that checks PHP extensions for being present and correctly configured
 * [new] added `PhpSettingCheck` that checks PHP ini settings for correct values
 * [new] added `ExecutableCheck` that adds absolute paths to executables as settings
 * [new] added `ComposerSecurityCheck` to check `composer.lock` files for known security vulnerabilities
@@ -17,6 +18,7 @@ New checks:
 
 Furthermore:
 
+* [new] added caching support - checks can now emit cachable settings and reuse those on subsequent runs
 * [new] added support for settings export by writing JSON, XML and PHP files via export formatters (all or just specific groups)
 * [new] added support for configuration files in XML, JSON and PHP format with XML being validated via an XSD schema file
 * [new] added automatic builds via TravisCI for PHP v5.3, v5.4 and v5.5 (thanks!)

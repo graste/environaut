@@ -2,12 +2,14 @@
 
 namespace Environaut\Command;
 
+use Environaut\Cache\Cache;
 use Environaut\Cache\IReadOnlyCache;
+use Environaut\Cache\ReadOnlyCache;
 use Environaut\Command\Command;
 use Environaut\Config\Parameters;
 use Environaut\Runner\IRunner;
 use Environaut\Export\IExport;
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -55,22 +57,29 @@ class CheckCommand extends Command
         $this->addOption(
             'config',
             'c',
-            InputArgument::OPTIONAL,
+            InputOption::VALUE_OPTIONAL,
             'Path to config file that defines the checks to process.'
         );
 
         $this->addOption(
-            'config_handler',
+            'config-handler',
             null,
-            InputArgument::OPTIONAL,
+            InputOption::VALUE_OPTIONAL,
             'Classname of a custom config handler implementing Environaut\Config\IConfigHandler.'
         );
 
         $this->addOption(
-            'cache_location',
+            'cache-location',
             null,
-            InputArgument::OPTIONAL,
+            InputOption::VALUE_OPTIONAL,
             'File path and name for the cache location to read from. Overrides defaults and config file value.'
+        );
+
+        $this->addOption(
+            'no-cache',
+            null,
+            InputOption::VALUE_NONE,
+            'Disables the use of caching (reading/writing).'
         );
 
         $this->setDescription('Check environment according to a set of checks.');
@@ -81,8 +90,8 @@ class CheckCommand extends Command
 <info>This command checks the environment according to the checks from the configuration file.</info>
 
 By default the current working directory will be used to find the configuration file and
-all defined classes (checks and validators). Use <comment>--autoload_dir path/to/src</comment> to change the
-autoload directory or <comment>--config path/to/environaut.json</comment> to change the file lookup path.
+all defined classes (checks and validators). Use <comment>--autoload-dir path/to/src</comment> to change the
+autoload directory or <comment>--config path/to/environaut.(json|xml|php)</comment> to change the file lookup path.
 EOT
         );
     }
@@ -135,9 +144,11 @@ EOT
         $runner->setParameters(new Parameters($this->config->get('runner', array())));
         $runner->setCache($this->getLoadedCache());
 
-        $runner->run();
+        $run_was_successful = $runner->run();
 
         $this->report = $runner->getReport();
+
+        $this->writeCache($run_was_successful);
     }
 
     /**
@@ -161,6 +172,34 @@ EOT
     }
 
     /**
+     * Write the cachable settings from the run checks to a cache file for later reuse.
+     *
+     * @param boolean $run_was_successful whether or not the checks ran successfully
+     */
+    protected function writeCache($run_was_successful)
+    {
+        $disable_caching = $this->input->getOption('no-cache');
+        if (!empty($disable_caching)) {
+            return;
+        }
+
+        // TODO should cache only be written if all things succeeded? perhaps overwrite cache with successful results?
+        if (true) { //$run_was_successful) {
+            $cache = new Cache();
+            //$cache->setLocation($this->readonly_cache->getLocation());
+            $cache->addAll($this->report->getCachableSettings());
+            $this->output->writeln('');
+            if ($cache->save()) {
+                $this->output->writeln('Writing cachable settings to "<comment>' . $cache->getLocation() .
+                '</comment>" for subsequent runs...<info>ok</info>.');
+            } else {
+                $this->output->writeln('Writing cachable settings to "<comment>' . $cache->getLocation() .
+                '</comment>" for subsequent runs...<error>FAILED</error>.');
+            }
+        }
+    }
+
+    /**
      * Creates a cache instance and tries to load it according to command line argument or config.
      *
      * The cache is used in the runner to allow checks to access old values that may already have
@@ -170,6 +209,11 @@ EOT
      */
     protected function getLoadedCache()
     {
+        if ($this->input->getOption('no-cache')) {
+            $this->readonly_cache = new ReadOnlyCache();
+            return $this->readonly_cache;
+        }
+
         $cache_implementor = $this->config->getReadOnlyCacheImplementor();
         $cache = new $cache_implementor();
 
@@ -180,13 +224,14 @@ EOT
         }
 
         $cache_params = new Parameters($this->config->get('cache', array()));
-        $cache_location = $this->input->getOption('cache_location');
+        $cache_location = $this->input->getOption('cache-location');
 
         $this->readonly_cache = $cache;
         $this->readonly_cache->setParameters($cache_params);
         if (!empty($cache_location) && is_readable($cache_location)) {
             $this->readonly_cache->setLocation($cache_location);
         }
+
         $this->readonly_cache->load();
 
         return $this->readonly_cache;
@@ -273,7 +318,7 @@ EOT
             }
         }
 
-        $config_handler_implementor = $input->getOption('config_handler');
+        $config_handler_implementor = $input->getOption('config-handler');
         if (empty($config_handler_implementor)) {
             $config_handler_implementor = 'Environaut\Config\ConfigHandler';
         }

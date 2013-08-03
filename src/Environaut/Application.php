@@ -24,7 +24,7 @@ class Application extends BaseApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        if ($input->hasParameterOption('--profile')) {
+        if ($input->hasOption('--profile')) {
             $start_time = microtime(true);
         }
 

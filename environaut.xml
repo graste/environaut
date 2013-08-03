@@ -100,7 +100,7 @@
         </xi:include>
 
 <!--
-        <xi:include href="docs/examples/pool_of_checks.xml" xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks[@name=security]/*)">
+        <xi:include href="docs/examples/pool_of_checks.xml" xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks[@name='security']/*)">
             <xi:fallback />
         </xi:include>
 -->

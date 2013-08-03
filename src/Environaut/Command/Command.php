@@ -3,7 +3,7 @@
 namespace Environaut\Command;
 
 use Symfony\Component\Console\Command\Command as BaseCommand;
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -32,21 +32,21 @@ abstract class Command extends BaseCommand
         $this->addOption(
             'bootstrap',
             'b',
-            InputArgument::OPTIONAL,
+            InputOption::VALUE_OPTIONAL,
             'Path to bootstrap file that should be required prior start.'
         );
 
         $this->addOption(
-            'include_path',
+            'include-path',
             'i',
-            InputArgument::OPTIONAL,
+            InputOption::VALUE_OPTIONAL,
             'Path that should be prepended to the default PHP include_path.'
         );
 
         $this->addOption(
-            'autoload_dir',
+            'autoload-dir',
             'a',
-            InputArgument::OPTIONAL,
+            InputOption::VALUE_OPTIONAL,
             'Path from where to load custom classes specified in config etc.'
         );
     }
@@ -66,8 +66,8 @@ abstract class Command extends BaseCommand
         $this->input = $input;
         $this->output = $output;
 
-        // preped include_path if demanded
-        $path = $input->getOption('include_path');
+        // prepend include_path if demanded
+        $path = $input->getOption('include-path');
         if (!empty($path)) {
             ini_set('include_path', $path . PATH_SEPARATOR . ini_get('include_path'));
         }
@@ -86,7 +86,7 @@ abstract class Command extends BaseCommand
         }
 
         // we autoload classes from the current working directory or the specified autoload_dir
-        $autoload_dir = $input->getOption('autoload_dir');
+        $autoload_dir = $input->getOption('autoload-dir');
         if (!empty($autoload_dir)) {
             if (!is_readable($autoload_dir)) {
                 throw new \InvalidArgumentException(
@@ -120,7 +120,7 @@ abstract class Command extends BaseCommand
     {
         $class = str_replace('\\', DIRECTORY_SEPARATOR, $class);
 
-        $autoload_dir = $this->getInput()->getOption('autoload_dir');
+        $autoload_dir = $this->getInput()->getOption('autoload-dir');
         if (empty($autoload_dir)) {
             $autoload_dir = $this->getCurrentWorkingDirectory();
         }

@@ -77,7 +77,7 @@
             </check>
 
             <check name="mysql" class="&phpextension;">
-                <parameter name="debug">true</parameter>
+                <parameter name="debug">false</parameter>
             </check>
 
             <check name="SPL" class="&phpextension;">

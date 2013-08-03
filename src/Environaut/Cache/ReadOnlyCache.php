@@ -112,17 +112,16 @@ class ReadOnlyCache implements IReadOnlyCache
     /**
      * Loads the settings from the configured or default location.
      *
-     * @return ReadOnlyCache this instance for fluent API support
+     * @return boolean true, if reading from cache succeeded; false otherwise.
      *
-     * @throws \InvalidArgumentException on invalid cache file
+     * @throws \InvalidArgumentException on invalid or broken cache file
      */
     public function load()
     {
         $location = $this->location;
 
         if (empty($location)) {
-            $location = $this->getCurrentWorkingDirectory() . DIRECTORY_SEPARATOR .
-                self::DEFAULT_PATH . self::DEFAULT_NAME . self::DEFAULT_EXTENSION;
+            $location = $this->getDefaultLocation();
         }
 
         /*if (!is_readable($location)) {
@@ -134,10 +133,14 @@ class ReadOnlyCache implements IReadOnlyCache
         }*/
 
         if (!is_readable($location) || !is_file($location)) {
-            return;
+            return false;
         }
 
         $content = file_get_contents($location);
+
+        if (false === $content) {
+            return false;
+        }
 
         $result = json_decode($content, true);
 
@@ -152,7 +155,7 @@ class ReadOnlyCache implements IReadOnlyCache
 
         $this->settings = $items;
 
-        return $this;
+        return true;
     }
 
     /**
@@ -197,6 +200,17 @@ class ReadOnlyCache implements IReadOnlyCache
         $this->parameters = $parameters;
 
         return $this;
+    }
+
+    /**
+     * Returns the default location used for the cache file. Defaults to "./.environaut.cache".
+     *
+     * @return string file path and name
+     */
+    protected function getDefaultLocation()
+    {
+        return $this->getCurrentWorkingDirectory() . DIRECTORY_SEPARATOR .
+            self::DEFAULT_PATH . self::DEFAULT_NAME . self::DEFAULT_EXTENSION;
     }
 
     /**

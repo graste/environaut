@@ -19,6 +19,10 @@ class MbInternalEncodingCheck extends Check
      */
     public function getDefaultGroupName()
     {
+        if ($this->group !== self::DEFAULT_GROUP_NAME) {
+            return $this->group;
+        }
+
         return self::DEFAULT_CUSTOM_GROUP_NAME;
     }
 

@@ -2,7 +2,6 @@
 
 namespace Environaut\Runner;
 
-use Environaut\Cache\Cache;
 use Environaut\Cache\IReadOnlyCache;
 use Environaut\Checks\ICheck;
 use Environaut\Command\Command;
@@ -99,13 +98,7 @@ class Runner implements IRunner
 
         $progress->finish();
 
-        // TODO should cache only be written if all things succeeded? perhaps overwrite cache with successful results?
-        //if ($successful) {
-            $cache = new Cache();
-            //$cache->setLocation($this->readonly_cache->getLocation());
-            $cache->addAll($this->report->getSettings());
-            $cache->save();
-        //}
+        return $successful;
     }
 
     /**

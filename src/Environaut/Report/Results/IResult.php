@@ -56,7 +56,7 @@ interface IResult
      * Adds the given setting to the internal list of settings.
      *
      * @param ISetting $setting setting to add to the internal lists of settings
-     * @param bool $cachable whether or not the setting may be put into a cache for reuse on re-execution of the check
+     * @param bool $cachable whether or not the setting may be put into a cache for reuse. Defaults to true.
      *
      * @return Result this instance for fluent API support
      */

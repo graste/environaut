@@ -124,7 +124,7 @@ class ExecutableCheck extends Check
             $choices
         );
 
-        $this->addSetting($setting, $absolute_executable_path, $setting_group);
+        $this->addCachableSetting($setting, $absolute_executable_path, $setting_group);
         $this->addInfo('Got path to executable "' . $command . '": ' . $absolute_executable_path);
 
         return true;

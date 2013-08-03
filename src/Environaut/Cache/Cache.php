@@ -41,17 +41,16 @@ class Cache extends ReadOnlyCache implements ICache
     /**
      * Writes the current set of ISetting instances to the cache file location.
      *
-     * @return \Environaut\Cache\Cache this instance for fluent API support
+     * @return boolean true when cache file writing succeeded
      *
-     * @throws \Exception if content could not be encoded or written to the cache file
+     * @throws \Exception if content could not be encoded
      */
     public function save()
     {
         $location = $this->location;
 
         if (empty($location)) {
-            $location = $this->getCurrentWorkingDirectory() . DIRECTORY_SEPARATOR .
-                self::DEFAULT_PATH . self::DEFAULT_NAME . self::DEFAULT_EXTENSION;
+            $location = $this->getDefaultLocation();
         }
 
         $this->location = $location;
@@ -67,11 +66,7 @@ class Cache extends ReadOnlyCache implements ICache
             throw new \Exception('Could not json_encode cachable settings. Nothing written to cache.');
         }
 
-        if (false === file_put_contents($location, $content)) {
-            throw new \Exception('Could not write cache: ' . $location);
-        }
-
-        return $this;
+        return (false !== file_put_contents($location, $content));
     }
 
     /**

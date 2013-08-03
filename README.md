@@ -10,7 +10,8 @@
 application and check if all defined constraints are met. This includes
 assertions and requirements of the application environment as well as some
 configuration that may be necessary to make an application run. See the
-[wiki](https://github.com/graste/environaut/wiki) for more information.
+[wiki](https://github.com/graste/environaut/wiki) or `docs/` for more
+information.
 
 ## Quickstart
 
@@ -48,8 +49,8 @@ is not in the PATH. To get the `Makefile` working you can try a simple
 the default `php` for `make`.
 
 Another way to install `Environaut` is via [composer](http://getcomposer.org).
-Just create a `composer.json` file and run the `php composer.phar install`
-command to install it:
+Just create or update a `composer.json` file and run the
+`php composer.phar install` command to install it:
 
 ```json
 {
@@ -68,16 +69,19 @@ You may combine multiple commandline options:
     environaut.phar help check
     environaut.phar check --verbose --profile
     environaut.phar check --config path/to/environaut.json
-    environaut.phar check --autoload_dir path/to/custom/files/src
+    environaut.phar check --autoload-dir path/to/custom/files/src
+    environaut.phar check --no-cache
 
 The `check` commandline options are:
 
-- ```--autoload_dir="…" (-a)```: Folder for autoloading of custom `.php` classes.
+- ```--autoload-dir="…" (-a)```: Folder for autoloading of custom `.php` classes.
 - ```--config="…" (-c)```: Path to configuration file with check definitions.
-- ```--config_handler="…"```: Namespaced classname of custom `IConfigHandler`
+- ```--config-handler="…"```: Namespaced classname of custom `IConfigHandler`
                               (will be autoloaded from the ```autoload_dir```).
-- ```--include_path="…" (-i)```: Path to prepend to PHP ```include_path```.
+- ```--include-path="…" (-i)```: Path to prepend to PHP ```include_path```.
 - ```--bootstrap="…" (-b)```: File to require before running the checks.
+- ```--no-cache```: Don't read, write or use cache files (Disables caching).
+- ```--cache-location="…"```: Read and write cache from and to that file.
 
 Other available and useful options are:
 
@@ -85,7 +89,7 @@ Other available and useful options are:
 - `--version (-V)`:` Display Environaut version.
 - `--ansi`: Force ANSI output.
 - `--no-ansi` Disable ANSI output.
-- `--profile` Display timing and memory usage information
+- `--profile` Display timing and memory usage information.
 
 For the help command the following works:
 
@@ -96,14 +100,34 @@ For the help command the following works:
 
 ## Documentation
 
-tbd. topics?
+More detailed documentation can be found in the ```docs/``` folder.
+
+Checks can be configured via configuration files and settings may
+afterwards be exported via different formatters into different formats.
+
+Supported (input) configuration file formats:
+
+- `XML`
+- `JSON`
+- `PHP`
+
+Supported (output) settings file formats:
+
+- `XML`
+- `JSON`
+- `PHP`
+
+The input and output file formats may be completely customized by replacing
+the default classes with custom implementations.
+
+TODO - add more here :-)
 
 ## Community
 
 None, but you may join the freenode IRC [`#environaut`](irc://irc.freenode.org/environaut) channel anytime. :-)
 
 Please contribute by [forking](http://help.github.com/forking/) and sending a
-[pull request](http://help.github.com/pull-requests/). More information may be
+[pull request](http://help.github.com/pull-requests/). More information can be
 found in the [`CONTRIBUTING.md`](CONTRIBUTING.md) file.
 
 ## Contributors

@@ -3,6 +3,7 @@
 /bin/security-checker
 /build/
 /docs/api
+.environaut.cache
 
 # composer related stuff
 /vendor/

@@ -5,6 +5,6 @@
 C-BY-SA-3.0 means, you are free to share, remix and make commercial use of the
 work as long as you attribute and share alike. See linked license for details.
 
-The authors and contributors are mentioned in `AUTHORS.md` in this repository.
-The license and authors file must be left intact for attribution and sharing of
-this work. New authors and contributors must be added to the `AUTHORS.md`.
+The authors and contributors are mentioned in [`AUTHORS.md`](AUTHORS.md) in this
+repository. The license and authors file must be left intact for attribution and
+sharing of this work. New authors and contributors must be added to that file.

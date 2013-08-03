@@ -209,7 +209,7 @@ abstract class Check implements ICheck
      * @param mixed $value usually a string value
      * @param string $group name of group this setting belongs to
      * @param int $flag type of the setting (normal or sensitive)
-     * @param boolean $cachable whether that setting should also be stored in a cache
+     * @param boolean $cachable whether that setting should also be stored in a cache. Default is false (NOT cached!).
      *
      * @return Check this instance for fluent API support
      *
