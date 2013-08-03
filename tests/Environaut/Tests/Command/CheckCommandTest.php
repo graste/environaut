@@ -41,7 +41,7 @@ class CheckCommandTest extends BaseTestCase
         $text = $this->executeCheckCommand(
             'empty.json',
             array(
-                '--autoload_dir' => __DIR__,
+                '--autoload-dir' => __DIR__,
                 '--verbose' => true
             )
         );
@@ -55,7 +55,7 @@ class CheckCommandTest extends BaseTestCase
         $this->executeCheckCommand(
             'empty.json',
             array(
-                '--autoload_dir' => __DIR__ . 'trololo-nonexistant'
+                '--autoload-dir' => __DIR__ . 'trololo-nonexistant'
             )
         );
     }
@@ -67,7 +67,7 @@ class CheckCommandTest extends BaseTestCase
         $text = $this->executeCheckCommand(
             'empty.json',
             array(
-                '--config_handler' => 'Fixtures\TestConfigHandler',
+                '--config-handler' => 'Fixtures\TestConfigHandler',
                 '--verbose' => true,
             )
         );

@@ -190,11 +190,15 @@ EOT
             $cache->addAll($this->report->getCachableSettings());
             $this->output->writeln('');
             if ($cache->save()) {
-                $this->output->writeln('Writing cachable settings to "<comment>' . $cache->getLocation() .
-                '</comment>" for subsequent runs...<info>ok</info>.');
+                $this->output->writeln(
+                    'Writing cachable settings to "<comment>' . $cache->getLocation() .
+                    '</comment>" for subsequent runs...<info>ok</info>.'
+                );
             } else {
-                $this->output->writeln('Writing cachable settings to "<comment>' . $cache->getLocation() .
-                '</comment>" for subsequent runs...<error>FAILED</error>.');
+                $this->output->writeln(
+                    'Writing cachable settings to "<comment>' . $cache->getLocation() .
+                    '</comment>" for subsequent runs...<error>FAILED</error>.'
+                );
             }
         }
     }
