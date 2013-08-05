@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Environaut\Cache\Cache | Environaut API</title>
+                    <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../classes.html">Classes</a></li>
+                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">Environaut API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../Environaut/Cache.html">Environaut\Cache</a>\Cache</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>Cache</strong>        extends <a href="../../Environaut/Cache/ReadOnlyCache.html"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a>        implements
+        <a href="../../Environaut/Cache/ICache.html"><abbr title="Environaut\Cache\ICache">ICache</abbr></a></p>
+
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>DEFAULT_PATH</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>DEFAULT_NAME</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>DEFAULT_EXTENSION</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>()
+                    <p></p>
+                </td>
+                <td><small>from&nbsp;<a href="../../Environaut/Cache/ReadOnlyCache.html#method___construct"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_has">has</a>(string $name, mixed $groups = null, integer $flag = null)
+                    <p>Returns whether a cached value for a setting from the loaded cache exists, that matches the given criterias.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../Environaut/Cache/ReadOnlyCache.html#method_has"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Environaut\Cache\ISetting">ISetting</abbr>|null
+                </td>
+                <td class="last">
+                    <a href="#method_get">get</a>(string $name, mixed $groups = null, integer $flag = null)
+                    <p>Returns the first setting from the loaded cache that matches the given criterias.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../Environaut/Cache/ReadOnlyCache.html#method_get"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getAll">getAll</a>(mixed $groups = null, <abbr title="Environaut\Cache\type">type</abbr> $flag = null)
+                    <p>Returns an array of settings matching the given criterias.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../Environaut/Cache/ReadOnlyCache.html#method_getAll"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_load">load</a>()
+                    <p>Loads the settings from the configured or default location.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../Environaut/Cache/ReadOnlyCache.html#method_load"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../Environaut/Cache/ReadOnlyCache.html"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setLocation">setLocation</a>(string $location)
+                    <p>Sets the given location as the cache location to use.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getLocation">getLocation</a>()
+                    <p>Returns the location currently set on the cache.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../Environaut/Cache/ReadOnlyCache.html#method_getLocation"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../Environaut/Cache/ReadOnlyCache.html"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setParameters">setParameters</a>(<a href="../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a> $parameters)
+                    <p>Runtime parameters to configure the cache operations.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../Environaut/Cache/ReadOnlyCache.html#method_setParameters"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_add">add</a>(<a href="../../Environaut/Report/Results/Settings/ISetting.html"><abbr title="Environaut\Report\Results\Settings\ISetting">ISetting</abbr></a> $setting)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../Environaut/Cache/Cache.html"><abbr title="Environaut\Cache\Cache">Cache</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addAll">addAll</a>(array $settings)
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_save">save</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">in <a href="../../Environaut/Cache/ReadOnlyCache.html#method___construct"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a> at line 30</div>
+        <code>            public            
+    <strong>__construct</strong>()</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_has">
+        <div class="location">in <a href="../../Environaut/Cache/ReadOnlyCache.html#method_has"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a> at line 46</div>
+        <code>            public            boolean
+    <strong>has</strong>(string $name, mixed $groups = null, integer $flag = null)</code>
+    </h3>
+    <div class="details">
+        <p>Returns whether a cached value for a setting from the loaded cache exists, that matches the given criterias.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>key of wanted setting</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$groups</td>
+                <td>group name of setting, default is null and matches always</td>
+            </tr>
+                    <tr>
+                <td>integer</td>
+                <td>$flag</td>
+                <td>setting type to match, default is null and matches always</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>true if value for that setting is in cache; false otherwise</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_get">
+        <div class="location">in <a href="../../Environaut/Cache/ReadOnlyCache.html#method_get"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a> at line 66</div>
+        <code>            public            <abbr title="Environaut\Cache\ISetting">ISetting</abbr>|null
+    <strong>get</strong>(string $name, mixed $groups = null, integer $flag = null)</code>
+    </h3>
+    <div class="details">
+        <p>Returns the first setting from the loaded cache that matches the given criterias.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>key of wanted setting</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$groups</td>
+                <td>group name of setting, default is null and matches always</td>
+            </tr>
+                    <tr>
+                <td>integer</td>
+                <td>$flag</td>
+                <td>setting type to match, default is null and matches always</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Environaut\Cache\ISetting">ISetting</abbr>|null</td>
+            <td>matching setting</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getAll">
+        <div class="location">in <a href="../../Environaut/Cache/ReadOnlyCache.html#method_getAll"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a> at line 89</div>
+        <code>            public            array
+    <strong>getAll</strong>(mixed $groups = null, <abbr title="Environaut\Cache\type">type</abbr> $flag = null)</code>
+    </h3>
+    <div class="details">
+        <p>Returns an array of settings matching the given criterias.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$groups</td>
+                <td>name of a group or array of group names or null for all settings regardless of group</td>
+            </tr>
+                    <tr>
+                <td><abbr title="Environaut\Cache\type">type</abbr></td>
+                <td>$flag</td>
+                <td>only return settings that match the given flag value</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>of setting instances matching the specification</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_load">
+        <div class="location">in <a href="../../Environaut/Cache/ReadOnlyCache.html#method_load"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a> at line 119</div>
+        <code>            public            boolean
+    <strong>load</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Loads the settings from the configured or default location.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>true, if reading from cache succeeded; false otherwise.</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>on invalid cache location (non-readable, non-existant etc.)</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setLocation">
+        <div class="location">at line 95</div>
+        <code>            public            <a href="../../Environaut/Cache/ReadOnlyCache.html"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a>
+    <strong>setLocation</strong>(string $location)</code>
+    </h3>
+    <div class="details">
+        <p>Sets the given location as the cache location to use.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$location</td>
+                <td>cache file path</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../Environaut/Cache/ReadOnlyCache.html"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a></td>
+            <td>this instance for fluent API support</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>if location is not readable</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getLocation">
+        <div class="location">in <a href="../../Environaut/Cache/ReadOnlyCache.html#method_getLocation"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a> at line 187</div>
+        <code>            public            string
+    <strong>getLocation</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the location currently set on the cache.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>cache file location currently configured</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setParameters">
+        <div class="location">in <a href="../../Environaut/Cache/ReadOnlyCache.html#method_setParameters"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a> at line 199</div>
+        <code>            public            <a href="../../Environaut/Cache/ReadOnlyCache.html"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a>
+    <strong>setParameters</strong>(<a href="../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a> $parameters)</code>
+    </h3>
+    <div class="details">
+        <p>Runtime parameters to configure the cache operations.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a></td>
+                <td>$parameters</td>
+                <td>runtime parameters</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../Environaut/Cache/ReadOnlyCache.html"><abbr title="Environaut\Cache\ReadOnlyCache">ReadOnlyCache</abbr></a></td>
+            <td>this instance for fluent API support</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_add">
+        <div class="location">at line 15</div>
+        <code>            public            
+    <strong>add</strong>(<a href="../../Environaut/Report/Results/Settings/ISetting.html"><abbr title="Environaut\Report\Results\Settings\ISetting">ISetting</abbr></a> $setting)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Environaut/Report/Results/Settings/ISetting.html"><abbr title="Environaut\Report\Results\Settings\ISetting">ISetting</abbr></a></td>
+                <td>$setting</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addAll">
+        <div class="location">at line 30</div>
+        <code>            public            <a href="../../Environaut/Cache/Cache.html"><abbr title="Environaut\Cache\Cache">Cache</abbr></a>
+    <strong>addAll</strong>(array $settings)</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$settings</td>
+                <td>array of ISetting implementing instances</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../Environaut/Cache/Cache.html"><abbr title="Environaut\Cache\Cache">Cache</abbr></a></td>
+            <td>this instance for fluent API support</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_save">
+        <div class="location">at line 48</div>
+        <code>            public            boolean
+    <strong>save</strong>()</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>true when cache file writing succeeded</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
