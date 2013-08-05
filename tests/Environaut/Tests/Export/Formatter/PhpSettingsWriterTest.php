@@ -40,6 +40,7 @@ class PhpSettingsWriterTest extends BaseTestCase
         $result->addSetting(new Setting('name', 'value'));
         $result->addSetting(new Setting('foo', 'bar'));
         $result->addSetting(new Setting('custom', true, 'group'));
+        $result->setStatus(Result::SUCCESS);
 
         $report->addResult($result);
 

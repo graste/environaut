@@ -48,7 +48,7 @@ class Cache extends ReadOnlyCache implements ICache
     public function save()
     {
         $location = $this->location;
-var_dump($location);
+
         // no location given from commandline -> use config values or fallback to default location
         if (empty($location)) {
             $location = $this->parameters->get(
@@ -59,7 +59,6 @@ var_dump($location);
                 )
             );
         }
-var_dump($location);
 
         $this->location = $location;
 
