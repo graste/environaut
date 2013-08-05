@@ -2,19 +2,20 @@
 
 All new features, changes and fixes should be listed here. Please use tickets to reference changes.
 
-## 0.2.0 (2013/07/31)
+## 0.2.0 (2013/08/05)
 
 This is the first release that may possibly be helpful. Checks can be
-configured via configuration file and settings may afterwards be exported
-via different formatters into XML, JSON and PHP format files.
+configured via configuration files and settings may afterwards be exported
+via different formatters into XML, JSON and PHP format files. The emitted
+settings from checks are cachable and may be used on subsequent runs.
 
 New checks:
 
-* [new] added `PhpExtensionCheck` that checks PHP extensions for being present and correctly configured
-* [new] added `PhpSettingCheck` that checks PHP ini settings for correct values
-* [new] added `ExecutableCheck` that adds absolute paths to executables as settings
-* [new] added `ComposerSecurityCheck` to check `composer.lock` files for known security vulnerabilities
 * [new] added `Configurator` check to ask for users for settings (value input, selection, confirmation and hidden input with autocompletion and validation)
+* [new] added `ExecutableCheck` that adds absolute paths to executables as settings
+* [new] added `PhpSettingCheck` that checks PHP ini settings for correct values
+* [new] added `PhpExtensionCheck` that checks PHP extensions for being present and correctly configured
+* [new] added `ComposerSecurityCheck` to check `composer.lock` files for known security vulnerabilities
 
 Furthermore:
 
