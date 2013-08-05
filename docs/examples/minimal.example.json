@@ -1,0 +1,23 @@
+{
+    "checks": [
+        {
+            "__name": "grep",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "grep",
+            "version_mask": "/grep.+?(\\d+\\.\\d+\\.?\\d?)/"
+        },
+        {
+            "__name": "cache_dir",
+            "__class": "Environaut\\Checks\\Configurator",
+            "setting": "cache_dir",
+            "question": "Cache directory",
+            "choices": [
+                "cache",
+                "\/tmp",
+                ".\/tests"
+            ],
+            "validator": "Environaut\\Checks\\Validator::writableDirectory"
+        }
+    ]
+}
+

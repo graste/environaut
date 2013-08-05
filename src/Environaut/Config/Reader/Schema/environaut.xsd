@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+    version="1.0"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:ec="http://mivesto.de/environaut/config/1.0"
+    targetNamespace="http://mivesto.de/environaut/config/1.0"
+>
+
+
+    <!-- BASIC types used throughout the config for elements and attributes -->
+
+
+    <xs:simpleType name="nonEmptyStringType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="phpClassType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[^&#9;-&#64;\&#91;\&#92;\&#93;&#94;&#96;&#123;&#124;&#125;&#126;][^&#9;-&#47;&#58;-&#64;\&#91;\&#93;&#94;&#96;&#123;&#124;&#125;&#126;]*" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="booleanType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="([tT][rR][uU][eE]|[fF][aA][lL][sS][eE]|[yY][eE][sS]|[nN][oO]|[oO][nN]|[oO][fF][fF])" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="spaceType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="default" />
+            <xs:enumeration value="preserve" />
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <!-- ENVIRONAUT configuration definition -->
+
+
+    <xs:element name="environaut" type="ec:environautType" />
+
+    <xs:complexType name="environautType">
+        <xs:sequence>
+            <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="name" type="ec:nonEmptyStringType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="description" type="ec:nonEmptyStringType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="keywords" type="ec:keywordsType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="introduction" type="ec:nonEmptyStringType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="cache" type="ec:cacheType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="runner" type="ec:runnerType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="report" type="ec:reportType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="export" type="ec:exportType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="checks" type="ec:checksType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="sandbox" type="ec:sandboxType"  minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+        <xs:attribute name="name" type="ec:nonEmptyStringType" use="optional" />
+        <xs:attribute name="description" type="ec:nonEmptyStringType" use="optional" />
+    </xs:complexType>
+
+    <xs:complexType name="cacheType">
+        <xs:sequence>
+            <xs:group ref="ec:parametersGroup" />
+        </xs:sequence>
+        <xs:attribute name="class" type="ec:phpClassType" use="optional" />
+        <xs:attribute name="name" type="ec:nonEmptyStringType" use="optional" />
+        <xs:attribute name="description" type="ec:nonEmptyStringType" use="optional" />
+        <xs:anyAttribute namespace="##any" processContents="lax" />
+    </xs:complexType>
+
+    <xs:complexType name="checksType">
+        <xs:sequence>
+            <xs:element name="check" type="ec:checkType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="name" type="ec:nonEmptyStringType" use="optional" />
+        <xs:attribute name="description" type="ec:nonEmptyStringType" use="optional" />
+        <xs:anyAttribute namespace="##any" processContents="lax" />
+    </xs:complexType>
+
+    <xs:complexType name="checkType">
+        <xs:sequence>
+            <xs:group ref="ec:parametersGroup" />
+        </xs:sequence>
+        <xs:attribute name="class" type="ec:phpClassType" use="optional" />
+        <xs:attribute name="name" type="ec:nonEmptyStringType" use="optional" />
+        <xs:attribute name="description" type="ec:nonEmptyStringType" use="optional" />
+        <xs:attribute name="group" type="ec:nonEmptyStringType" use="optional" />
+        <xs:anyAttribute namespace="##any" processContents="lax" />
+    </xs:complexType>
+
+    <xs:complexType name="reportType">
+        <xs:sequence>
+            <xs:group ref="ec:parametersGroup" />
+        </xs:sequence>
+        <xs:attribute name="class" type="ec:phpClassType" use="optional" />
+        <xs:attribute name="name" type="ec:nonEmptyStringType" use="optional" />
+        <xs:attribute name="description" type="ec:nonEmptyStringType" use="optional" />
+        <xs:anyAttribute namespace="##any" processContents="lax" />
+    </xs:complexType>
+
+    <xs:complexType name="runnerType">
+        <xs:sequence>
+            <xs:group ref="ec:parametersGroup" />
+        </xs:sequence>
+        <xs:attribute name="class" type="ec:phpClassType" use="optional" />
+        <xs:attribute name="name" type="ec:nonEmptyStringType" use="optional" />
+        <xs:attribute name="description" type="ec:nonEmptyStringType" use="optional" />
+        <xs:anyAttribute namespace="##any" processContents="lax" />
+    </xs:complexType>
+
+    <xs:complexType name="exportType">
+        <xs:sequence>
+            <xs:group ref="ec:parametersGroup" />
+            <xs:group ref="ec:formattersGroup" />
+        </xs:sequence>
+        <xs:attribute name="class" type="ec:phpClassType" use="optional" />
+        <xs:attribute name="name" type="ec:nonEmptyStringType" use="optional" />
+        <xs:attribute name="description" type="ec:nonEmptyStringType" use="optional" />
+        <xs:anyAttribute namespace="##any" processContents="lax" />
+    </xs:complexType>
+
+    <xs:complexType name="keywordsType">
+        <xs:sequence>
+            <xs:element name="keyword" type="ec:nonEmptyStringType" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:anyAttribute namespace="##any" processContents="lax" />
+    </xs:complexType>
+
+
+    <!-- FORMATTERS -->
+
+
+    <xs:group name="formattersGroup">
+        <xs:choice>
+            <xs:element name="formatters" type="ec:formattersType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="formatter" type="ec:formatterType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:choice>
+    </xs:group>
+
+    <xs:complexType name="formattersType">
+        <xs:sequence>
+            <xs:element name="formatter" type="ec:formatterType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:anyAttribute namespace="##any" processContents="lax" />
+    </xs:complexType>
+
+    <xs:complexType name="formatterType">
+        <xs:sequence>
+            <xs:group ref="ec:parametersGroup" />
+        </xs:sequence>
+        <xs:attribute name="class" type="ec:phpClassType" use="optional" />
+        <xs:anyAttribute namespace="##any" processContents="lax" />
+    </xs:complexType>
+
+
+    <!--
+        PARAMETERS are nested parameters that may be used on certain
+        elements to give them options to modify their runtime behaviour.
+    -->
+
+
+    <xs:group name="parametersGroup">
+        <xs:choice>
+            <xs:element name="parameters" type="ec:parametersType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="parameter" type="ec:parameterType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:choice>
+    </xs:group>
+
+    <xs:complexType name="parametersType">
+        <xs:sequence>
+            <xs:element name="parameter" type="ec:parameterType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="name" type="ec:nonEmptyStringType" use="optional" />
+        <xs:anyAttribute namespace="##any" processContents="lax" />
+    </xs:complexType>
+
+    <xs:complexType name="parameterType" mixed="true">
+        <xs:sequence>
+            <xs:group ref="ec:parametersGroup" />
+        </xs:sequence>
+        <xs:attribute name="name" type="ec:nonEmptyStringType" use="optional" />
+        <xs:attribute name="type" type="ec:nonEmptyStringType" use="optional" />
+        <xs:attribute name="space" type="ec:spaceType" use="optional" />
+        <xs:attribute name="literalize" type="ec:booleanType" use="optional" />
+        <xs:anyAttribute namespace="##any" processContents="lax" />
+    </xs:complexType>
+
+
+    <!--
+        SANDBOX may be used to store things that are available for
+        reuse via XInclude in other parts of the configuration.
+    -->
+
+
+    <xs:complexType name="sandboxType">
+        <xs:sequence>
+            <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

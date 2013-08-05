@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<environaut xmlns="http://mivesto.de/environaut/config/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <name>example with included checks</name>
+
+    <keywords>
+        <keyword>asdf</keyword>
+        <keyword>blub</keyword>
+        <keyword>foo</keyword>
+    </keywords>
+
+    <introduction><![CDATA[
+omgomgomg
+        multiline
+foobar
+        stuff
+]]></introduction>
+
+    <runner class="Custom\Runner">
+        <parameters>
+            <parameter name="foo">
+                <!-- <parameters> may be omitted for brevity -->
+                    <parameter> <!-- unnnamed parameter gets a numeric index -->
+                        <parameters>
+                            <parameter name="deeply_nested">true</parameter>
+                            <parameter name="nested" literalize="false">true</parameter>
+                            <parameter name="non_literalized" literalize="false">on</parameter>
+                            <parameter name="literalized" literalize="true">off</parameter>
+                            <parameter name="whitespace_preserved" space="preserve"> haha </parameter>
+                        </parameters>
+                    </parameter>
+                <!-- </parameters> -->
+            </parameter>
+        </parameters>
+    </runner>
+
+    <report class="Custom\Report">
+        <parameter name="test">hahaha</parameter>
+    </report>
+
+    <export>
+        <formatters>
+            <formatter location="foo.xml" format="xml">
+                <parameter name="pretty">true</parameter>
+                <parameter name="funny" literalize="false">true</parameter>
+            </formatter>
+            <formatter location="foo.json" format="json">
+                <parameters>
+                    <parameter name="pretty">true</parameter>
+                    <parameter name="groups">
+                        <parameter>default</parameter>
+                        <parameter>custom</parameter>
+                    </parameter>
+                </parameters>
+            </formatter>
+        </formatters>
+    </export>
+
+    <checks>
+        <check class="Blah\Check" group="group">
+            <parameter name="foo">bar</parameter>
+        </check>
+        <xi:include href="_checks.xml" xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks/*)">
+            <xi:fallback>
+                <!--
+                <check name="A" />
+                <check name="B" />
+                <check name="C" />
+                -->
+            </xi:fallback>
+        </xi:include>
+    </checks>
+
+</environaut>

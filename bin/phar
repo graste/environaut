@@ -1,0 +1,42 @@
+#!/usr/bin/env php
+<?php
+
+if (count($argv) > 3 || count($argv) < 2)
+{
+    echo "Usage: " . $argv[0] . " file.phar [destination]" . PHP_EOL . PHP_EOL .
+        "Lists all files from the given PHP archive file." . PHP_EOL .
+        "When a [destination] is given the archive is being extracted to that folder." . PHP_EOL;
+    exit(1);
+}
+
+try {
+    $phar = new Phar($argv[1]);
+    $files_count = count($phar);
+
+    echo $argv[1] . " contains $files_count files:" . PHP_EOL;
+
+    // list all files
+    foreach (new RecursiveIteratorIterator($phar) as $file)
+    {
+        echo preg_replace('#(.*?\.phar)#', '', $file) . PHP_EOL;
+    }
+
+    // extract all files
+    if ( count($argv) === 3 && (!empty($argv[2]) && is_writable($argv[2])))
+    {
+        if (!Phar::canWrite())
+        {
+            throw new Exception("Please set 'phar.readonly' to 0 in php.ini to enable phar extraction.");
+        }
+
+        echo PHP_EOL . "Extracting $files_count files to '" . $argv[2] . "'...";
+        $phar->extractTo($argv[2], null, true);
+        echo "done." . PHP_EOL;
+    }
+}
+catch (Exception $e)
+{
+    echo "An error occurred: " . $e->getMessage() . PHP_EOL;
+    echo $e->getTraceAsString() . PHP_EOL;
+    exit(1);
+}

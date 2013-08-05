@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<environaut xmlns="http://mivesto.de/environaut/config/1.0">
+
+    <checks>
+        <check />
+
+        <check name="name_A" />
+
+        <check group="group_B" />
+
+        <check name="name_C" group="group_C" />
+
+        <check>
+            <parameter name="setting">key</parameter>
+            <parameter name="question">question</parameter>
+            <parameter name="default">default</parameter>
+            <parameter name="choices">
+                <parameter>choice 1</parameter>
+                <parameter>choice 2</parameter>
+                <parameter>choice 3</parameter>
+            </parameter>
+        </check>
+
+        <check class="Custom\Special" />
+
+        <check name="correct">
+            <parameters>
+                <parameter name="setting">key</parameter>
+                <parameter name="question" space="preserve">    question    </parameter>
+                <parameter name="default">true</parameter>
+                <parameter name="choices">
+                    <parameters>
+                        <parameter>choice 1</parameter>
+                        <parameter>choice 2</parameter>
+                        <parameter>choice 3</parameter>
+                    </parameters>
+                </parameter>
+            </parameters>
+        </check>
+
+    </checks>
+
+</environaut>

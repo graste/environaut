@@ -1,3 +1,10 @@
+# project related stuff
+/bin/phpunit
+/bin/security-checker
+/build/
+/docs/api
+.environaut.cache
+
 # composer related stuff
 /vendor/
 /composer.lock
