@@ -39,61 +39,186 @@
         <ul></ul>
       </nav>
       <section>
-        <h1>Environaut</h1>
+        <h1>
+<a name="environaut" class="anchor" href="#environaut"><span class="octicon octicon-link"></span></a>Environaut</h1>
 
 <ul>
-<li>Version: 0.1-dev</li>
-<li>Date: 2013/xx/xx</li>
-<li>Build: tbd</li>
-</ul><h2>Purpose</h2>
+<li>Version: 0.2.0</li>
+<li>Date: 2013/08/05</li>
+<li>Build: <a href="http://travis-ci.org/graste/environaut"><img src="https://secure.travis-ci.org/graste/environaut.png" alt="Build Status"></a>
+</li>
+</ul><h2>
+<a name="purpose" class="anchor" href="#purpose"><span class="octicon octicon-link"></span></a>Purpose</h2>
 
-<p><code>Environaut</code> should enable and help developers to define the environment of an application and check if all defined constraints are met. This includes assertions and requirements of the application environment as well as some configuration that may be necessary to make an application run. See the <a href="https://github.com/graste/environaut/wiki">wiki</a> for more information.</p>
+<p><code>Environaut</code> should enable and help developers to define the environment of an
+application and check if all defined constraints are met. This includes
+assertions and requirements of the application environment as well as some
+configuration that may be necessary to make an application run. See the
+<a href="https://github.com/graste/environaut/wiki">wiki</a> or <code>docs/</code> for more
+information.</p>
 
-<h2>Requirements and installation</h2>
+<h2>
+<a name="quickstart" class="anchor" href="#quickstart"><span class="octicon octicon-link"></span></a>Quickstart</h2>
 
-<p>The recommended way to install <code>Environaut</code> is via <a href="http://getcomposer.org">composer</a>. Just create a <code>composer.json</code> file and run the <code>php composer.phar install</code> command to install it:</p>
+<p>Environaut parses a configuration file that contains defined environment checks.
+After that each check is processed and the results of each check are compiled
+into a report. Each check can emit messages and settings. The messages will be
+printed to the shell and the settings can be exported in specified formats.</p>
 
-<pre><code>{
-    "require": {
-        "graste/environaut": "0.*@dev"
-    }
-}
+<ol>
+<li>Clone this repository and change into that directory</li>
+<li>Run <code>make install-dependencies-dev</code>
+</li>
+<li>Run <code>bin/environaut check</code>
+</li>
+</ol><p>Notice the checks and questions and that there's an <code>environaut-config.xml</code>
+afterwards in your working directory. Change the sample <code>environaut.xml</code>
+to use <code>environaut-config.json</code> instead of the XML variant as the settings
+export formatter and re-run the checks to get your settings as JSON.</p>
+
+<h2>
+<a name="requirements-and-installation" class="anchor" href="#requirements-and-installation"><span class="octicon octicon-link"></span></a>Requirements and installation</h2>
+
+<ul>
+<li>Non-Windows operating system (tested on Ubuntu 12.04/13.04 and MacOS X)</li>
+<li>PHP v5.3+</li>
+</ul><p>If you just want to configure and run <code>Environaut</code>, you need to download the
+<code>bin/environaut.phar</code> binary. The file is a standalone and self-executable file.</p>
+
+<pre><code>$ environaut.phar --help
 </code></pre>
 
-<p>Alternatively, you can download the <a href="https://github.com/graste/environaut/archive/master.zip"><code>environaut.zip</code></a> file and extract it.</p>
+<p>When you got <code>environaut.phar</code> by cloning this repository it should already be
+executable. Otherwise just <code>chmod u+x environaut.phar</code> should be sufficient to
+make it work. It is advisable to have a <code>php</code> executable available via the
+<code>PATH</code> environment variable as the phar uses a <code>#!/usr/bin/env php</code> shebang.
+Use something like <code>alias php="/usr/local/bin/php53"</code> if your executable
+is not in the PATH. To get the <code>Makefile</code> working you can try a simple
+<code>export PHP_PATH = "/usr/local/bin/php53"</code> as that will be used instead of
+the default <code>php</code> for <code>make</code>.</p>
 
-<h2>Usage examples</h2>
+<p>Another way to install <code>Environaut</code> is via <a href="http://getcomposer.org">composer</a>.
+Just create or update a <code>composer.json</code> file and run the
+<code>php composer.phar install</code> command to install it:</p>
 
-<pre><code>bin/environaut about --profile
+<div class="highlight"><pre><span class="p">{</span>
+    <span class="nt">"require"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"graste/environaut"</span><span class="p">:</span> <span class="s2">"~0.2.0"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Alternatively, you can download the <a href="https://github.com/graste/environaut/archive/0.2.0.zip"><code>environaut.zip</code></a> file and extract it.</p>
+
+<h2>
+<a name="usage-examples" class="anchor" href="#usage-examples"><span class="octicon octicon-link"></span></a>Usage examples</h2>
+
+<p>You may combine multiple commandline options:</p>
+
+<pre><code>environaut.phar help check
+environaut.phar check --verbose --profile
+environaut.phar check --config path/to/environaut.json
+environaut.phar check --autoload-dir path/to/custom/files/src
+environaut.phar check --no-cache
 </code></pre>
 
-<h2>Documentation</h2>
+<p>The <code>check</code> commandline options are:</p>
 
-<p>tbd</p>
+<ul>
+<li>
+<code>--autoload-dir="…" (-a)</code>: Folder for autoloading of custom <code>.php</code> classes.</li>
+<li>
+<code>--config="…" (-c)</code>: Path to configuration file with check definitions.</li>
+<li>
+<code>--config-handler="…"</code>: Namespaced classname of custom <code>IConfigHandler</code>
+                          (will be autoloaded from the <code>autoload_dir</code>).</li>
+<li>
+<code>--include-path="…" (-i)</code>: Path to prepend to PHP <code>include_path</code>.</li>
+<li>
+<code>--bootstrap="…" (-b)</code>: File to require before running the checks.</li>
+<li>
+<code>--no-cache</code>: Don't read, write or use cache files (Disables caching).</li>
+<li>
+<code>--cache-location="…"</code>: Read and write cache from and to that file.</li>
+</ul><p>Other available and useful options are:</p>
 
-<h2>Community</h2>
+<ul>
+<li>
+<code>--verbose (-v)</code>: Increase the verbosity of messages.</li>
+<li>
+<code>--version (-V)</code>:` Display Environaut version.</li>
+<li>
+<code>--ansi</code>: Force ANSI output.</li>
+<li>
+<code>--no-ansi</code> Disable ANSI output.</li>
+<li>
+<code>--profile</code> Display timing and memory usage information.</li>
+</ul><p>For the help command the following works:</p>
+
+<ul>
+<li>
+<code>--xml</code>: To output help as XML.</li>
+<li>
+<code>--format</code>: To output help in other formats.</li>
+<li>
+<code>--raw</code>: To output raw command help.</li>
+<li>
+<code>--help (-h)</code>: Display the help message.</li>
+</ul><h2>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p>More detailed documentation can be found in the <code>docs/</code> folder.</p>
+
+<p>Checks can be configured via configuration files and settings may
+afterwards be exported via different formatters into different formats.</p>
+
+<p>Supported (input) configuration file formats:</p>
+
+<ul>
+<li><code>XML</code></li>
+<li><code>JSON</code></li>
+<li><code>PHP</code></li>
+</ul><p>Supported (output) settings file formats:</p>
+
+<ul>
+<li><code>XML</code></li>
+<li><code>JSON</code></li>
+<li><code>PHP</code></li>
+</ul><p>The input and output file formats may be completely customized by replacing
+the default classes with custom implementations.</p>
+
+<p>TODO - add more here :-)</p>
+
+<h2>
+<a name="community" class="anchor" href="#community"><span class="octicon octicon-link"></span></a>Community</h2>
 
 <p>None, but you may join the freenode IRC <a><code>#environaut</code></a> channel anytime. :-)</p>
 
-<p>Please contribute by <a href="http://help.github.com/forking/">forking</a> and sending a <a href="http://help.github.com/pull-requests/">pull request</a>.</p>
+<p>Please contribute by <a href="http://help.github.com/forking/">forking</a> and sending a
+<a href="http://help.github.com/pull-requests/">pull request</a>. More information can be
+found in the <a href="CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a> file.</p>
 
-<h2>Changelog</h2>
+<h2>
+<a name="contributors" class="anchor" href="#contributors"><span class="octicon octicon-link"></span></a>Contributors</h2>
 
-<p>See <code>CHANGELOG.md</code> for more information about changes.</p>
+<p>See <a href="AUTHORS.md"><code>AUTHORS.md</code></a> for a list of contributors.</p>
 
-<h2>Contributors</h2>
+<h2>
+<a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>Changelog</h2>
 
-<p>See <code>AUTHORS.md</code> for a list of contributors.</p>
+<p>See <a href="CHANGELOG.md"><code>CHANGELOG.md</code></a> for more information about changes.</p>
 
-<h2>License</h2>
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png"></a><br>Environaut is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.</p>
 
-<p>CC-BY-SA-3.0 means, you are free to share, remix and make commercial use of the work as long as you attribute and share alike. See linked license for details.</p>
+<p>CC-BY-SA-3.0 means, you are free to share, remix and make commercial use of the
+work as long as you attribute and share alike. See linked license for details.</p>
       </section>
       <footer>
         <p>Project maintained by <a href="https://github.com/graste">graste</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
       </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
