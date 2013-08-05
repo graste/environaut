@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<environaut xmlns="http://mivesto.de/environaut/config/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <name>simple check include</name>
+
+    <keywords>
+        <keyword>asdf</keyword>
+        <keyword>blub</keyword>
+        <keyword>foo</keyword>
+    </keywords>
+
+    <introduction><![CDATA[[
+omgomgomg
+        multiline
+foobar
+        stuff
+]]></introduction>
+
+    <runner class="Custom\Runner">
+        <parameters>
+            <parameter name="foo">bar</parameter>
+        </parameters>
+    </runner>
+
+    <report class="Custom\Report">
+        <parameter name="test">hahaha</parameter>
+    </report>
+
+    <export class="Custom\Export">
+        <parameter name="switch">yes</parameter>
+        <formatters>
+            <formatter class="Custom\Formatter">
+                <parameter name="location">custom-location.txt</parameter>
+            </formatter>
+            <formatter>
+                <parameter name="location">foo.xml</parameter>
+                <parameter name="format">xml</parameter>
+                <parameter name="pretty">true</parameter>
+            </formatter>
+            <formatter>
+                <parameters>
+                    <parameter name="location">foo.json</parameter>
+                    <parameter name="format">json</parameter>
+                    <parameter name="pretty" literalize="false">true</parameter>
+                    <parameter name="groups">
+                        <parameter>default</parameter>
+                        <parameter>custom</parameter>
+                    </parameter>
+                </parameters>
+            </formatter>
+        </formatters>
+    </export>
+
+    <checks>
+        <check class="Blah\Check" group="group">
+            <parameter name="foo">bar</parameter>
+        </check>
+        <xi:include href="_checks.xml" xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks/*)">
+            <xi:fallback>
+                <!--
+                <check name="A" />
+                <check name="B" />
+                <check name="C" />
+                -->
+            </xi:fallback>
+        </xi:include>
+    </checks>
+
+</environaut>
