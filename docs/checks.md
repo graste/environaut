@@ -1,39 +1,26 @@
-# Configuration
+# Checks
 
-## Supported formats
+There are a few checks that are already present for direct usage:
 
-The configuration formats `Environaut` supports are:
+- [`Configurator`](#configurator) - ask user for (cachable) values and emit them as grouped config settings for export formatters
+- `PhpSettingCheck` - validate php.ini settings for correct values
+- `PhpExtensionCheck` - validate presence and configuration of PHP extensions
+- `ExecutableCheck` - ask or find absolute paths to emit those values as (cachable) settings for export formatters
+- [`ComposerSecurityCheck`](#composersecuritycheck) - check a composer.lock file for well known security problems
+- `MbInternalEncodingCheck` - check for mbstring extension being present and using UTF-8 as internal encoding
 
-- XML
-- JSON
-- PHP
+## Custom Checks
 
-By default `Environaut` searches for configuration files in the current
-working directory:
+You can always create your own checks. All you need to do is to
+create a class that implements the `ICheck` interface and do your
+checking within the `run` method. Have a look at the existing checks
+for inspiration and use the [`examples/YourCheckName.php`](examples/YourCheckName.php)
+class as a template.
 
-1. environaut.xml
-2. environaut.json
-3. environaut.php
-
-The first found file wins and the configuration is read from that file.
-You can specify what config file to use be giving a valid config file
-(directory) via the ```--config | -c``` commandline option of the `check`
-command.
-
-The usage of the XML format is preferred:
-
-- the XML config file is schema validated (albeit loosely specified)
-- you can XInclude checks from other config files or your pool of checks
-  (this could be used to XInclude checks for all your application's bundles)
-- you can preserve whitespace on parameters via ```space="preserve"``` attribute
-- you can disable literalization of values via the ```literalize="false"```
-  attribute. Usually the following parameter values are literalized:
-    - string `"true|false"` is read as boolean `true|false`
-    - string `"on|off"` is read as boolean `true|false`
-    - string `"yes|no"` is read as boolean `true|false`
-
-You can just use JSON or even a PHP file (with arrays) as well if you don't
-like XML. Please note, that no schema validation is done for JSON or PHP.
+Checks must return `true` when they ran successfully, `false` when
+they did not. Checks may fill their `Result` instance with `messages`
+and `settings`. Messages can have different severities and settings
+may be cachable or not and may be grouped.
 
 ## Configurator
 
