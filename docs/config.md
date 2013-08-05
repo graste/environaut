@@ -51,15 +51,15 @@ Environaut runs all checks defined in the configuration files with their respect
 The following parts of the config file are available for Environaut
 configuration:
 
-- `name` [optional]: just a name you give your application's Environaut configuration
-- `description` [optional]: a description for users and developers of the Environaut configuration
-- `keywords` [optional]: just a bunch of tags that describes this configuration
-- `introduction` [optional]: a description that is displayed to the user that uses Environaut
-- `cache` [optional]: configuration about the caching of settings that are emitted from checks
-- `runner` [optional]: configuration about how to run the checks
-- `report` [optional]: configuration about how to collect, handle and compile results of checks into a report
-- `export` [optional]: configuration about how to export a report (containing the check results)
-- `checks` [optional]: checks with their respective configuration
+- `name` (optional): just a name you give your application's Environaut configuration
+- `description` (optional): a description for users and developers of the Environaut configuration
+- `keywords` (optional): just a bunch of tags that describes this configuration
+- `introduction` (optional): a description that is displayed to the user that uses Environaut
+- `cache` (optional): configuration about the caching of settings that are emitted from checks
+- `runner` (optional): configuration about how to run the checks
+- `report` (optional): configuration about how to collect, handle and compile results of checks into a report
+- `export` (optional): configuration about how to export a report (containing the check results)
+- `checks` (optional): checks with their respective configuration
 
 ### Checks
 
@@ -67,7 +67,7 @@ A check is a class that implements `Environaut\Checks\ICheck`. A check can just
 do something useful and return a result. The result may contain messages and
 (cachable) settings that the check emits.
 
-- `class` [required] (or `__class` in php/json config): namespaced class name of the check.
+- `class` (required) (or `__class` in php/json config): namespaced class name of the check.
     - format is ```Custom\Class\Name``` (or simple class names without namespace if you like)
     - must implement `ICheck` interface
     - that should be autoloadable from current folder (or see the ```autoload-dir``` CLI option)
@@ -75,9 +75,9 @@ do something useful and return a result. The result may contain messages and
     - check may emit messages
     - check may emit settings
     - emitted settings may be cachable for later runs (accessible via property `cache`)
-- `name` [optional] (or `__name` in php/json config): name of the check
+- `name` (optional) (or `__name` in php/json config): name of the check
     - best if unique value
-- `group` [optional] (or `__group` in php/json config): name of a group this check and it's results belong to
+- `group` (optional) (or `__group` in php/json config): name of a group this check and it's results belong to
     - defaults to `default` or whatever the check implementation defines
     - is useful to separate emitted settings in different groups for the export and report display
 - parameters: list of `name => value` pairs
@@ -94,11 +94,11 @@ values instead of having to retype everything.
 
 The following parameters are used by Environaut:
 
-- `location` [optional]: file path and name of cache file to use for reading/writing of cachable settings
-- `read_location` [optional]: path to cache file to read cached settings from; overrides `location`
-- `write_location` [optional]: path to cache file to write cached settings to; overrides `location`
-- `class` [optional] (or `__class` in php/json config): namespaced class name implementing `ICache` (to override default behaviours if needed)
-- `readonly_class` [optional]: namespaced class name implementing `IReadOnlyCache` (to override default behaviours if needed)
+- `location` (optional): file path and name of cache file to use for reading/writing of cachable settings
+- `read_location` (optional): path to cache file to read cached settings from; overrides `location`
+- `write_location` (optional): path to cache file to write cached settings to; overrides `location`
+- `class` (optional) (or `__class` in php/json config): namespaced class name implementing `ICache` (to override default behaviours if needed)
+- `readonly_class` (optional): namespaced class name implementing `IReadOnlyCache` (to override default behaviours if needed)
 
 The reading from and writing to cache files can be disabled completely by using the `check`
 commandline option `--no-cache`.
@@ -116,20 +116,20 @@ to the user. This usually includes displaying the emitted messages from the chec
 CLI and writing of the emitted settings to one or more files to be included in your
 application.
 
-- `class` [optional] (or `__class` in php/json config): namespaced class name implementing `IExport` (to override default behaviours if needed)
+- `class` (optional) (or `__class` in php/json config): namespaced class name implementing `IExport` (to override default behaviours if needed)
 
 The default export class uses `formatters`. A `formatter` defines the format and location
 of the file to export to and returns an output string to display on the CLI.
 
-- `location` [optional]: file path and name to use
-- `format` [optional]: `xml`, `json` or `php`
+- `location` (optional): file path and name to use
+- `format` (optional): `xml`, `json` or `php`
 
 You do not need to specify the format if the `location` ends with a wel known extension
 as the correct formatter class will be chosen depending on the file extension.
 
 When you want to use a custom formatter you need to specify a classname:
 
-- `class` [optional] (or `__class` in php/json config): namespaced class name implementing `IReportFormatter` (for custom formatters)
+- `class` (optional) (or `__class` in php/json config): namespaced class name implementing `IReportFormatter` (for custom formatters)
 
 That class is instantiated and gets the specified child parameters of the formatter
 to be able to configure the runtime behaviour.
@@ -139,10 +139,10 @@ to be able to configure the runtime behaviour.
 May be used to override the report class used internally to compile results of run checks.
 The specified parameters are givent to the custom class as well if specified.
 
-- `class` [optional] (or `__class` in php/json config): namespaced class name implementing `IReport`
+- `class` (optional) (or `__class` in php/json config): namespaced class name implementing `IReport`
 
 ### Runner
 
 May be used to override the runner class used internally to run checks and collect a report.
 
-- `class` [optional] (or `__class` in php/json config): namespaced class name implementing `IRunner`
+- `class` (optional) (or `__class` in php/json config): namespaced class name implementing `IRunner`

@@ -1,7 +1,7 @@
 # Environaut
 
-* Version: 0.2.0-dev
-* Date: 2013/xx/xx
+* Version: 0.2.0
+* Date: 2013/08/05
 * Build: [![Build Status](https://secure.travis-ci.org/graste/environaut.png?branch=0.2.0)](http://travis-ci.org/graste/environaut)
 
 ## Purpose
