@@ -86,16 +86,26 @@ EOT;
         $group_content = '';
         foreach ($grouped_settings as $group_name => $settings) {
             $settings_content = '';
+            // remove control characters like vertical tabs, up/down arrows etc. as it breaks sprintf templates -.-
+            $group_name = preg_replace('/[[:cntrl:]]/', '', $group_name);
 
             foreach ($settings as $setting) {
                 $value = $setting->getValue();
                 if (is_bool($value)) {
-                    $value = var_export($value, true);
+                    $value = var_export($value, true); // we want "true"/"false" instead of "1"/"" in the output
                 }
+
+                // remove control characters like vertical tabs, up/down arrows etc.
+                // this leads arrow-up key "\033[A" being converted to "[A" which is probably not useful,
+                // but at least does not break the cheapo sprintf templating for the moment...
+                $name = preg_replace('/[[:cntrl:]]/', '', $setting->getName());
+                $value = preg_replace('/[[:cntrl:]]/', '', $value);
+                //$value = preg_replace('/[^\p{L}\s]/u','',$value);
+                //$value = preg_replace('/[\x00-\x1F\x80-\x9F]/u', '', $value);
                 $settings_content .= self::vksprintf(
                     $setting_template,
                     array(
-                        'setting_name' => htmlspecialchars($setting->getName(), ENT_QUOTES, 'UTF-8'),
+                        'setting_name' => htmlspecialchars($name, ENT_QUOTES, 'UTF-8'),
                         'setting_value' => htmlspecialchars($value, ENT_QUOTES, 'UTF-8'),
                         'group_name' => htmlspecialchars($group_name, ENT_QUOTES, 'UTF-8')
                     )

@@ -3,6 +3,7 @@
 namespace Environaut\Report;
 
 use Environaut\Report\Results\IResult;
+use Environaut\Report\Results\Result;
 use Environaut\Config\Parameters;
 
 /**
@@ -73,7 +74,8 @@ class Report implements IReport
     }
 
     /**
-     * Returns an array of ISetting instances that match the given criterias from the results of this report.
+     * Returns an array of ISetting instances that match the given criterias
+     * from the successful results of this report.
      *
      * @param mixed $groups string or array of group names settings should match, the default null matches always
      * @param integer $flag type of settings to get
@@ -85,14 +87,17 @@ class Report implements IReport
         $settings = array();
 
         foreach ($this->results as $result) {
-            $settings = array_merge($settings, $result->getSettings($groups, $flag));
+            if (IResult::SUCCESS === $result->getStatus()) {
+                $settings = array_merge($settings, $result->getSettings($groups, $flag));
+            }
         }
 
         return $settings;
     }
 
     /**
-     * Returns an array of cachable ISetting instances that match the given criterias from the results of this report.
+     * Returns an array of cachable ISetting instances that match the given criterias
+     * from the successful results of this report.
      *
      * @param mixed $groups string or array of group names settings should match, the default null matches always
      * @param integer $flag type of settings to get
@@ -104,7 +109,9 @@ class Report implements IReport
         $settings = array();
 
         foreach ($this->results as $result) {
-            $settings = array_merge($settings, $result->getCachableSettings($groups, $flag));
+            if (IResult::SUCCESS === $result->getStatus()) {
+                $settings = array_merge($settings, $result->getCachableSettings($groups, $flag));
+            }
         }
 
         return $settings;
@@ -112,7 +119,7 @@ class Report implements IReport
 
     /**
      * Returns an array of associative arrays for each ISetting instance
-     * that matches the given criterias (from the results of this report).
+     * that matches the given criterias (from the successful results of this report).
      *
      * @param mixed $groups string or array of group names settings should match, the default null matches always
      * @param integer $flag type of settings to get
@@ -124,9 +131,11 @@ class Report implements IReport
         $settings = array();
 
         foreach ($this->results as $result) {
-            $new_settings = $result->getSettingsAsArray($groups, $flag);
-            foreach ($new_settings as $s) {
-                $settings[] = $s;
+            if (IResult::SUCCESS === $result->getStatus()) {
+                $new_settings = $result->getSettingsAsArray($groups, $flag);
+                foreach ($new_settings as $s) {
+                    $settings[] = $s;
+                }
             }
         }
 
@@ -135,7 +144,7 @@ class Report implements IReport
 
     /**
      * Returns an array of associative arrays for each cachable ISetting instance
-     * that matches the given criterias (from the results of this report).
+     * that matches the given criterias (from the successful results of this report).
      *
      * @param mixed $groups string or array of group names settings should match, the default null matches always
      * @param integer $flag type of settings to get
@@ -147,7 +156,9 @@ class Report implements IReport
         $settings = array();
 
         foreach ($this->results as $result) {
-            $settings[] = array_merge($settings, $result->getCachableSettingsAsArray($groups, $flag));
+            if (IResult::SUCCESS === $result->getStatus()) {
+                $settings[] = array_merge($settings, $result->getCachableSettingsAsArray($groups, $flag));
+            }
         }
 
         return $settings;

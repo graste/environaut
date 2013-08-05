@@ -71,9 +71,12 @@ class Runner implements IRunner
 
         $progress->start($this->command->getOutput(), count($checks));
 
+        // run all checks defined in the configuration
         foreach ($checks as $check) {
+            // process the check
             $succeeded = (bool) $check->run();
 
+            // collect the result
             $result = $check->getResult();
 
             if (!$result instanceof IResult) {
@@ -83,12 +86,14 @@ class Runner implements IRunner
                 );
             }
 
+            // mark the check's result as success or failure
             if (!$succeeded) {
                 $result->setStatus(IResult::FAIL);
             } else {
                 $result->setStatus(IResult::SUCCESS);
             }
 
+            // add the check's result to the report
             $this->report->addResult($result);
 
             $successful &= $succeeded;

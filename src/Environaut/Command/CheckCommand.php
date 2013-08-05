@@ -2,7 +2,7 @@
 
 namespace Environaut\Command;
 
-use Environaut\Cache\Cache;
+use Environaut\Cache\ICache;
 use Environaut\Cache\IReadOnlyCache;
 use Environaut\Cache\ReadOnlyCache;
 use Environaut\Command\Command;
@@ -89,9 +89,13 @@ class CheckCommand extends Command
 
 <info>This command checks the environment according to the checks from the configuration file.</info>
 
-By default the current working directory will be used to find the configuration file and
-all defined classes (checks and validators). Use <comment>--autoload-dir path/to/src</comment> to change the
-autoload directory or <comment>--config path/to/environaut.(json|xml|php)</comment> to change the file lookup path.
+By default the <comment>current working directory</comment> will be used to find the configuration file and
+all defined classes (checks and validators etc.).
+
+Use
+<comment>--autoload-dir [path/to/src]</comment> to change the autoload directory or
+<comment>--config [path/to/environaut.(json|xml|php)]</comment> to set the configuration file lookup path or
+<comment>--no-cache</comment> to disable to usage of a cache file.
 EOT
         );
     }
@@ -174,6 +178,8 @@ EOT
     /**
      * Write the cachable settings from the run checks to a cache file for later reuse.
      *
+     * @todo should cache only be written if all checks succeeded?
+     *
      * @param boolean $run_was_successful whether or not the checks ran successfully
      */
     protected function writeCache($run_was_successful)
@@ -183,23 +189,38 @@ EOT
             return;
         }
 
-        // TODO should cache only be written if all things succeeded? perhaps overwrite cache with successful results?
-        if (true) { //$run_was_successful) {
-            $cache = new Cache();
-            //$cache->setLocation($this->readonly_cache->getLocation());
-            $cache->addAll($this->report->getCachableSettings());
-            $this->output->writeln('');
-            if ($cache->save()) {
-                $this->output->writeln(
-                    'Writing cachable settings to "<comment>' . $cache->getLocation() .
-                    '</comment>" for subsequent runs...<info>ok</info>.'
-                );
-            } else {
-                $this->output->writeln(
-                    'Writing cachable settings to "<comment>' . $cache->getLocation() .
-                    '</comment>" for subsequent runs...<error>FAILED</error>.'
-                );
-            }
+        $cache_implementor = $this->config->getCacheImplementor();
+        $cache = new $cache_implementor();
+
+        if (!$cache instanceof ICache) {
+            throw new \InvalidArgumentException(
+                'The given cache class "' . $cache_implementor . '" does not implement ICache.'
+            );
+        }
+
+        $cache_params = new Parameters($this->config->get('cache', array()));
+        $cache->setParameters($cache_params);
+
+        // TODO use something like getenv('ENVIRONAUT_CACHE_DIR')?
+        $cache_location = $this->input->getOption('cache-location');
+        if (!empty($cache_location)) {
+            $cache->setLocation($cache_location);
+        }
+
+        $cache->addAll(
+            $this->report->getCachableSettings() // gets only cachable settings from successful checks
+        );
+
+        if ($cache->save()) {
+            $this->output->writeln(
+                PHP_EOL . 'Writing cachable settings to "<comment>' . $cache->getLocation() .
+                '</comment>" for subsequent runs...<info>ok</info>.' . PHP_EOL
+            );
+        } else {
+            $this->output->writeln(
+                PHP_EOL . 'Writing cachable settings to "<comment>' . $cache->getLocation() .
+                '</comment>" for subsequent runs...<error>FAILED</error>.' . PHP_EOL
+            );
         }
     }
 
@@ -232,11 +253,24 @@ EOT
 
         $this->readonly_cache = $cache;
         $this->readonly_cache->setParameters($cache_params);
-        if (!empty($cache_location) && is_readable($cache_location)) {
-            $this->readonly_cache->setLocation($cache_location);
+        if (!empty($cache_location)) {
+            if (is_readable($cache_location)) {
+                $this->readonly_cache->setLocation($cache_location);
+            } else {
+                $this->output->writeln(
+                    '<comment>Given cache location could not be read. ' .
+                    'Using fallback from config or default location.</comment>'
+                );
+            }
         }
 
         $this->readonly_cache->load();
+
+        $this->output->writeln(
+            '<info>Loaded <comment>' . count($cache->getAll()) . '</comment> cached settings from:</info> ' .
+            $cache->getLocation()
+        );
+        $this->output->writeln('');
 
         return $this->readonly_cache;
     }

@@ -98,7 +98,9 @@ class Configurator extends Check
                 "Setting [" . $cached_setting->getGroup() . "][$name] already configured. Using " .
                 'value: ' . var_export($cached_setting->getValue(), true)
             );
+            // add cached value directly as cachable setting to the result of this check
             $this->result->addSetting($cached_setting);
+
             return true;
         }
 
@@ -109,10 +111,13 @@ class Configurator extends Check
             $default = (bool) ($default === null ? true : $default);
             $default_text = ($default ? 'y' : 'n');
             $question .= "</question> (Type [y/n/<return>], default=$default_text): ";
+
             $value = $dialog->askConfirmation($output, $question, $default);
+
             $default_text = ($default ? 'enabled' : 'disabled');
-            $this->addCachableSetting($name, $value, $setting_group);
             $this->addInfo($name . ' is ' . $default_text);
+
+            $this->addCachableSetting($name, $value, $setting_group);
 
             return true;
         }

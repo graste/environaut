@@ -64,6 +64,15 @@ class XmlConfigReader implements IConfigReader
             }
         }
 
+        $element = $doc->getElement('cache');
+        if (null !== $element) {
+            $config_data['cache'] = $element->getParameters();
+            $value = $element->getAttributeValue('class');
+            if (null !== $value) {
+                $config_data['cache']['__class'] = $value;
+            }
+        }
+
         $element = $doc->getElement('report');
         if (null !== $element) {
             $config_data['report'] = $element->getParameters();

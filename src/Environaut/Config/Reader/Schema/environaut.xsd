@@ -50,6 +50,7 @@
             <xs:element name="description" type="ec:nonEmptyStringType" minOccurs="0" maxOccurs="1" />
             <xs:element name="keywords" type="ec:keywordsType" minOccurs="0" maxOccurs="1" />
             <xs:element name="introduction" type="ec:nonEmptyStringType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="cache" type="ec:cacheType" minOccurs="0" maxOccurs="1" />
             <xs:element name="runner" type="ec:runnerType" minOccurs="0" maxOccurs="1" />
             <xs:element name="report" type="ec:reportType" minOccurs="0" maxOccurs="1" />
             <xs:element name="export" type="ec:exportType" minOccurs="0" maxOccurs="1" />
@@ -58,6 +59,16 @@
         </xs:sequence>
         <xs:attribute name="name" type="ec:nonEmptyStringType" use="optional" />
         <xs:attribute name="description" type="ec:nonEmptyStringType" use="optional" />
+    </xs:complexType>
+
+    <xs:complexType name="cacheType">
+        <xs:sequence>
+            <xs:group ref="ec:parametersGroup" />
+        </xs:sequence>
+        <xs:attribute name="class" type="ec:phpClassType" use="optional" />
+        <xs:attribute name="name" type="ec:nonEmptyStringType" use="optional" />
+        <xs:attribute name="description" type="ec:nonEmptyStringType" use="optional" />
+        <xs:anyAttribute namespace="##any" processContents="lax" />
     </xs:complexType>
 
     <xs:complexType name="checksType">

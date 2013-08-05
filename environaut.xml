@@ -27,7 +27,18 @@
 
     A report with messages will be printed to the CLI and the accumulated
     settings will be written to some JSON, XML and PHP files if configured.
+
+    Subsequent runs will read the already configured settings from the cache
+    and thus will not ask again for settings.
 ]]></introduction>
+
+    <cache>
+        <parameter name="location">.environaut.cache</parameter>
+        <!-- you can separate cache reading from writing by specifying something like this:
+        <parameter name="read_location">/home/user/.environaut_defaults.cache</parameter>
+        <parameter name="write_location">.environaut_custom.cache</parameter>
+        -->
+    </cache>
 
     <export>
 
@@ -39,7 +50,7 @@
         </formatter>
 <!--
         <formatters>
-            <formatter />
+            <formatter /> (will be ./environaut-cofnig.json)
             <formatter>
                 <parameter name="location">/tmp/environaut-example-config.json</parameter>
             </formatter>

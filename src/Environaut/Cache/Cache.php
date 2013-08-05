@@ -48,10 +48,18 @@ class Cache extends ReadOnlyCache implements ICache
     public function save()
     {
         $location = $this->location;
-
+var_dump($location);
+        // no location given from commandline -> use config values or fallback to default location
         if (empty($location)) {
-            $location = $this->getDefaultLocation();
+            $location = $this->parameters->get(
+                'write_location',
+                $this->parameters->get(
+                    'location',
+                    $this->getDefaultLocation()
+                )
+            );
         }
+var_dump($location);
 
         $this->location = $location;
 
@@ -60,13 +68,22 @@ class Cache extends ReadOnlyCache implements ICache
             $data[] = $setting->toArray();
         }
 
-        $content = json_encode($data);
+        $flags = 0;
+        if ($this->parameters->get('pretty', true) && version_compare(PHP_VERSION, '5.4.0') >= 0) {
+            $flags |= JSON_PRETTY_PRINT;
+        }
+
+        $content = json_encode($data, $flags);
 
         if (false === $content) {
             throw new \Exception('Could not json_encode cachable settings. Nothing written to cache.');
         }
 
-        return (false !== file_put_contents($location, $content));
+        $success = (false !== file_put_contents($location, $content));
+
+        $success &= chmod($location, 0600); // only current user should read/write potentially sensitive info
+
+        return $success;
     }
 
     /**

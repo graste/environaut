@@ -4,6 +4,9 @@ namespace Environaut\Checks;
 
 use Environaut\Checks\Check;
 
+/**
+ * Checks that mbstring extension is present and uses UTF-8 as internal encoding.
+ */
 class MbInternalEncodingCheck extends Check
 {
     /**

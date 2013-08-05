@@ -120,17 +120,18 @@ class ReadOnlyCache implements IReadOnlyCache
     {
         $location = $this->location;
 
+        // no location given from commandline -> use config values or fallback to default location
         if (empty($location)) {
-            $location = $this->getDefaultLocation();
+            $location = $this->parameters->get(
+                'read_location',
+                $this->parameters->get(
+                    'location',
+                    $this->getDefaultLocation()
+                )
+            );
         }
 
-        /*if (!is_readable($location)) {
-            throw new \InvalidArgumentException('Given cache is not readable: ' . $location);
-        }
-
-        if (!is_file($location)) {
-            throw new \InvalidArgumentException('Given cache is not a readable file: ' . $location);
-        }*/
+        $this->location = $location;
 
         if (!is_readable($location) || !is_file($location)) {
             return false;
