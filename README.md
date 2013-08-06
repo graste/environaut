@@ -143,7 +143,9 @@ See [`CHANGELOG.md`](CHANGELOG.md) for more information about changes.
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Environaut</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
 
 CC-BY-SA-3.0 means, you are free to share, remix and make commercial use of the
-work as long as you attribute and share alike. See linked license for details.
+work as long as you attribute and share alike. See [linked license](LICENSE.md) for details.
 
 [1]: https://github.com/graste/environaut/archive/0.2.0.zip
 
+* Latest Version: [![Latest Stable Version](https://poser.pugx.org/graste/environaut/version.png)](https://packagist.org/packages/graste/environaut)
+* Total Composer Downloads: [![Composer Downloads](https://poser.pugx.org/graste/environaut/d/total.png)](https://packagist.org/packages/graste/environaut)
