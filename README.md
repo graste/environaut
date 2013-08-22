@@ -2,7 +2,7 @@
 
 * Version: 0.2.1
 * Date: 2013/08/22
-* Build: [![Build Status](https://secure.travis-ci.org/graste/environaut.png?branch=0.2.1)](http://travis-ci.org/graste/environaut)
+* Build: [![Build Status](https://secure.travis-ci.org/graste/environaut.png)](http://travis-ci.org/graste/environaut)
 
 Please have a look at the [available releases](https://github.com/graste/environaut/releases).
 
@@ -19,12 +19,12 @@ information.
 
 1. Download the [`environaut.phar`](https://raw.github.com/graste/environaut/master/bin/environaut.phar) file of the release you prefer
 1. Make it executable via `chmod u+x environaut.phar`
-1. Run `./environaut.phar`
+1. Run `./environaut.phar check`
 1. Notice the error message for a missing configuration file
 1. Create a minimal config file (e.g. as
    [xml](docs/examples/minimal.example.xml) or
    [json](docs/examples/minimal.example.json)) next to the `environaut.phar` file.
-1. Run `./environaut.phar` again
+1. Run `./environaut.phar check` again (with ```--config ...``` if the file is not named ```environaut.(xml|json|php)```)
 1. Notice the output and created settings and cache file that is used when you
    run Environaut another time.
 
