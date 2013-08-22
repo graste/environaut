@@ -1,7 +1,7 @@
 <?php
 
-$file1 = __DIR__ . '/../vendor/autoload.php'; // lokal working copy
-$file2 = __DIR__ . '/../../../../../autoload.php'; // installed via composer
+$file1 = __DIR__ . '/../vendor/autoload.php'; // lokal cloned working copy
+$file2 = __DIR__ . '/../../../autoload.php'; // installed via composer
 
 $loader1 = file_exists($file1) ? include $file1 : false;
 $loader2 = file_exists($file2) ? include $file2 : false;
