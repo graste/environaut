@@ -42,7 +42,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Environaut": "src/"
+            "Environaut\\": "src/"
         }
     },
     "repositories": [
