@@ -39,11 +39,12 @@
         "sami/sami": "~1.0",
         "squizlabs/php_codesniffer": "~1.4.5"
     },
+    "suggest": {
+        "lib-libxml": "The libXML library and PHP extension is necessary for XML configuration files."
+    },
     "autoload": {
         "psr-0": {
             "Environaut\\": "src/"
         }
-    },
-    "repositories": [
-    ]
+    }
 }
