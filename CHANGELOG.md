@@ -2,6 +2,11 @@
 
 All new features, changes and fixes should be listed here. Please use tickets to reference changes.
 
+## 0.2.1 (2013/08/22)
+
+* [fix] The autoloading was not working when Environaut was used via Composer
+  JSON file in projects.
+
 ## 0.2.0 (2013/08/05)
 
 This is the first release that may possibly be helpful. Checks can be
