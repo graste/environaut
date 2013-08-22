@@ -21,10 +21,9 @@
         "source": "https://github.com/graste/environaut"
     },
     "minimum-stability": "stable",
-    "target-dir": "graste/environaut",
     "bin": [
         "bin/environaut",
-        "environaut.phar"
+        "bin/environaut.phar"
     ],
     "config": {
         "vendor-dir": "vendor"
