@@ -3,18 +3,11 @@
     version="1.0"
     elementFormDefault="qualified"
     attributeFormDefault="unqualified"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:ec="http://mivesto.de/environaut/config/1.0"
     targetNamespace="http://mivesto.de/environaut/config/1.0"
 >
-
-
-    <!-- This schema import is necessary for XIncludes to work -->
-    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd" />
-
-
-    <!-- BASIC types used throughout the config for elements and attributes -->
-
 
     <xs:simpleType name="nonEmptyStringType">
         <xs:restriction base="xs:string">
@@ -41,6 +34,10 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:complexType name="simpleTextType" mixed="true">
+        <xs:anyAttribute namespace="##any" processContents="lax" />
+    </xs:complexType>
+
 
     <!-- ENVIRONAUT configuration definition -->
 
@@ -50,10 +47,10 @@
     <xs:complexType name="environautType">
         <xs:sequence>
             <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
-            <xs:element name="name" type="ec:nonEmptyStringType" minOccurs="0" maxOccurs="1" />
-            <xs:element name="description" type="ec:nonEmptyStringType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="name" type="ec:simpleTextType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="description" type="ec:simpleTextType" minOccurs="0" maxOccurs="1" />
             <xs:element name="keywords" type="ec:keywordsType" minOccurs="0" maxOccurs="1" />
-            <xs:element name="introduction" type="ec:nonEmptyStringType" minOccurs="0" maxOccurs="1" />
+            <xs:element name="introduction" type="ec:simpleTextType" minOccurs="0" maxOccurs="1" />
             <xs:element name="cache" type="ec:cacheType" minOccurs="0" maxOccurs="1" />
             <xs:element name="runner" type="ec:runnerType" minOccurs="0" maxOccurs="1" />
             <xs:element name="report" type="ec:reportType" minOccurs="0" maxOccurs="1" />
