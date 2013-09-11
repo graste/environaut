@@ -9,6 +9,10 @@
 >
 
 
+    <!-- This schema import is necessary for XIncludes to work -->
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd" />
+
+
     <!-- BASIC types used throughout the config for elements and attributes -->
 
 
