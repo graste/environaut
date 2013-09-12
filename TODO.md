@@ -5,18 +5,12 @@ See <https://github.com/graste/environaut/issues/7>;
 - make it possible to disable exports or just run no formatters by default etc.
 - add check list command instead of always running checks (maybe --dry-run
   option?)
-- add functionality to KNOW what's been asked before to not ask again
-    - this helps with releases/updates
-    - may be implemented via `.environaut.cache` or `~/.cache/environaut/cache` dir?
-- add general php ini settings check
-    - beware: ```post_max_size = 0.25M``` or ```post_max_size =   10M``` (multiple spaces before the 10M)
-- add general php extensions check (including options)
 - perhaps add check for invalid whitespace before/after ```<?php/?>```
 - add export formatter for following formats:
     - markdown
     - json
-    - php
-    - xml
+    - php (done)
+    - xml (done)
     - nagios plugin compatible report format?
 - add token handling for dependencies (including multiple reruns)?
     - add nested checks or just delete the interface?

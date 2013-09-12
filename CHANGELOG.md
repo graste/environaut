@@ -2,6 +2,16 @@
 
 All new features, changes and fixes should be listed here. Please use tickets to reference changes.
 
+## 0.2.2 (2013/09/12)
+
+* [fix] The multi level inclusion of Environaut XML configuration files via
+  XInclude directive was not possible due to the nature of XInclude processing.
+  This has been fixed by using a complex type instead of simple types for the
+  simple `name`, `description` and `introduction` elements. You can now XInclude
+  configs from elsewhere that on itself XInclude other configs. This enables you
+  to create more sophisticated Environaut configuration hierarchies and pools of
+  checks.
+
 ## 0.2.1 (2013/08/22)
 
 * [fix] The autoloading was not working when Environaut was used via Composer

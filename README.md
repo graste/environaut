@@ -1,7 +1,7 @@
 # Environaut
 
-* Version: 0.2.1
-* Date: 2013/08/22
+* Version: 0.2.2
+* Date: 2013/09/12
 * Build: [![Build Status](https://secure.travis-ci.org/graste/environaut.png)](http://travis-ci.org/graste/environaut)
 
 Please have a look at the [available releases](https://github.com/graste/environaut/releases).
