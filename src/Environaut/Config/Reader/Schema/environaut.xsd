@@ -3,7 +3,6 @@
     version="1.0"
     elementFormDefault="qualified"
     attributeFormDefault="unqualified"
-    xmlns:xml="http://www.w3.org/XML/1998/namespace"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:ec="http://mivesto.de/environaut/config/1.0"
     targetNamespace="http://mivesto.de/environaut/config/1.0"
@@ -34,10 +33,6 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:complexType name="simpleTextType" mixed="true">
-        <xs:anyAttribute namespace="##any" processContents="lax" />
-    </xs:complexType>
-
 
     <!-- ENVIRONAUT configuration definition -->
 
@@ -60,6 +55,10 @@
         </xs:sequence>
         <xs:attribute name="name" type="ec:nonEmptyStringType" use="optional" />
         <xs:attribute name="description" type="ec:nonEmptyStringType" use="optional" />
+    </xs:complexType>
+
+    <xs:complexType name="simpleTextType" mixed="true">
+        <xs:anyAttribute namespace="##any" processContents="lax" />
     </xs:complexType>
 
     <xs:complexType name="cacheType">
