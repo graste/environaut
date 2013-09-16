@@ -2,6 +2,10 @@
 
 All new features, changes and fixes should be listed here. Please use tickets to reference changes.
 
+## 0.3.0 (2013/09/16)
+
+* [new] added `ShellSettingsWriter` formatter that produces shell scripts with variable definitions
+
 ## 0.2.2 (2013/09/12)
 
 * [fix] The multi level inclusion of Environaut XML configuration files via
