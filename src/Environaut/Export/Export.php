@@ -39,7 +39,7 @@ class Export implements IExport
     /**
      * @var array supported export file extensions
      */
-    protected $supported_export_file_extensions = array('json', 'xml', 'php');
+    protected $supported_export_file_extensions = array('json', 'xml', 'php', 'sh');
 
     /**
      * Export current report as follows:
@@ -76,7 +76,12 @@ class Export implements IExport
             $params = new Parameters($formatter_definition);
 
             $location = $params->get('location', self::DEFAULT_EXPORT_LOCATION);
-            $formatter_class = $params->get('__class', $this->getFormatterByExtension($location));
+
+            if ($params->has('__class')) {
+                $formatter_class = $params->get('__class');
+            } else {
+                $formatter_class = $this->getFormatterByExtension($location);
+            }
 
             $formatter = new $formatter_class();
             $formatter->setParameters($params);
@@ -115,6 +120,9 @@ class Export implements IExport
                 break;
             case 'php':
                 $formatter = 'Environaut\Export\Formatter\PhpSettingsWriter';
+                break;
+            case 'sh':
+                $formatter = 'Environaut\Export\Formatter\ShellSettingsWriter';
                 break;
             default:
                 throw new \InvalidArgumentException(

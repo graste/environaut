@@ -1,0 +1,107 @@
+<?php
+
+namespace Environaut\Export\Formatter;
+
+use Environaut\Report\IReport;
+use Environaut\Export\Formatter\BaseFormatter;
+use Environaut\Checks\ICheck;
+
+/**
+ * Writes all or specific groups of settings as JSON to a file.
+ */
+class ShellSettingsWriter extends BaseFormatter
+{
+    /**
+     * Writes all or specific groups of settings as a JSON file and
+     * returns a message with some information about that.
+     *
+     * @param IReport $report report to take results (and settings) from
+     *
+     * @return string messages for CLI output
+     */
+    public function format(IReport $report)
+    {
+        $output = '';
+        $params = $this->getParameters();
+
+        $file = $params->get('location', 'environaut-config.json');
+        $groups = $params->get('groups');
+
+        if (is_writable($file)) {
+            $output .= '<comment>Overwriting</comment> ';
+        } else {
+            $output .= 'Writing ';
+        }
+
+        if (empty($groups)) {
+            $output .= 'all groups ';
+        } else {
+            $output .= 'group(s) "' . implode(', ', $groups) . '" ';
+        }
+
+        $output .= 'to file "<comment>' . $file . '</comment>"...';
+
+        $all_settings = $report->getSettingsAsArray($groups);
+
+        $grouped_settings = array();
+        $content = '';
+
+        foreach ($all_settings as $setting) {
+            $name = $this->makeShellVariableName($setting['name'], $setting['group']);
+            $value = $this->mapValue($setting['value']);
+
+            $content .= $name . "='" . $value ."'\n";
+        }
+
+        $ok = file_put_contents($file, $content, LOCK_EX);
+
+        if ($ok !== false) {
+            $output .= '<info>ok</info>.';
+        } else {
+            $output .= '<error>FAILED</error>.';
+        }
+
+        return $output;
+    }
+
+    protected function mapValue($value)
+    {
+        switch (gettype($value)) {
+            case "boolean": return $value ? "1" : "";
+            case "array": return $this->transFormArrayValue($value);
+            default: return $value;
+        }
+    }
+
+    protected function transFormArrayValue(array $value)
+    {
+        return implode("\n", $value);
+    }
+
+    protected function makeShellVariableName($setting_name, $group)
+    {
+        $params = $this->getParameters();
+
+        $use_group_as_prefix = $params->get('use_group_as_prefix', false);
+        $capitalize_names = $params->get('capitalize_names', false);
+        $valid_name_regex = '/^[A-z_][A-z0-9_]*$/';
+
+        if ($use_group_as_prefix && $group && $group !== ICheck::DEFAULT_GROUP_NAME) {
+            $prefix = $group . '_';
+        } else {
+            $prefix = '';
+        }
+
+        $name = $prefix . $setting_name;
+
+        if (!preg_match($valid_name_regex, $name)) {
+            throw new \Exception('"'.$name.'" is not a valid shell variable identifier.');
+        }
+
+        if ($capitalize_names) {
+            $name = strtoupper($name);
+        }
+
+        return $name;
+    }
+}
