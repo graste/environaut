@@ -84,7 +84,7 @@ file and run the `php composer.phar install` command to get Environaut:
 ```json
 {
     "require": {
-        "graste/environaut": "~0.2"
+        "graste/environaut": "~0.3"
     }
 }
 ```
