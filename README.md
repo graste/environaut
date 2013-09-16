@@ -1,7 +1,7 @@
 # Environaut
 
-* Version: 0.2.2
-* Date: 2013/09/12
+* Version: 0.3.0
+* Date: 2013/09/16
 * Build: [![Build Status](https://secure.travis-ci.org/graste/environaut.png)](http://travis-ci.org/graste/environaut)
 
 Please have a look at the [available releases](https://github.com/graste/environaut/releases).
@@ -53,6 +53,10 @@ export formatter and re-run the checks to get your settings as JSON.
 - `libxml` when XML configuration files are used
 
 There are multiple ways to use and run environaut:
+
+- download and use the PHAR file
+- install via Composer CLI
+- install via Composer (`composer.json`)
 
 ### PHAR
 
