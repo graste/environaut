@@ -155,6 +155,7 @@ Supported (output) settings file formats:
 - `XML`
 - `JSON`
 - `PHP`
+- `SH`
 
 The input and output file formats may be completely customized by replacing
 the default classes with custom implementations.
