@@ -67,13 +67,16 @@ class ShellSettingsWriter extends BaseFormatter
     protected function mapValue($value)
     {
         switch (gettype($value)) {
-            case "boolean": return $value ? "1" : "";
-            case "array": return $this->transFormArrayValue($value);
-            default: return $value;
+            case "boolean":
+                return $value ? "1" : "";
+            case "array":
+                return $this->transformArrayValue($value);
+            default:
+                return $value;
         }
     }
 
-    protected function transFormArrayValue(array $value)
+    protected function transformArrayValue(array $value)
     {
         return implode("\n", $value);
     }
