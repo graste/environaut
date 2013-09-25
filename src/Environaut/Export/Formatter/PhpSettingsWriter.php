@@ -25,6 +25,7 @@ class PhpSettingsWriter extends BaseFormatter
 
         $file = $params->get('location', 'environaut-config.php');
         $groups = $params->get('groups');
+        $nested = $params->get('nested', true);
 
         if (is_writable($file)) {
             $output .= '<comment>Overwriting</comment> ';
@@ -44,7 +45,11 @@ class PhpSettingsWriter extends BaseFormatter
 
         $grouped_settings = array();
         foreach ($all_settings as $setting) {
-            $grouped_settings[$setting['group']][$setting['name']] = $setting['value'];
+            if ($nested === true) {
+                $grouped_settings[$setting['group']][$setting['name']] = $setting['value'];
+            } else {
+                $grouped_settings[$setting['name']] = $setting['value'];
+            }
         }
 
         $content = '<?php return ' . var_export($grouped_settings, true) . ';';

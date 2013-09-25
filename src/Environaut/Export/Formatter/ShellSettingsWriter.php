@@ -7,12 +7,12 @@ use Environaut\Export\Formatter\BaseFormatter;
 use Environaut\Checks\ICheck;
 
 /**
- * Writes all or specific groups of settings as JSON to a file.
+ * Writes all or specific groups of settings as SHELL variables to a file.
  */
 class ShellSettingsWriter extends BaseFormatter
 {
     /**
-     * Writes all or specific groups of settings as a JSON file and
+     * Writes all or specific groups of settings as a shell file and
      * returns a message with some information about that.
      *
      * @param IReport $report report to take results (and settings) from
@@ -24,7 +24,7 @@ class ShellSettingsWriter extends BaseFormatter
         $output = '';
         $params = $this->getParameters();
 
-        $file = $params->get('location', 'environaut-config.json');
+        $file = $params->get('location', 'environaut-config.sh');
         $groups = $params->get('groups');
 
         if (is_writable($file)) {
