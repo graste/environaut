@@ -26,6 +26,7 @@ class JsonSettingsWriter extends BaseFormatter
         $file = $params->get('location', 'environaut-config.json');
         $pretty = $params->get('pretty', true);
         $groups = $params->get('groups');
+        $nested = $params->get('nested', true);
 
         if (is_writable($file)) {
             $output .= '<comment>Overwriting</comment> ';
@@ -50,7 +51,11 @@ class JsonSettingsWriter extends BaseFormatter
 
         $grouped_settings = array();
         foreach ($all_settings as $setting) {
-            $grouped_settings[$setting['group']][$setting['name']] = $setting['value'];
+            if ($nested === true) {
+                $grouped_settings[$setting['group']][$setting['name']] = $setting['value'];
+            } else {
+                $grouped_settings[$setting['name']] = $setting['value'];
+            }
         }
 
         $content = json_encode($grouped_settings, $flags);
