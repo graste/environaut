@@ -41,6 +41,12 @@ class ShellSettingsWriter extends BaseFormatter
 
         $output .= 'to file "<comment>' . $file . '</comment>"...';
 
+        $default_template = <<<EOT
+%settings\$s;
+EOT;
+
+        $template = $params->get('template', $default_template);
+
         $all_settings = $report->getSettingsAsArray($groups);
 
         $grouped_settings = array();
@@ -52,6 +58,8 @@ class ShellSettingsWriter extends BaseFormatter
 
             $content .= $name . "='" . $value ."'\n";
         }
+
+        $content = XmlSettingsWriter::vksprintf($template, array('settings' => $content));
 
         $ok = file_put_contents($file, $content, LOCK_EX);
 

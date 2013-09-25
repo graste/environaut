@@ -49,7 +49,14 @@
                 <parameter>trololo</parameter>
             </parameter>
             <parameter name="capitalize_names">true</parameter>
-            <parameter name="use_group_as_prefix">true</parameter>
+            <parameter name="use_group_as_prefix">false</parameter>
+            <parameter name="template"><![CDATA[
+#!/usr/bin/env bash
+%settings$s
+echo "Success!";
+exit 0;
+
+]]></parameter>
         </formatter>
 
         <formatter>
