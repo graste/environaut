@@ -56,6 +56,21 @@
             <parameter name="location">/tmp/environaut-config-pretty.json</parameter>
             <parameter name="pretty">true</parameter>
         </formatter>
+
+        <formatter location="/tmp/environaut-example-trololo-config.php">
+            <parameter name="nested">false</parameter>
+            <parameter name="groups">
+                <parameter>trololo</parameter>
+            </parameter>
+            <parameter name="template"><![CDATA[
+<?php
+
+$this_is_a_custom_template = %settings$s;
+
+$success = true;
+?>
+]]></parameter>
+        </formatter>
 <!--
         <formatters>
             <formatter /> (will be ./environaut-cofnig.json)

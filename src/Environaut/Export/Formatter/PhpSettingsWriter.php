@@ -41,6 +41,12 @@ class PhpSettingsWriter extends BaseFormatter
 
         $output .= 'to file "<comment>' . $file . '</comment>"...';
 
+        $default_template = <<<EOT
+<?php return %settings\$s;
+EOT;
+
+        $template = $params->get('template', $default_template);
+
         $all_settings = $report->getSettingsAsArray($groups);
 
         $grouped_settings = array();
@@ -52,7 +58,7 @@ class PhpSettingsWriter extends BaseFormatter
             }
         }
 
-        $content = '<?php return ' . var_export($grouped_settings, true) . ';';
+        $content = XmlSettingsWriter::vksprintf($template, array('settings' => var_export($grouped_settings, true)));
 
         $ok = file_put_contents($file, $content, LOCK_EX);
 
