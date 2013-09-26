@@ -1,13 +1,16 @@
 # Exports
 
+Environaut outputs messages from configured export formatters on the CLI. The
+formatters itself write files with settings from your checks.
+
 ## Supported formats
 
 `Environaut` currently supports settings writers for the following formats:
 
-- `XML` file via (`XmlSettingsWriter`)[../src/Environaut/Export/Formatter/XmlSettingsWriter.php]
-- `JSON` file via (`JsonSettingsWriter`)[../src/Environaut/Export/Formatter/JsonSettingsWriter.php]
-- `PHP` file (`PhpSettingsWriter`)[../src/Environaut/Export/Formatter/PhpSettingsWriter.php]
-- `SHELL` file (`ShellSettingsWriter`)[../src/Environaut/Export/Formatter/ShellSettingsWriter.php]
+- `XML` file via [`XmlSettingsWriter`](../src/Environaut/Export/Formatter/XmlSettingsWriter.php)
+- `JSON` file via [`JsonSettingsWriter`](../src/Environaut/Export/Formatter/JsonSettingsWriter.php)
+- `PHP` file via [`PhpSettingsWriter`](../src/Environaut/Export/Formatter/PhpSettingsWriter.php)
+- `SHELL` file via [`ShellSettingsWriter`](../src/Environaut/Export/Formatter/ShellSettingsWriter.php)
 
 This means, that the settings your checks emit can be exported into the above
 formats to be included by your programs.
