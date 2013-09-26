@@ -146,7 +146,7 @@ For the help command the following works:
 
 ## Documentation
 
-More detailed documentation can be found in the (```docs/```)[docs/] folder.
+More detailed documentation can be found in the [```docs/```](docs/) folder.
 
 Checks can be configured via configuration files and settings may
 afterwards be exported via different formatters into different formats.
