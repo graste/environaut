@@ -53,7 +53,7 @@ class ShellSettingsWriter extends BaseFormatter
         $output .= 'to file "<comment>' . $file . '</comment>"...';
 
         $default_template = <<<EOT
-%settings\$s;
+%settings\$s
 EOT;
 
         $template = $params->get('template', $default_template);
