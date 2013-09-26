@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Environaut\Config\Config | Environaut API</title>
+                    <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../classes.html">Classes</a></li>
+                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">Environaut API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../Environaut/Config.html">Environaut\Config</a>\Config</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>Config</strong>        implements
+        <a href="../../Environaut/Config/IConfig.html"><abbr title="Environaut\Config\IConfig">IConfig</abbr></a></p>
+
+            <div class="description">
+            <p>Default representation of the config file data.</p>
+            <p></p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(array $config_data = array())
+                    <p>Create new instance with some default config data.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getCheckDefinitions">getCheckDefinitions</a>()
+                    <p></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getExportImplementor">getExportImplementor</a>()
+                    <p>Defaults to &quot;Environaut\Export\Export&quot;.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getReportImplementor">getReportImplementor</a>()
+                    <p>Defaults to &quot;Environaut\Report\Report&quot;.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getRunnerImplementor">getRunnerImplementor</a>()
+                    <p>Defaults to &quot;Environaut\Runner\Runner&quot;.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getReadOnlyCacheImplementor">getReadOnlyCacheImplementor</a>()
+                    <p>Defaults to &quot;Environaut\Cache\ReadOnlyCache&quot;.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getCacheImplementor">getCacheImplementor</a>()
+                    <p>Defaults to &quot;Environaut\Cache\Cache&quot;.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_get">get</a>(string $key, mixed $default = null)
+                    <p>Returns the config value for the given key.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_has">has</a>(string $key)
+                    <p>Returns whether the config key exists or not.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_set">set</a>(string $key, mixed $value)
+                    <p>Sets a given value to the config under the specified key.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_toArray">toArray</a>()
+                    <p>Returns the config data as an associative array.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 23</div>
+        <code>            public            
+    <strong>__construct</strong>(array $config_data = array())</code>
+    </h3>
+    <div class="details">
+        <p>Create new instance with some default config data.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$config_data</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCheckDefinitions">
+        <div class="location">at line 31</div>
+        <code>            public            array
+    <strong>getCheckDefinitions</strong>()</code>
+    </h3>
+    <div class="details">
+        <p></p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>of parameters to create checks</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getExportImplementor">
+        <div class="location">at line 41</div>
+        <code>            public            string
+    <strong>getExportImplementor</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Defaults to &quot;Environaut\Export\Export&quot;.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>(namespaced) class name to use for exporting a report</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getReportImplementor">
+        <div class="location">at line 52</div>
+        <code>            public            string
+    <strong>getReportImplementor</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Defaults to &quot;Environaut\Report\Report&quot;.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>(namespaced) class name to use for a report</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getRunnerImplementor">
+        <div class="location">at line 63</div>
+        <code>            public            string
+    <strong>getRunnerImplementor</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Defaults to &quot;Environaut\Runner\Runner&quot;.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>(namespaced) class name to use for running checks read from the config</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getReadOnlyCacheImplementor">
+        <div class="location">at line 74</div>
+        <code>            public            string
+    <strong>getReadOnlyCacheImplementor</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Defaults to &quot;Environaut\Cache\ReadOnlyCache&quot;.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>(namespaced) class name to use for cache given to checks</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCacheImplementor">
+        <div class="location">at line 85</div>
+        <code>            public            string
+    <strong>getCacheImplementor</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Defaults to &quot;Environaut\Cache\Cache&quot;.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>(namespaced) class name to use for writing cachable settings after report generation</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_get">
+        <div class="location">at line 99</div>
+        <code>            public            mixed
+    <strong>get</strong>(string $key, mixed $default = null)</code>
+    </h3>
+    <div class="details">
+        <p>Returns the config value for the given key.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>name of config key</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$default</td>
+                <td>value to return if key doesn&#039;t exist</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>value for that key or default given</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_has">
+        <div class="location">at line 111</div>
+        <code>            public            bool
+    <strong>has</strong>(string $key)</code>
+    </h3>
+    <div class="details">
+        <p>Returns whether the config key exists or not.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>name of config key to check</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>true, if key exists; false otherwise</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_set">
+        <div class="location">at line 124</div>
+        <code>            public            mixed
+    <strong>set</strong>(string $key, mixed $value)</code>
+    </h3>
+    <div class="details">
+        <p>Sets a given value to the config under the specified key.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>name of config entry</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>value to set for the given key</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>the value set</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_toArray">
+        <div class="location">at line 134</div>
+        <code>            public            array
+    <strong>toArray</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the config data as an associative array.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>with all config data</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

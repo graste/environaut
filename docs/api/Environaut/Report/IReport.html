@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Environaut\Report\IReport | Environaut API</title>
+                    <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../classes.html">Classes</a></li>
+                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">Environaut API</div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../Environaut/Report.html">Environaut\Report</a>\IReport</h1>
+    </div>
+        <div class="content">
+                <p>interface    <strong>IReport</strong></p>
+
+            <div class="description">
+            <p>Interface all reports must implement.</p>
+            <p></p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_addResult">addResult</a>(<a href="../../Environaut/Report/Results/IResult.html"><abbr title="Environaut\Report\Results\IResult">IResult</abbr></a> $result)
+                    <p>Adds the specified result to the report.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setParameters">setParameters</a>(<a href="../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a> $parameters)
+                    <p>Runtime parameters to configure the report behaviour.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setResults">setResults</a>(array $results)
+                    <p>Sets the given results on this report.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getResults">getResults</a>()
+                    <p>Returns all results currently compiled for the report.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getSettings">getSettings</a>(mixed $groups = null, integer $flag = null)
+                    <p>Returns an array of ISetting instances that match the given criterias from the results of this report.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getSettingsAsArray">getSettingsAsArray</a>(mixed $groups = null, integer $flag = null)
+                    <p>Returns an array of associative arrays for each ISetting instance that matches the given criterias (from the results of this report).</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getCachableSettings">getCachableSettings</a>(mixed $groups = null, integer $flag = null)
+                    <p>Returns an array of cachable ISetting instances that match the given criterias from the results of this report.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getCachableSettingsAsArray">getCachableSettingsAsArray</a>(mixed $groups = null, integer $flag = null)
+                    <p>Returns an array of associative arrays for each cachable ISetting instance that matches the given criterias (from the results of this report).</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_addResult">
+        <div class="location">at line 18</div>
+        <code>            public            
+    <strong>addResult</strong>(<a href="../../Environaut/Report/Results/IResult.html"><abbr title="Environaut\Report\Results\IResult">IResult</abbr></a> $result)</code>
+    </h3>
+    <div class="details">
+        <p>Adds the specified result to the report.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Environaut/Report/Results/IResult.html"><abbr title="Environaut\Report\Results\IResult">IResult</abbr></a></td>
+                <td>$result</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setParameters">
+        <div class="location">at line 25</div>
+        <code>            public            
+    <strong>setParameters</strong>(<a href="../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a> $parameters)</code>
+    </h3>
+    <div class="details">
+        <p>Runtime parameters to configure the report behaviour.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a></td>
+                <td>$parameters</td>
+                <td>runtime parameters to use</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setResults">
+        <div class="location">at line 32</div>
+        <code>            public            
+    <strong>setResults</strong>(array $results)</code>
+    </h3>
+    <div class="details">
+        <p>Sets the given results on this report.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$results</td>
+                <td>array of IResult instances</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getResults">
+        <div class="location">at line 40</div>
+        <code>            public            array
+    <strong>getResults</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns all results currently compiled for the report.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>of IResult instances</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSettings">
+        <div class="location">at line 50</div>
+        <code>            public            array
+    <strong>getSettings</strong>(mixed $groups = null, integer $flag = null)</code>
+    </h3>
+    <div class="details">
+        <p>Returns an array of ISetting instances that match the given criterias from the results of this report.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$groups</td>
+                <td>string or array of group names settings should match, the default null matches always</td>
+            </tr>
+                    <tr>
+                <td>integer</td>
+                <td>$flag</td>
+                <td>type of settings to get</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>of ISetting instances</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSettingsAsArray">
+        <div class="location">at line 61</div>
+        <code>            public            array
+    <strong>getSettingsAsArray</strong>(mixed $groups = null, integer $flag = null)</code>
+    </h3>
+    <div class="details">
+        <p>Returns an array of associative arrays for each ISetting instance that matches the given criterias (from the results of this report).</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$groups</td>
+                <td>string or array of group names settings should match, the default null matches always</td>
+            </tr>
+                    <tr>
+                <td>integer</td>
+                <td>$flag</td>
+                <td>type of settings to get</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>of associative arrays for each ISetting instance that matched</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCachableSettings">
+        <div class="location">at line 71</div>
+        <code>            public            array
+    <strong>getCachableSettings</strong>(mixed $groups = null, integer $flag = null)</code>
+    </h3>
+    <div class="details">
+        <p>Returns an array of cachable ISetting instances that match the given criterias from the results of this report.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$groups</td>
+                <td>string or array of group names settings should match, the default null matches always</td>
+            </tr>
+                    <tr>
+                <td>integer</td>
+                <td>$flag</td>
+                <td>type of settings to get</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>of ISetting instances</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCachableSettingsAsArray">
+        <div class="location">at line 82</div>
+        <code>            public            array
+    <strong>getCachableSettingsAsArray</strong>(mixed $groups = null, integer $flag = null)</code>
+    </h3>
+    <div class="details">
+        <p>Returns an array of associative arrays for each cachable ISetting instance that matches the given criterias (from the results of this report).</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$groups</td>
+                <td>string or array of group names settings should match, the default null matches always</td>
+            </tr>
+                    <tr>
+                <td>integer</td>
+                <td>$flag</td>
+                <td>type of settings to get</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>of associative arrays for each ISetting instance that matched</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

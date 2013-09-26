@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Environaut\Checks\Validator | Environaut API</title>
+                    <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../classes.html">Classes</a></li>
+                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">Environaut API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../Environaut/Checks.html">Environaut\Checks</a>\Validator</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>Validator</strong></p>
+
+            <div class="description">
+            <p>Default validator class that may be used in checks for common types of data (esp.</p>
+            <p>the Configurator).</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    static&nbsp;string
+                </td>
+                <td class="last">
+                    <a href="#method_readableDirectory">readableDirectory</a>(string $value)
+                    <p>Validates the given path and throws an exception if it is not a regular directory or readable.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    static&nbsp;string
+                </td>
+                <td class="last">
+                    <a href="#method_writableDirectory">writableDirectory</a>(string $value)
+                    <p>Validates the given path and throws an exception if it is not a regular directory or writable.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    static&nbsp;string
+                </td>
+                <td class="last">
+                    <a href="#method_writableFile">writableFile</a>(string $value)
+                    <p>Validates the given file path and throws an exception if it is not a regular file or writable.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    static&nbsp;string
+                </td>
+                <td class="last">
+                    <a href="#method_readableFile">readableFile</a>(string $value)
+                    <p>Validates the given file path and throws an exception if it is not a regular file or readable.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    static&nbsp;string
+                </td>
+                <td class="last">
+                    <a href="#method_validUrl">validUrl</a>(string $value)
+                    <p>Validates the given URL and throws an exception if it is not valid (Only http and https are valid as protocols).</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    static&nbsp;string
+                </td>
+                <td class="last">
+                    <a href="#method_validEmail">validEmail</a>(string $value)
+                    <p>Validates the given value using the PHP filter_var with FILTER_VALIDATE_EMAIL option.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    static&nbsp;string
+                </td>
+                <td class="last">
+                    <a href="#method_validIp">validIp</a>(string $value)
+                    <p>Validates the given value using the PHP filter_var with FILTER_VALIDATE_IP.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    static&nbsp;string
+                </td>
+                <td class="last">
+                    <a href="#method_validIpv4">validIpv4</a>(string $value)
+                    <p>Validates the given value using the PHP filter_var with FILTER_VALIDATE_IP and flag FILTER_FLAG_IPV4.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    static&nbsp;string
+                </td>
+                <td class="last">
+                    <a href="#method_validIpv4NotReserved">validIpv4NotReserved</a>(string $value)
+                    <p>Validates the given value using the PHP filter_var with FILTER_VALIDATE_IP and flag FILTER_FLAG_IPV4 | FILTER_FLAG_NO_RES_RANGE.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    static&nbsp;string
+                </td>
+                <td class="last">
+                    <a href="#method_validIpv6">validIpv6</a>(string $value)
+                    <p>Validates the given value using the PHP filter_var with FILTER_VALIDATE_IP and flag FILTER_FLAG_IPV6</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    static&nbsp;string
+                </td>
+                <td class="last">
+                    <a href="#method_fixRelativePath">fixRelativePath</a>($path_with_dots)
+                    <p>Resolves dots and double slashes in relative paths to get nicer paths: &quot;dev/data/assets/../../foo&quot; will be &quot;dev/foo/&quot; and &quot;foo/./bar&quot; will be &quot;foo/bar&quot; etc.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    static&nbsp;string
+                </td>
+                <td class="last">
+                    <a href="#method_fixPath">fixPath</a>(string $path)
+                    <p>Appends &#039;/&#039; to the path if necessary.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_readableDirectory">
+        <div class="location">at line 21</div>
+        <code>        static    public            string
+    <strong>readableDirectory</strong>(string $value)</code>
+    </h3>
+    <div class="details">
+        <p>Validates the given path and throws an exception if it is not a regular directory or readable.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td>value to check</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>path to valid directory</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>in case of validation errors (empty value, irregular or non-readable directory)</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_writableDirectory">
+        <div class="location">at line 48</div>
+        <code>        static    public            string
+    <strong>writableDirectory</strong>(string $value)</code>
+    </h3>
+    <div class="details">
+        <p>Validates the given path and throws an exception if it is not a regular directory or writable.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td>value to check</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>path to valid directory</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>in case of validation errors (empty value, irregular or non-writable directory)</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_writableFile">
+        <div class="location">at line 75</div>
+        <code>        static    public            string
+    <strong>writableFile</strong>(string $value)</code>
+    </h3>
+    <div class="details">
+        <p>Validates the given file path and throws an exception if it is not a regular file or writable.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td>value to check</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>path to valid file</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>in case of validation errors (empty value or irregular or non-writable file)</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_readableFile">
+        <div class="location">at line 102</div>
+        <code>        static    public            string
+    <strong>readableFile</strong>(string $value)</code>
+    </h3>
+    <div class="details">
+        <p>Validates the given file path and throws an exception if it is not a regular file or readable.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td>value to check</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>path to valid file</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>in case of validation errors (empty value or irregular or non-readable file)</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_validUrl">
+        <div class="location">at line 130</div>
+        <code>        static    public            string
+    <strong>validUrl</strong>(string $value)</code>
+    </h3>
+    <div class="details">
+        <p>Validates the given URL and throws an exception if it is not valid (Only http and https are valid as protocols).</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td>value to check</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>URL</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>in case of validation errors (invalid or empty URL)</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_validEmail">
+        <div class="location">at line 198</div>
+        <code>        static    public            string
+    <strong>validEmail</strong>(string $value)</code>
+    </h3>
+    <div class="details">
+        <p>Validates the given value using the PHP filter_var with FILTER_VALIDATE_EMAIL option.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td>value to check</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>email</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>in case of validation errors (invalid or empty email)</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_validIp">
+        <div class="location">at line 221</div>
+        <code>        static    public            string
+    <strong>validIp</strong>(string $value)</code>
+    </h3>
+    <div class="details">
+        <p>Validates the given value using the PHP filter_var with FILTER_VALIDATE_IP.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td>IP to validate</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>ipv4 or ipv6 (may still be in private or reserved range)</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>in case of validation errors (invalid or empty ip)</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_validIpv4">
+        <div class="location">at line 244</div>
+        <code>        static    public            string
+    <strong>validIpv4</strong>(string $value)</code>
+    </h3>
+    <div class="details">
+        <p>Validates the given value using the PHP filter_var with FILTER_VALIDATE_IP and flag FILTER_FLAG_IPV4.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td>IP to validate</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>ipv4 (may still be in private or reserved range)</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>in case of validation errors (invalid or empty ip)</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_validIpv4NotReserved">
+        <div class="location">at line 267</div>
+        <code>        static    public            string
+    <strong>validIpv4NotReserved</strong>(string $value)</code>
+    </h3>
+    <div class="details">
+        <p>Validates the given value using the PHP filter_var with FILTER_VALIDATE_IP and flag FILTER_FLAG_IPV4 | FILTER_FLAG_NO_RES_RANGE.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td>IP to validate</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>ipv4 (may still be in private range)</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>in case of validation errors (invalid or empty ip)</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_validIpv6">
+        <div class="location">at line 292</div>
+        <code>        static    public            string
+    <strong>validIpv6</strong>(string $value)</code>
+    </h3>
+    <div class="details">
+        <p>Validates the given value using the PHP filter_var with FILTER_VALIDATE_IP and flag FILTER_FLAG_IPV6</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td>IP to validate</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>ipv6 (may still be in private or reserved range)</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>in case of validation errors (invalid or empty ip)</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_fixRelativePath">
+        <div class="location">at line 312</div>
+        <code>        static    public            string
+    <strong>fixRelativePath</strong>($path_with_dots)</code>
+    </h3>
+    <div class="details">
+        <p>Resolves dots and double slashes in relative paths to get nicer paths: &quot;dev/data/assets/../../foo&quot; will be &quot;dev/foo/&quot; and &quot;foo/./bar&quot; will be &quot;foo/bar&quot; etc.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$path_with_dots</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_fixPath">
+        <div class="location">at line 330</div>
+        <code>        static    public            string
+    <strong>fixPath</strong>(string $path)</code>
+    </h3>
+    <div class="details">
+        <p>Appends &#039;/&#039; to the path if necessary.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$path</td>
+                <td>file system path</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>path with trailing slash</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

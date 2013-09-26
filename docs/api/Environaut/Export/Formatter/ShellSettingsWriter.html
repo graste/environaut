@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Environaut\Export\Formatter\ShellSettingsWriter | Environaut API</title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">Environaut API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../Environaut/Export/Formatter.html">Environaut\Export\Formatter</a>\ShellSettingsWriter</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>ShellSettingsWriter</strong>        extends <a href="../../../Environaut/Export/Formatter/BaseFormatter.html"><abbr title="Environaut\Export\Formatter\BaseFormatter">BaseFormatter</abbr></a></p>
+
+            <div class="description">
+            <p>Writes all or specific groups of settings as SHELL variables to a file.</p>
+            <p>Supported parameters include:<br />
+ - &quot;location&quot;: Path and filename to write (defaults to &#039;environaut-config.sh&#039;).<br />
+ - &quot;groups&quot;: Array of group names. Only settings with those groups are written.<br />
+             By default all settings regardless of their group are written.<br />
+ - &quot;template&quot;: Content of file to write with placeholder &#039;%settings$s&#039; where<br />
+               settings will be put as shell variables (separated by newlines).<br />
+ - &quot;use_group_as_prefix&quot;: Defines if the group name of the setting should be<br />
+                          used as a prefix (defaults to false).<br />
+ - &quot;capitalize_names&quot;: Whether to convert variable names to all uppercase or<br />
+                       not (defaults to false).</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(array $options = array())
+                    <p>Create new instance of the formatter.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../Environaut/Export/Formatter/BaseFormatter.html#method___construct"><abbr title="Environaut\Export\Formatter\BaseFormatter">BaseFormatter</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Environaut\Export\Formatter\$this">$this</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_setParameters">setParameters</a>(<a href="../../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a> $parameters)
+                    <p>Sets the given runtime parameters on the formatter.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../Environaut/Export/Formatter/BaseFormatter.html#method_setParameters"><abbr title="Environaut\Export\Formatter\BaseFormatter">BaseFormatter</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getParameters">getParameters</a>()
+                    <p>Returns all runtime parameters for this formatter from the config.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../Environaut/Export/Formatter/BaseFormatter.html#method_getParameters"><abbr title="Environaut\Export\Formatter\BaseFormatter">BaseFormatter</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    static&nbsp;
+                </td>
+                <td class="last">
+                    <a href="#method_vksprintf">vksprintf</a>($str, array $args)
+                    <p>Like vsprintf, but accepts $args keys instead of order index.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../Environaut/Export/Formatter/BaseFormatter.html#method_vksprintf"><abbr title="Environaut\Export\Formatter\BaseFormatter">BaseFormatter</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_format">format</a>(<a href="../../../Environaut/Report/IReport.html"><abbr title="Environaut\Report\IReport">IReport</abbr></a> $report)
+                    <p>Writes all or specific groups of settings as a shell file and returns a message with some information about that.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">in <a href="../../../Environaut/Export/Formatter/BaseFormatter.html#method___construct"><abbr title="Environaut\Export\Formatter\BaseFormatter">BaseFormatter</abbr></a> at line 25</div>
+        <code>            public            
+    <strong>__construct</strong>(array $options = array())</code>
+    </h3>
+    <div class="details">
+        <p>Create new instance of the formatter.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>options string $format sprintf compatible format for the result messages</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setParameters">
+        <div class="location">in <a href="../../../Environaut/Export/Formatter/BaseFormatter.html#method_setParameters"><abbr title="Environaut\Export\Formatter\BaseFormatter">BaseFormatter</abbr></a> at line 37</div>
+        <code>            public            <abbr title="Environaut\Export\Formatter\$this">$this</abbr>
+    <strong>setParameters</strong>(<a href="../../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a> $parameters)</code>
+    </h3>
+    <div class="details">
+        <p>Sets the given runtime parameters on the formatter.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a></td>
+                <td>$parameters</td>
+                <td>associative array with options understood by this formatter</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Environaut\Export\Formatter\$this">$this</abbr></td>
+            <td>for fluent API support</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getParameters">
+        <div class="location">in <a href="../../../Environaut/Export/Formatter/BaseFormatter.html#method_getParameters"><abbr title="Environaut\Export\Formatter\BaseFormatter">BaseFormatter</abbr></a> at line 47</div>
+        <code>            public            <a href="../../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a>
+    <strong>getParameters</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns all runtime parameters for this formatter from the config.</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_vksprintf">
+        <div class="location">in <a href="../../../Environaut/Export/Formatter/BaseFormatter.html#method_vksprintf"><abbr title="Environaut\Export\Formatter\BaseFormatter">BaseFormatter</abbr></a> at line 68</div>
+        <code>        static    public            
+    <strong>vksprintf</strong>($str, array $args)</code>
+    </h3>
+    <div class="details">
+        <p>Like vsprintf, but accepts $args keys instead of order index.</p>
+        <p>Both numeric and strings matching /[a-zA-Z0-9_-]+/ are allowed.<br />
+<br />
+ Base version of the method:</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$str</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$args</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                            <h4>See also</h4>
+
+                    <table>
+                    <tr>
+                <td>http://www.php.net/manual/de/function.vsprintf.php#110666</td>
+                <td></td>
+            </tr>
+            </table>
+
+                    </div>
+    </div>
+
+                <h3 id="method_format">
+        <div class="location">at line 33</div>
+        <code>            public            string
+    <strong>format</strong>(<a href="../../../Environaut/Report/IReport.html"><abbr title="Environaut\Report\IReport">IReport</abbr></a> $report)</code>
+    </h3>
+    <div class="details">
+        <p>Writes all or specific groups of settings as a shell file and returns a message with some information about that.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Environaut/Report/IReport.html"><abbr title="Environaut\Report\IReport">IReport</abbr></a></td>
+                <td>$report</td>
+                <td>report to take results (and settings) from</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>messages for CLI output</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

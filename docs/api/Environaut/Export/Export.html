@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Environaut\Export\Export | Environaut API</title>
+                    <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../classes.html">Classes</a></li>
+                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">Environaut API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../Environaut/Export.html">Environaut\Export</a>\Export</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>Export</strong>        implements
+        <a href="../../Environaut/Export/IExport.html"><abbr title="Environaut\Export\IExport">IExport</abbr></a></p>
+
+            <div class="description">
+            <p>Default export that is used for reports after checks are run.</p>
+            <p>Outputs messages to the CLI and exports accumulated settings<br />
+ as JSON.</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>DEFAULT_EXPORT_LOCATION</td>
+                <td class="last">
+                    <p><em>Default filename to be used when no export file locations are specified.</em></p>
+                    <p></p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_run">run</a>()
+                    <p>Export current report as follows:</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setReport">setReport</a>(<a href="../../Environaut/Report/IReport.html"><abbr title="Environaut\Report\IReport">IReport</abbr></a> $report)
+                    <p>Set report to be handled by this exporter.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setCommand">setCommand</a>(<a href="../../Environaut/Command/Command.html"><abbr title="Environaut\Command\Command">Command</abbr></a> $command)
+                    <p>Environaut command for access to input and output.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setParameters">setParameters</a>(<a href="../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a> $parameters)
+                    <p>Runtime parameters to configure the export operations.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_run">
+        <div class="location">at line 53</div>
+        <code>            public            
+    <strong>run</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Export current report as follows:</p>
+        <p>1. Display messages on CLI<br />
+ 2. Run all formatters and display there text results on CLI<br />
+<br />
+ If no formatters have been specified a JsonSettingsWriter will be used,<br />
+ that writes all settings to a JSON file.</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setReport">
+        <div class="location">at line 143</div>
+        <code>            public            
+    <strong>setReport</strong>(<a href="../../Environaut/Report/IReport.html"><abbr title="Environaut\Report\IReport">IReport</abbr></a> $report)</code>
+    </h3>
+    <div class="details">
+        <p>Set report to be handled by this exporter.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Environaut/Report/IReport.html"><abbr title="Environaut\Report\IReport">IReport</abbr></a></td>
+                <td>$report</td>
+                <td>report to be handled by the exporter</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setCommand">
+        <div class="location">at line 153</div>
+        <code>            public            
+    <strong>setCommand</strong>(<a href="../../Environaut/Command/Command.html"><abbr title="Environaut\Command\Command">Command</abbr></a> $command)</code>
+    </h3>
+    <div class="details">
+        <p>Environaut command for access to input and output.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Environaut/Command/Command.html"><abbr title="Environaut\Command\Command">Command</abbr></a></td>
+                <td>$command</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setParameters">
+        <div class="location">at line 163</div>
+        <code>            public            
+    <strong>setParameters</strong>(<a href="../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a> $parameters)</code>
+    </h3>
+    <div class="details">
+        <p>Runtime parameters to configure the export operations.</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a></td>
+                <td>$parameters</td>
+                <td>runtime parameters</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
