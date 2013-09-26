@@ -6,14 +6,20 @@ use Environaut\Report\IReport;
 use Environaut\Export\Formatter\BaseFormatter;
 
 /**
- * Writes all or specific groups of settings as XML to a file. Supported Parameters are:
- * - "location": path and name of the filename to write
- * - "groups": array with names of setting groups that should be written to that file
- * - "file_template": template string for the file content; should contain a named argument "%group_template$s"
- * - "group_template": template that is used as a wrapper for each settings group; should contain two named
- *                     arguments "%group_name$s" and "%setting_template$s"
- * - "setting_template": template string to use for each setting that is written; should contain two named
- *                        arguments "%setting_name$s" and "%setting_value$s"
+ * Writes all or specific groups of settings as XML to a file.
+ *
+ * Supported parameters are:
+ * - "location": Path and name of the filename to write (defaults to 'environaut-config.xml').
+ * - "groups": Array with names of setting groups that should be written to that file.
+ *             By defaults all settings regardless of their group are written.
+ * - "file_template": Template string for the file content. Should contain a named argument "%group_template$s".
+ * - "group_template": Template that is used as a wrapper for each settings group. Should contain two named
+ *                     arguments "%group_name$s" and "%setting_template$s".
+ * - "setting_template": Template string to use for each setting that is written. Should contain two named
+ *                        arguments "%setting_name$s" and "%setting_value$s".
+ *
+ * There is no "nested" parameter as you can just define a "group_template" like '%setting_template$s'
+ * that achieves a similar effect as "nested" parameter in the shell and json settings writer.
  */
 class XmlSettingsWriter extends BaseFormatter
 {
@@ -31,6 +37,7 @@ class XmlSettingsWriter extends BaseFormatter
         $params = $this->getParameters();
 
         $file = $params->get('location', 'environaut-config.xml');
+        $nested = $params->get('nested', true);
         $groups = $params->get('groups');
 
         if (is_writable($file)) {
@@ -74,7 +81,6 @@ EOT;
         $file_template = $params->get('file_template', $default_file_template);
         $group_template = $params->get('group_template', $default_group_template);
         $setting_template = $params->get('setting_template', $default_setting_template);
-
 
         $all_settings = $report->getSettings($groups);
 
@@ -139,53 +145,5 @@ EOT;
         }
 
         return $output;
-    }
-
-    /**
-     * Like vsprintf, but accepts $args keys instead of order index.
-     * Both numeric and strings matching /[a-zA-Z0-9_-]+/ are allowed.
-     *
-     * Base version of the method:
-     * @see http://www.php.net/manual/de/function.vsprintf.php#110666
-     *
-     * @example: vskprintf('y = %y$d, x = %x$1.1f, key = %key$s', array('x' => 1, 'y' => 2, 'key' => 'MyKey'))
-     * Result:  'y = 2, x = 1.0'
-     *
-     * '%s' without argument name works fine too. Everything vsprintf() can do
-     * is supported.
-     *
-     * @author Josef Kufner <jkufner(at)gmail.com>
-     * @author Oskar Stark <oskar.stark@exozet.com>
-     */
-    public static function vksprintf($str, array $args)
-    {
-        if (empty($args)) {
-            return $str;
-        }
-
-        $map = array_flip(array_keys($args));
-
-        $new_str = preg_replace_callback(
-            '/(^|[^%])%([a-zA-Z0-9_-]+)\$/',
-            function ($m) use ($map) {
-                if (isset($map[$m[2]])) {
-                    return $m[1] . '%' . ($map[$m[2]] + 1) . '$';
-                } else {
-                    /*
-                     * HACK!
-                     * vsprintf all time removes '% and the following character'
-                     *
-                     * so we add 6 x # to the string.
-                     * vsprintf will remove '%#' and later we remove the rest #
-                     */
-                    return $m[1] . '%######' . $m[2][0] . '%' . $m[2] . '$';
-                }
-            },
-            $str
-        );
-
-        $replaced_str = vsprintf($new_str, $args);
-
-        return str_replace('#####', '%', $replaced_str);
     }
 }

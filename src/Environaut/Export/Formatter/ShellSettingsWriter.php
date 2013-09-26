@@ -8,6 +8,17 @@ use Environaut\Checks\ICheck;
 
 /**
  * Writes all or specific groups of settings as SHELL variables to a file.
+ *
+ * Supported parameters include:
+ * - "location": Path and filename to write (defaults to 'environaut-config.sh').
+ * - "groups": Array of group names. Only settings with those groups are written.
+ *             By default all settings regardless of their group are written.
+ * - "template": Content of file to write with placeholder '%settings$s' where
+ *               settings will be put as shell variables (separated by newlines).
+ * - "use_group_as_prefix": Defines if the group name of the setting should be
+ *                          used as a prefix (defaults to false).
+ * - "capitalize_names": Whether to convert variable names to all uppercase or
+ *                       not (defaults to false).
  */
 class ShellSettingsWriter extends BaseFormatter
 {
@@ -59,7 +70,7 @@ EOT;
             $content .= $name . "='" . $value ."'\n";
         }
 
-        $content = XmlSettingsWriter::vksprintf($template, array('settings' => $content));
+        $content = self::vksprintf($template, array('settings' => $content));
 
         $ok = file_put_contents($file, $content, LOCK_EX);
 
