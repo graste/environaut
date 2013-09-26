@@ -61,13 +61,16 @@ configuration:
 - `export` (optional): configuration about how to export a report (containing the check results)
 - `checks` (optional): checks with their respective configuration
 
+*BEWARE*: When using XML config file you need to stick to the above order or elements as otherwise
+          the schema validation fails!
+
 ### Checks
 
 A check is a class that implements `Environaut\Checks\ICheck`. A check can just
 do something useful and return a result. The result may contain messages and
 (cachable) settings that the check emits.
 
-- `class` (required) (or `__class` in php/json config): namespaced class name of the check.
+- `class` (required) (or ```__class``` in php/json config): namespaced class name of the check.
     - format is ```Custom\Class\Name``` (or simple class names without namespace if you like)
     - must implement `ICheck` interface
     - that should be autoloadable from current folder (or see the ```autoload-dir``` CLI option)
@@ -95,10 +98,10 @@ values instead of having to retype everything.
 The following parameters are used by Environaut:
 
 - `location` (optional): file path and name of cache file to use for reading/writing of cachable settings
-- `read_location` (optional): path to cache file to read cached settings from; overrides `location`
-- `write_location` (optional): path to cache file to write cached settings to; overrides `location`
-- `class` (optional) (or `__class` in php/json config): namespaced class name implementing `ICache` (to override default behaviours if needed)
-- `readonly_class` (optional): namespaced class name implementing `IReadOnlyCache` (to override default behaviours if needed)
+- ```read_location``` (optional): path to cache file to read cached settings from; overrides `location`
+- ```write_location``` (optional): path to cache file to write cached settings to; overrides `location`
+- `class` (optional) (or ```__class``` in php/json config): namespaced class name implementing `ICache` (to override default behaviours if needed)
+- ```readonly_class``` (optional): namespaced class name implementing `IReadOnlyCache` (to override default behaviours if needed)
 
 The reading from and writing to cache files can be disabled completely by using the `check`
 commandline option `--no-cache`.
@@ -116,7 +119,7 @@ to the user. This usually includes displaying the emitted messages from the chec
 CLI and writing of the emitted settings to one or more files to be included in your
 application.
 
-- `class` (optional) (or `__class` in php/json config): namespaced class name implementing `IExport` (to override default behaviours if needed)
+- `class` (optional) (or ```__class``` in php/json config): namespaced class name implementing `IExport` (to override default behaviours if needed)
 
 The default export class uses `formatters`. A `formatter` defines the format and location
 of the file to export to and returns an output string to display on the CLI.
@@ -129,7 +132,7 @@ as the correct formatter class will be chosen depending on the file extension.
 
 When you want to use a custom formatter you need to specify a classname:
 
-- `class` (optional) (or `__class` in php/json config): namespaced class name implementing `IReportFormatter` (for custom formatters)
+- `class` (optional) (or ```__class``` in php/json config): namespaced class name implementing `IReportFormatter` (for custom formatters)
 
 That class is instantiated and gets the specified child parameters of the formatter
 to be able to configure the runtime behaviour.
@@ -139,10 +142,10 @@ to be able to configure the runtime behaviour.
 May be used to override the report class used internally to compile results of run checks.
 The specified parameters are givent to the custom class as well if specified.
 
-- `class` (optional) (or `__class` in php/json config): namespaced class name implementing `IReport`
+- `class` (optional) (or ```__class``` in php/json config): namespaced class name implementing `IReport`
 
 ### Runner
 
 May be used to override the runner class used internally to run checks and collect a report.
 
-- `class` (optional) (or `__class` in php/json config): namespaced class name implementing `IRunner`
+- `class` (optional) (or ```__class``` in php/json config): namespaced class name implementing `IRunner`

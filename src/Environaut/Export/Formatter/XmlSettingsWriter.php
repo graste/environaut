@@ -37,7 +37,6 @@ class XmlSettingsWriter extends BaseFormatter
         $params = $this->getParameters();
 
         $file = $params->get('location', 'environaut-config.xml');
-        $nested = $params->get('nested', true);
         $groups = $params->get('groups');
 
         if (is_writable($file)) {

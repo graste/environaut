@@ -1,6 +1,6 @@
 # TODOs
 
-See <https://github.com/graste/environaut/issues/7>;
+See also a previous draft of this: <https://github.com/graste/environaut/issues/7>
 
 - make it possible to disable exports or just run no formatters by default etc.
 - add check list command instead of always running checks (maybe --dry-run
@@ -8,9 +8,7 @@ See <https://github.com/graste/environaut/issues/7>;
 - perhaps add check for invalid whitespace before/after ```<?php/?>```
 - add export formatter for following formats:
     - markdown
-    - json
-    - php (done)
-    - xml (done)
+    - yaml
     - nagios plugin compatible report format?
 - add token handling for dependencies (including multiple reruns)?
     - add nested checks or just delete the interface?

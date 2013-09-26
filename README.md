@@ -1,7 +1,7 @@
 # Environaut
 
-* Version: 0.3.0
-* Date: 2013/09/16
+* Version: 0.4.0
+* Date: 2013/09/26
 * Build: [![Build Status](https://secure.travis-ci.org/graste/environaut.png)](http://travis-ci.org/graste/environaut)
 
 Please have a look at the [available releases](https://github.com/graste/environaut/releases).
@@ -84,7 +84,7 @@ file and run the `php composer.phar install` command to get Environaut:
 ```json
 {
     "require": {
-        "graste/environaut": "~0.3"
+        "graste/environaut": "~0.4"
     }
 }
 ```
@@ -156,10 +156,10 @@ Supported (input) configuration file formats:
 
 Supported (output) settings file formats:
 
-- `XML`
-- `JSON`
-- `PHP`
-- `SH`
+- `XML` (agavi xml config format; can be customized via template strings)
+- `JSON` (json object literal)
+- `PHP` (settings as array to include)
+- `SH` (shell variables in a file that may be sourced)
 
 The input and output file formats may be completely customized by replacing
 the default classes with custom implementations.

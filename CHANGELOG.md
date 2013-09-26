@@ -2,6 +2,17 @@
 
 All new features, changes and fixes should be listed here. Please use tickets to reference changes.
 
+## 0.4.0 (2013/09/26)
+
+* [new] added `template` parameter to `ShellSettingsWriter` and `PhpSettingsWriter` formatters
+* [new] added `nested` parameter to ShellSettingsWriter`, `PhpSettingsWriter` and `JsonSettingsWriter` formatters
+* [new] added class docs about supported parameters on the various formatters
+* [new] added a simple introductory document about exports (see (docs/exports.md)[docs/exports.md])
+
+* [fix] default fallback `location` of the new shell settings writer now has the extension `sh` instead of `json`
+
+* [chg] refactored `vksprintf` method from `XmlSettingsWriter` to `BaseFormatter` class
+
 ## 0.3.0 (2013/09/16)
 
 * [new] added `ShellSettingsWriter` formatter that produces shell scripts with variable definitions
@@ -11,10 +22,10 @@ All new features, changes and fixes should be listed here. Please use tickets to
 * [fix] The multi level inclusion of Environaut XML configuration files via
   XInclude directive was not possible due to the nature of XInclude processing.
   This has been fixed by using a complex type instead of simple types for the
-  simple `name`, `description` and `introduction` elements. You can now XInclude
-  configs from elsewhere that on itself XInclude other configs. This enables you
-  to create more sophisticated Environaut configuration hierarchies and pools of
-  checks.
+  simple `name`, `description` and `introduction` elements in the XSD. You can
+  now XInclude configs from elsewhere that on itself XInclude other configs.
+  This enables you to create more sophisticated Environaut configuration
+  hierarchies and pools of checks.
 
 ## 0.2.1 (2013/08/22)
 

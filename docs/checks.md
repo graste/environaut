@@ -71,8 +71,8 @@ As you can see the `Configurator` check is the default class that is used
 by Environaut when no class for a check is specified. These are the default
 values of the `Environaut\Checks\Configurator`:
 
-- `__group` (or `group` attribute for XML) defaults to `default`
-- `setting` defaults to the `__name` (or `name` attribute for XML)
+- ```__group``` (or `group` attribute for XML) defaults to `default`
+- `setting` defaults to the ```__name``` (or `name` attribute for XML)
 
 ### Value Input with Autocomplete and Validation
 
