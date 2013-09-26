@@ -7,7 +7,7 @@ All new features, changes and fixes should be listed here. Please use tickets to
 * [new] added `template` parameter to `ShellSettingsWriter` and `PhpSettingsWriter` formatters
 * [new] added `nested` parameter to ShellSettingsWriter`, `PhpSettingsWriter` and `JsonSettingsWriter` formatters
 * [new] added class docs about supported parameters on the various formatters
-* [new] added a simple introductory document about exports (see (docs/exports.md)[docs/exports.md])
+* [new] added a simple introductory document about exports (see [docs/exports.md](docs/exports.md))
 
 * [fix] default fallback `location` of the new shell settings writer now has the extension `sh` instead of `json`
 
