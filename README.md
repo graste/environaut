@@ -16,7 +16,7 @@ configuration that may be necessary to make an application run. See the
 information.
 
 When you plan to use Environaut to create settings files for your application
-please skip to the (Requirements and installation)[] section.
+please skip to the [Requirements and installation](#requirements-and-installation) section.
 
 ## Quickstart for curious users
 
