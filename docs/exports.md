@@ -19,7 +19,7 @@ By defining multiple export formatters in your Environaut configuration file (an
 the groups that settings can have) you are able to e.g. ask the user for input and
 put that into configuration files that in turn can be read by your applications.
 
-See the (`environaut.xml`)[../environaut.xml#L43] configuration file example and
+See the [`environaut.xml`](../environaut.xml#L43) configuration file example and
 have a look at the different formatters defined. Each one of those can export to
 another file in another format. Additional parameters for pretty printing, nesting,
 templates etc. are available. For more information have a look at the class docs.
