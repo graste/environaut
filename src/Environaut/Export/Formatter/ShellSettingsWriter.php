@@ -7,12 +7,23 @@ use Environaut\Export\Formatter\BaseFormatter;
 use Environaut\Checks\ICheck;
 
 /**
- * Writes all or specific groups of settings as JSON to a file.
+ * Writes all or specific groups of settings as SHELL variables to a file.
+ *
+ * Supported parameters include:
+ * - "location": Path and filename to write (defaults to 'environaut-config.sh').
+ * - "groups": Array of group names. Only settings with those groups are written.
+ *             By default all settings regardless of their group are written.
+ * - "template": Content of file to write with placeholder '%settings$s' where
+ *               settings will be put as shell variables (separated by newlines).
+ * - "use_group_as_prefix": Defines if the group name of the setting should be
+ *                          used as a prefix (defaults to false).
+ * - "capitalize_names": Whether to convert variable names to all uppercase or
+ *                       not (defaults to false).
  */
 class ShellSettingsWriter extends BaseFormatter
 {
     /**
-     * Writes all or specific groups of settings as a JSON file and
+     * Writes all or specific groups of settings as a shell file and
      * returns a message with some information about that.
      *
      * @param IReport $report report to take results (and settings) from
@@ -24,7 +35,7 @@ class ShellSettingsWriter extends BaseFormatter
         $output = '';
         $params = $this->getParameters();
 
-        $file = $params->get('location', 'environaut-config.json');
+        $file = $params->get('location', 'environaut-config.sh');
         $groups = $params->get('groups');
 
         if (is_writable($file)) {
@@ -41,6 +52,12 @@ class ShellSettingsWriter extends BaseFormatter
 
         $output .= 'to file "<comment>' . $file . '</comment>"...';
 
+        $default_template = <<<EOT
+%settings\$s
+EOT;
+
+        $template = $params->get('template', $default_template);
+
         $all_settings = $report->getSettingsAsArray($groups);
 
         $grouped_settings = array();
@@ -52,6 +69,8 @@ class ShellSettingsWriter extends BaseFormatter
 
             $content .= $name . "='" . $value ."'\n";
         }
+
+        $content = self::vksprintf($template, array('settings' => $content));
 
         $ok = file_put_contents($file, $content, LOCK_EX);
 
