@@ -7,6 +7,14 @@ use Environaut\Export\Formatter\BaseFormatter;
 
 /**
  * Writes all or specific groups of settings as JSON to a file.
+ *
+ * Supported parameters include:
+ * - "location": Path and filename to write (defaults to 'environaut-config.json').
+ * - "groups": Array of group names. Only settings with those groups are written.
+ *             By default all settings regardless of their group are written.
+ * - "pretty": Whether to write the JSON object pretty printed to the file.
+ *             Defaults to true, but only works from PHP 5.4 upwards.
+ * - "nested": Defines whether to group settings by their group (defaults to true).
  */
 class JsonSettingsWriter extends BaseFormatter
 {
@@ -25,6 +33,7 @@ class JsonSettingsWriter extends BaseFormatter
 
         $file = $params->get('location', 'environaut-config.json');
         $pretty = $params->get('pretty', true);
+        $nested = $params->get('nested', true);
         $groups = $params->get('groups');
 
         if (is_writable($file)) {
@@ -50,7 +59,11 @@ class JsonSettingsWriter extends BaseFormatter
 
         $grouped_settings = array();
         foreach ($all_settings as $setting) {
-            $grouped_settings[$setting['group']][$setting['name']] = $setting['value'];
+            if ($nested === true) {
+                $grouped_settings[$setting['group']][$setting['name']] = $setting['value'];
+            } else {
+                $grouped_settings[$setting['name']] = $setting['value'];
+            }
         }
 
         $content = json_encode($grouped_settings, $flags);

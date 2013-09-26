@@ -1,7 +1,7 @@
 # Environaut
 
-* Version: 0.3.0
-* Date: 2013/09/16
+* Version: 0.4.0
+* Date: 2013/09/26
 * Build: [![Build Status](https://secure.travis-ci.org/graste/environaut.png)](http://travis-ci.org/graste/environaut)
 
 Please have a look at the [available releases](https://github.com/graste/environaut/releases).
@@ -15,7 +15,10 @@ configuration that may be necessary to make an application run. See the
 `docs/` folder or the [wiki](https://github.com/graste/environaut/wiki) for more
 information.
 
-## Quickstart for users
+When you plan to use Environaut to create settings files for your application
+please skip to the [Requirements and installation](#requirements-and-installation) section.
+
+## Quickstart for curious users
 
 1. Download the [`environaut.phar`](https://raw.github.com/graste/environaut/master/bin/environaut.phar) file of the release you prefer
 1. Make it executable via `chmod u+x environaut.phar`
@@ -28,7 +31,7 @@ information.
 1. Notice the output and created settings and cache file that is used when you
    run Environaut another time.
 
-## Short introduction
+## Short introduction for interested developers
 
 Environaut parses a configuration file that contains defined environment checks.
 After that, each check is processed and the results of each check are compiled
@@ -84,7 +87,7 @@ file and run the `php composer.phar install` command to get Environaut:
 ```json
 {
     "require": {
-        "graste/environaut": "~0.3"
+        "graste/environaut": "~0.4"
     }
 }
 ```
@@ -143,7 +146,7 @@ For the help command the following works:
 
 ## Documentation
 
-More detailed documentation can be found in the ```docs/``` folder.
+More detailed documentation can be found in the [```docs/```](docs/) folder.
 
 Checks can be configured via configuration files and settings may
 afterwards be exported via different formatters into different formats.
@@ -156,10 +159,10 @@ Supported (input) configuration file formats:
 
 Supported (output) settings file formats:
 
-- `XML`
-- `JSON`
-- `PHP`
-- `SH`
+- `XML` (agavi xml config format; can be customized via template strings)
+- `JSON` (json object literal)
+- `PHP` (settings as array to include)
+- `SH` (shell variables in a file that may be sourced)
 
 The input and output file formats may be completely customized by replacing
 the default classes with custom implementations.

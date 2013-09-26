@@ -50,7 +50,7 @@ class ShellSettingsWriterTest extends BaseTestCase
         $output = $formatter->format($this->getDefaultReport());
         $this->assertNotContains('FAILED', $output);
 
-        $this->assertFileEquals(__DIR__ . '/Fixtures/'.$fixture_file, $temp_file);
+        $this->assertFileEquals(__DIR__ . '/Fixtures/' . $fixture_file, $temp_file);
 
         unlink($temp_file);
     }

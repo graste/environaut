@@ -25,6 +25,7 @@ class PhpSettingsWriter extends BaseFormatter
 
         $file = $params->get('location', 'environaut-config.php');
         $groups = $params->get('groups');
+        $nested = $params->get('nested', true);
 
         if (is_writable($file)) {
             $output .= '<comment>Overwriting</comment> ';
@@ -40,14 +41,24 @@ class PhpSettingsWriter extends BaseFormatter
 
         $output .= 'to file "<comment>' . $file . '</comment>"...';
 
+        $default_template = <<<EOT
+<?php return %settings\$s;
+EOT;
+
+        $template = $params->get('template', $default_template);
+
         $all_settings = $report->getSettingsAsArray($groups);
 
         $grouped_settings = array();
         foreach ($all_settings as $setting) {
-            $grouped_settings[$setting['group']][$setting['name']] = $setting['value'];
+            if ($nested === true) {
+                $grouped_settings[$setting['group']][$setting['name']] = $setting['value'];
+            } else {
+                $grouped_settings[$setting['name']] = $setting['value'];
+            }
         }
 
-        $content = '<?php return ' . var_export($grouped_settings, true) . ';';
+        $content = XmlSettingsWriter::vksprintf($template, array('settings' => var_export($grouped_settings, true)));
 
         $ok = file_put_contents($file, $content, LOCK_EX);
 
