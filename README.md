@@ -15,7 +15,10 @@ configuration that may be necessary to make an application run. See the
 `docs/` folder or the [wiki](https://github.com/graste/environaut/wiki) for more
 information.
 
-## Quickstart for users
+When you plan to use Environaut to create settings files for your application
+please skip to the (Requirements and installation)[] section.
+
+## Quickstart for curious users
 
 1. Download the [`environaut.phar`](https://raw.github.com/graste/environaut/master/bin/environaut.phar) file of the release you prefer
 1. Make it executable via `chmod u+x environaut.phar`
@@ -28,7 +31,7 @@ information.
 1. Notice the output and created settings and cache file that is used when you
    run Environaut another time.
 
-## Short introduction
+## Short introduction for interested developers
 
 Environaut parses a configuration file that contains defined environment checks.
 After that, each check is processed and the results of each check are compiled
@@ -143,7 +146,7 @@ For the help command the following works:
 
 ## Documentation
 
-More detailed documentation can be found in the ```docs/``` folder.
+More detailed documentation can be found in the (```docs/```)[docs/] folder.
 
 Checks can be configured via configuration files and settings may
 afterwards be exported via different formatters into different formats.
