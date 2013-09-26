@@ -1,69 +1,84 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Environaut by graste</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Environaut : Define, configure and protect your environment." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Environaut</title>
   </head>
+
   <body>
 
-      <header>
-        <h1>Environaut</h1>
-        <p>Define, configure and protect your environment.</p>
-      </header>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/graste/environaut">View on GitHub</a>
 
-      <div id="banner">
-        <span id="logo"></span>
+          <h1 id="project_title">Environaut</h1>
+          <h2 id="project_tagline">Define, configure and protect your environment.</h2>
 
-        <a href="https://github.com/graste/environaut" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/graste/environaut/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/graste/environaut/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
-      </div><!-- end banner -->
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/graste/environaut/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/graste/environaut/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
 
-    <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
-      <section>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h1>
 <a name="environaut" class="anchor" href="#environaut"><span class="octicon octicon-link"></span></a>Environaut</h1>
 
 <ul>
-<li>Version: 0.2.0</li>
-<li>Date: 2013/08/05</li>
+<li>Version: 0.4.0</li>
+<li>Date: 2013/09/26</li>
 <li>Build: <a href="http://travis-ci.org/graste/environaut"><img src="https://secure.travis-ci.org/graste/environaut.png" alt="Build Status"></a>
 </li>
-</ul><h2>
+</ul><p>Please have a look at the <a href="https://github.com/graste/environaut/releases">available releases</a>.</p>
+
+<h2>
 <a name="purpose" class="anchor" href="#purpose"><span class="octicon octicon-link"></span></a>Purpose</h2>
 
 <p><code>Environaut</code> should enable and help developers to define the environment of an
 application and check if all defined constraints are met. This includes
 assertions and requirements of the application environment as well as some
 configuration that may be necessary to make an application run. See the
-<a href="https://github.com/graste/environaut/wiki">wiki</a> or <code>docs/</code> for more
+<code>docs/</code> folder or the <a href="https://github.com/graste/environaut/wiki">wiki</a> for more
 information.</p>
 
+<p>When you plan to use Environaut to create settings files for your application
+please skip to the <a href="#requirements-and-installation">Requirements and installation</a> section.</p>
+
 <h2>
-<a name="quickstart" class="anchor" href="#quickstart"><span class="octicon octicon-link"></span></a>Quickstart</h2>
+<a name="quickstart-for-curious-users" class="anchor" href="#quickstart-for-curious-users"><span class="octicon octicon-link"></span></a>Quickstart for curious users</h2>
+
+<ol>
+<li>Download the <a href="https://raw.github.com/graste/environaut/master/bin/environaut.phar"><code>environaut.phar</code></a> file of the release you prefer</li>
+<li>Make it executable via <code>chmod u+x environaut.phar</code>
+</li>
+<li>Run <code>./environaut.phar check</code>
+</li>
+<li>Notice the error message for a missing configuration file</li>
+<li>Create a minimal config file (e.g. as
+<a href="docs/examples/minimal.example.xml">xml</a> or
+<a href="docs/examples/minimal.example.json">json</a>) next to the <code>environaut.phar</code> file.</li>
+<li>Run <code>./environaut.phar check</code> again (with <code>--config ...</code> if the file is not named <code>environaut.(xml|json|php)</code>)</li>
+<li>Notice the output and created settings and cache file that is used when you
+run Environaut another time.</li>
+</ol><h2>
+<a name="short-introduction-for-interested-developers" class="anchor" href="#short-introduction-for-interested-developers"><span class="octicon octicon-link"></span></a>Short introduction for interested developers</h2>
 
 <p>Environaut parses a configuration file that contains defined environment checks.
-After that each check is processed and the results of each check are compiled
+After that, each check is processed and the results of each check are compiled
 into a report. Each check can emit messages and settings. The messages will be
 printed to the shell and the settings can be exported in specified formats.</p>
+
+<p>For a verbose example configuration file do this:</p>
 
 <ol>
 <li>Clone this repository and change into that directory</li>
@@ -82,8 +97,53 @@ export formatter and re-run the checks to get your settings as JSON.</p>
 <ul>
 <li>Non-Windows operating system (tested on Ubuntu 12.04/13.04 and MacOS X)</li>
 <li>PHP v5.3+</li>
-</ul><p>If you just want to configure and run <code>Environaut</code>, you need to download the
-<code>bin/environaut.phar</code> binary. The file is a standalone and self-executable file.</p>
+<li>
+<code>libxml</code> when XML configuration files are used</li>
+</ul><p>There are multiple ways to use and run environaut:</p>
+
+<ul>
+<li>download and use the PHAR file</li>
+<li>install via Composer CLI</li>
+<li>install via Composer (<code>composer.json</code>)</li>
+</ul><h3>
+<a name="phar" class="anchor" href="#phar"><span class="octicon octicon-link"></span></a>PHAR</h3>
+
+<p>The easiest way to use environaut is to download the <code>environaut.phar</code> of the
+latest stable release, make it executable and put a configuration file next to
+the php archive and then run <code>./environaut.phar check</code></p>
+
+<h3>
+<a name="composer-cli" class="anchor" href="#composer-cli"><span class="octicon octicon-link"></span></a>Composer CLI</h3>
+
+<p>Install Environaut via <a href="http://getcomposer.org/">Composer</a>:</p>
+
+<ol>
+<li>Install Composer (if it's not already installed or available via PATH
+environment): <code>curl -sS https://getcomposer.org/installer | php</code>.</li>
+<li>Install Environaut: <code>./composer.phar require graste/environaut [optional version]</code>
+</li>
+<li>Create a Environaut configuration file (see <a href="environaut.xml">environaut.xml</a>
+or <a href="docs/examples/">examples</a>)</li>
+<li>Run it: <code>./vendor/bin/environaut.phar check</code>
+</li>
+</ol><h3>
+<a name="composer-project-vendor-dependency" class="anchor" href="#composer-project-vendor-dependency"><span class="octicon octicon-link"></span></a>Composer project vendor dependency</h3>
+
+<p>Another way to install <code>Environaut</code> is via <a href="http://getcomposer.org">composer</a> as
+a vendor dependency of your project. Just create or update a <code>composer.json</code>
+file and run the <code>php composer.phar install</code> command to get Environaut:</p>
+
+<div class="highlight highlight-json"><pre><span class="p">{</span>
+    <span class="nt">"require"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"graste/environaut"</span><span class="p">:</span> <span class="s2">"~0.4"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Alternatively, you can download the
+<a href="https://github.com/graste/environaut/archive/master.zip"><code>environaut.zip</code></a>
+file and extract it. The <code>bin/environaut.phar</code> file is a standalone and
+self-executable binary.</p>
 
 <pre><code>$ environaut.phar --help
 </code></pre>
@@ -96,19 +156,6 @@ Use something like <code>alias php="/usr/local/bin/php53"</code> if your executa
 is not in the PATH. To get the <code>Makefile</code> working you can try a simple
 <code>export PHP_PATH = "/usr/local/bin/php53"</code> as that will be used instead of
 the default <code>php</code> for <code>make</code>.</p>
-
-<p>Another way to install <code>Environaut</code> is via <a href="http://getcomposer.org">composer</a>.
-Just create or update a <code>composer.json</code> file and run the
-<code>php composer.phar install</code> command to install it:</p>
-
-<div class="highlight"><pre><span class="p">{</span>
-    <span class="nt">"require"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">"graste/environaut"</span><span class="p">:</span> <span class="s2">"~0.2.0"</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-<p>Alternatively, you can download the <a href="https://github.com/graste/environaut/archive/0.2.0.zip"><code>environaut.zip</code></a> file and extract it.</p>
 
 <h2>
 <a name="usage-examples" class="anchor" href="#usage-examples"><span class="octicon octicon-link"></span></a>Usage examples</h2>
@@ -167,7 +214,7 @@ environaut.phar check --no-cache
 </ul><h2>
 <a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
 
-<p>More detailed documentation can be found in the <code>docs/</code> folder.</p>
+<p>More detailed documentation can be found in the <a href="docs/"><code>docs/</code></a> folder.</p>
 
 <p>Checks can be configured via configuration files and settings may
 afterwards be exported via different formatters into different formats.</p>
@@ -181,9 +228,14 @@ afterwards be exported via different formatters into different formats.</p>
 </ul><p>Supported (output) settings file formats:</p>
 
 <ul>
-<li><code>XML</code></li>
-<li><code>JSON</code></li>
-<li><code>PHP</code></li>
+<li>
+<code>XML</code> (agavi xml config format; can be customized via template strings)</li>
+<li>
+<code>JSON</code> (json object literal)</li>
+<li>
+<code>PHP</code> (settings as array to include)</li>
+<li>
+<code>SH</code> (shell variables in a file that may be sourced)</li>
 </ul><p>The input and output file formats may be completely customized by replacing
 the default classes with custom implementations.</p>
 
@@ -214,21 +266,26 @@ found in the <a href="CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a> file.</p
 <p><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png"></a><br>Environaut is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.</p>
 
 <p>CC-BY-SA-3.0 means, you are free to share, remix and make commercial use of the
-work as long as you attribute and share alike. See linked license for details.</p>
+work as long as you attribute and share alike. See <a href="LICENSE.md">linked license</a> for details.</p>
 
-<h2><a name="apidocs" class="anchor" href="#apidocs"><span class="octicon octicon-link"></span></a>API Docs</h2>
-<p>
-    You can find the API docs here: <a href="docs/api/index.html">docs/api/index.html</a>. The test coverage report is
-    also available: <a href="build/reports/coverage-html/index.html">build/reports/coverage-html/index.html</a>.
-</p>
-
+<ul>
+<li>Latest Version: <a href="https://packagist.org/packages/graste/environaut"><img src="https://poser.pugx.org/graste/environaut/version.png" alt="Latest Stable Version"></a>
+</li>
+<li>Total Composer Downloads: <a href="https://packagist.org/packages/graste/environaut"><img src="https://poser.pugx.org/graste/environaut/d/total.png" alt="Composer Downloads"></a>
+</li>
+</ul>
       </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/graste">graste</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Environaut maintained by <a href="https://github.com/graste">graste</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
     
+
   </body>
 </html>
