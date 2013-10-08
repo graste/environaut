@@ -2,6 +2,13 @@
 
 All new features, changes and fixes should be listed here. Please use tickets to reference changes.
 
+## 0.4.1 (2013/xx/xx)
+
+* [fix] PHP settings that are boolean `false` can be empty strings or `0` depending on how they are set. The equals
+        comparison of `0` in the check config failed against those empty strings. This should work now.
+
+* [chg] Some messages and hints have been changed. The example `environaut.xml` configuration xincludes more checks.
+
 ## 0.4.0 (2013/09/26)
 
 * [new] added `template` parameter to `ShellSettingsWriter` and `PhpSettingsWriter` formatters
