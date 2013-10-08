@@ -135,6 +135,21 @@ Source: http://knowyourmeme.com/memes/trololo-russian-rickroll
                 </parameter>
             </check>
 
+        <xi:include href="docs/examples/pool_of_checks.xml" xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks[@name='phpextensions']/*)">
+            <xi:fallback />
+        </xi:include>
+
+        <xi:include href="docs/examples/pool_of_checks.xml" xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks[@name='phpsettings']/*)">
+            <xi:fallback />
+        </xi:include>
+
+        <xi:include href="docs/examples/pool_of_checks.xml" xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks[@name='executables']/*)">
+            <xi:fallback />
+        </xi:include>
+
+        <xi:include href="docs/examples/pool_of_checks.xml" xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks[@name='configurator']/*)">
+            <xi:fallback />
+        </xi:include>
 <!--
         <xi:include href="docs/examples/pool_of_checks.xml" xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks[@name='security']/*)">
             <xi:fallback />
