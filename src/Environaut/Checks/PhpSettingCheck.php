@@ -160,6 +160,9 @@ class PhpSettingCheck extends Check
                     break;
                 case 'equals':
                 default:
+                    if ($value === "" && $setting_value === "0") {
+                        break; // boolean value should be off (and can be reported as "" or "0" according to php docs)
+                    }
                     if ($value !== $setting_value) {
                         $this->addError(
                             'Value of "' . $setting . '" should be "' . $setting_value . '", but is: "' . $value .
@@ -179,6 +182,7 @@ class PhpSettingCheck extends Check
         }
 
         if ($okay) {
+            // TODO give better info depending on comparison type?
             $this->addInfo('Value of "' . $setting . '" is okay: "' . $value . '"', $custom_name);
         }
 

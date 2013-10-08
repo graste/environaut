@@ -324,6 +324,57 @@ class PhpSettingCheckTest extends BaseTestCase
         $this->assertTrue($check::compareIntegers('2e3', '>=2'));
     }
 
+    public function testBooleanTrueValue()
+    {
+        $setting = 'display_errors';
+        $this->assertTrue(false !== ini_set($setting, true), 'Could not set INI value for the test to work.');
+        $this->assertSame('1', ini_get($setting));
+
+        $check = $this->createPhpSettingCheck(
+            $setting,
+            'default',
+            array(
+                'value' => '1'
+            )
+        );
+
+        $this->assertTrue($check->run());
+    }
+
+    public function testBooleanFalseValue()
+    {
+        $setting = 'display_errors';
+        $this->assertTrue(false !== ini_set($setting, false), 'Could not set INI value for the test to work.');
+        $this->assertSame('', ini_get($setting));
+
+        $check = $this->createPhpSettingCheck(
+            $setting,
+            'default',
+            array(
+                'value' => '0'
+            )
+        );
+
+        $this->assertTrue($check->run(), 'A boolean false ini setting should be comparable as "0" in checks');
+    }
+
+    public function testBooleanFalseAsEmptyValue()
+    {
+        $setting = 'display_errors';
+        $this->assertTrue(false !== ini_set($setting, false), 'Could not set INI value for the test to work.');
+        $this->assertSame('', ini_get($setting));
+
+        $check = $this->createPhpSettingCheck(
+            $setting,
+            'default',
+            array(
+                'value' => ''
+            )
+        );
+
+        $this->assertTrue($check->run());
+    }
+
     protected function createPhpSettingCheck($name, $group, $params)
     {
         $check = new \Environaut\Checks\PhpSettingCheck();
