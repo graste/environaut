@@ -108,7 +108,7 @@ class ExecutableCheck extends Check
 
         // add default value to question if specified
         if (null !== $default) {
-            $question .= "</question> (Default: $default)";
+            $question .= "</question> (Default: which $default)";
         } else {
             $question .=  '</question>';
         }
