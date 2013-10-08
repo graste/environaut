@@ -154,9 +154,10 @@ class PhpExtensionCheck extends Check
                     if (!$regex_matches || !array_key_exists('version', $matches)) {
                         $this->addError(
                             'Version information of "' . $extension . '" could not be determined, as ' .
-                            'the given regular expression did not match: "' . $wanted_version['regex'] .
+                            'the given regular expression did not match: "' . $wanted_version['regex'] . PHP_EOL .
                             'Remember that you need a valid named capturing group "version" in the ' .
-                            'regexp, e.g.: #libXML (Compiled )?Version => (?P<version>\d+.+?)\n#',
+                            'regexp, e.g.: #libXML (Compiled )?Version => (?P<version>\d+.+?)\n#' . PHP_EOL .
+                            'Set the parameter "debug" to true to work on that matching regex.',
                             $custom_name
                         );
                         $okay = false;
