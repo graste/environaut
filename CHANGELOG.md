@@ -2,7 +2,7 @@
 
 All new features, changes and fixes should be listed here. Please use tickets to reference changes.
 
-## 0.4.1 (2013/xx/xx)
+## 0.4.1 (2013/10/14)
 
 * [fix] PHP settings that are boolean `false` can be empty strings or `0` depending on how they are set. The equals
         comparison of `0` in the check config failed against those empty strings. This should work now.

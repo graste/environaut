@@ -9,4 +9,5 @@
 
 Thanks for feedback:
 
+- [Christian Krupa](https://github.com/Christian-Krupa)
 - [Jan Schütze](https://github.com/DracoBlue)
