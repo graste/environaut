@@ -20,7 +20,7 @@ help:
 	@echo ""
 	@exit 0
 
-phar:
+phar: composer-dump-autoloads
 
 	@./bin/compile
 
@@ -52,6 +52,10 @@ code-sniffer-cli:
 
 	@./vendor/bin/phpcs -p --report=full --standard=psr2 ./src
 
-.PHONY: tests docs help phar install-composer install-dependencies-dev code-sniffer code-sniffer-cli
+composer-dump-autoloads: install-composer
+
+	@./bin/composer.phar dumpautoload
+
+.PHONY: tests docs help phar install-composer install-dependencies-dev code-sniffer code-sniffer-cli composer-dump-autoloads
 
 # vim: ts=4:sw=4:noexpandtab:
