@@ -2,6 +2,13 @@
 
 All new features, changes and fixes should be listed here. Please use tickets to reference changes.
 
+## 0.4.2 (2014/02/10)
+
+* [fix] Phar compilation now works again. Composer broke as their lib needs a
+        file called ```autoload_psr4.php``` that is not included in environaut's
+        `PharCompiler` as a necessary file. For more details see issue #15 and
+        read [the post by Jordi Boggiano](http://seld.be/notes/psr-4-autoloading-support-in-composer).
+
 ## 0.4.1 (2013/10/14)
 
 * [fix] PHP settings that are boolean `false` can be empty strings or `0` depending on how they are set. The equals
