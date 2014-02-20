@@ -1,7 +1,6 @@
 # Environaut
 
-* Version: 0.4.1
-* Date: 2013/10/14
+* Latest Version: [![Latest Stable Version](https://poser.pugx.org/graste/environaut/version.png)](https://packagist.org/packages/graste/environaut)
 * Build: [![Build Status](https://secure.travis-ci.org/graste/environaut.png)](http://travis-ci.org/graste/environaut)
 
 Please have a look at the [available releases](https://github.com/graste/environaut/releases).
@@ -55,7 +54,7 @@ export formatter and re-run the checks to get your settings as JSON.
 - PHP v5.3+
 - `libxml` when XML configuration files are used
 
-There are multiple ways to use and run environaut:
+There are _multiple ways_ to use and run environaut:
 
 - download and use the PHAR file
 - install via Composer CLI
@@ -81,8 +80,8 @@ Install Environaut via [Composer](http://getcomposer.org/):
 ### Composer project vendor dependency
 
 Another way to install `Environaut` is via [composer](http://getcomposer.org) as
-a vendor dependency of your project. Just create or update a `composer.json`
-file and run the `php composer.phar install` command to get Environaut:
+a vendor dependency of your project. Create or update a `composer.json` file
+and run the `php composer.phar install` command to get Environaut:
 
 ```json
 {
@@ -100,7 +99,7 @@ self-executable binary.
     $ environaut.phar --help
 
 When you got `environaut.phar` by cloning this repository it should already be
-executable. Otherwise just `chmod u+x environaut.phar` should be sufficient to
+executable. Otherwise `chmod u+x environaut.phar` should be sufficient to
 make it work. It is advisable to have a `php` executable available via the
 `PATH` environment variable as the phar uses a `#!/usr/bin/env php` shebang.
 Use something like ```alias php="/usr/local/bin/php53"``` if your executable
@@ -192,5 +191,4 @@ See [`CHANGELOG.md`](CHANGELOG.md) for more information about changes.
 CC-BY-SA-3.0 means, you are free to share, remix and make commercial use of the
 work as long as you attribute and share alike. See [linked license](LICENSE.md) for details.
 
-* Latest Version: [![Latest Stable Version](https://poser.pugx.org/graste/environaut/version.png)](https://packagist.org/packages/graste/environaut)
 * Total Composer Downloads: [![Composer Downloads](https://poser.pugx.org/graste/environaut/d/total.png)](https://packagist.org/packages/graste/environaut)

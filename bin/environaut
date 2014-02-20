@@ -4,5 +4,5 @@ require_once dirname(__DIR__) . '/src/bootstrap.php';
 
 use Environaut\Application;
 
-$application = new Application('0.4.1');
+$application = new Application('0.4.2');
 $application->run();
