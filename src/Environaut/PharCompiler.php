@@ -43,6 +43,7 @@ class PharCompiler
         $finder = new Finder();
         $finder->files()
             ->name('*.php')
+            ->name('security\.sensiolabs\.org\.crt')
             ->path('/symfony\/console\//')
             ->path('/sensiolabs\/security-checker\//')
             ->notName('SecurityCheckerCommand.php')

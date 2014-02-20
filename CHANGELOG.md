@@ -2,6 +2,10 @@
 
 All new features, changes and fixes should be listed here. Please use tickets to reference changes.
 
+## 0.4.3 (2014/02/20)
+
+* [fix] Add sensiolabs/security-checker certificate to phar file and fix version number display on CLI. No other changes.
+
 ## 0.4.2 (2014/02/10)
 
 * [fix] Phar compilation now works again. Composer broke as their lib needs a
