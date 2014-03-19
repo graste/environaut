@@ -4,6 +4,7 @@ namespace Environaut\Export\Formatter;
 
 use Environaut\Config\Parameters;
 use Environaut\Export\Formatter\IReportFormatter;
+use RuntimeException;
 
 /**
  * Simple formatter that takes messages from the results
@@ -50,50 +51,51 @@ abstract class BaseFormatter implements IReportFormatter
     }
 
     /**
-     * Like vsprintf, but accepts $args keys instead of order index.
-     * Both numeric and strings matching /[a-zA-Z0-9_-]+/ are allowed.
+     * Like vsprintf, but accepts keys instead of an order index.
+     * The allowed format of named arguments is: /[a-zA-Z0-9_-]+/
      *
-     * Base version of the method:
+     * For the base version of this method by Josef Kufner see:
      * @see http://www.php.net/manual/de/function.vsprintf.php#110666
      *
-     * @example: vskprintf('y = %y$d, x = %x$1.1f, key = %key$s', array('x' => 1, 'y' => 2, 'key' => 'MyKey'))
-     * Result:  'y = 2, x = 1.0'
+     * @example vskprintf('%param$s must be between %min$03d and %max$03d.', array('param' => 'Value', 'min' => 3, 'max' => 99)) // gives: 'Value must be between 003 and 099.'
      *
-     * '%s' without argument name works fine too. Everything vsprintf() can do
-     * is supported.
+     * '%s' without argument name and positional directives like '%1$s' do work.
+     * Everything vsprintf() can do is still supported.
+     *
+     * @param string $format input string with formatting directives
+     * @param array $args arguments to use for formatting directives
+     *
+     * @return formatted string according to given format and arguments
+     *
+     * @throws RuntimeException in case of non-string format string
      *
      * @author Josef Kufner <jkufner(at)gmail.com>
-     * @author Oskar Stark <oskar.stark@exozet.com>
+     * @author Steffen Gransow <agavi@mivesto.de>
      */
-    public static function vksprintf($str, array $args)
+    public static function vksprintf($format, array $args)
     {
+        if (!is_string($format)) {
+            throw new RuntimeException('Only strings are acceptable as input format.');
+        }
+
         if (empty($args)) {
-            return $str;
+            return $format;
         }
 
         $map = array_flip(array_keys($args));
 
-        $new_str = preg_replace_callback(
+        $str = preg_replace_callback(
             '/(^|[^%])%([a-zA-Z0-9_-]+)\$/',
-            function ($m) use ($map) {
-                if (isset($map[$m[2]])) {
-                    return $m[1] . '%' . ($map[$m[2]] + 1) . '$';
-                } else {
-                    /*
-                     * HACK!
-                     * vsprintf all time removes '% and the following character'
-                     *
-                     * so we add 6 x # to the string.
-                     * vsprintf will remove '%#' and later we remove the rest #
-                     */
-                    return $m[1] . '%######' . $m[2][0] . '%' . $m[2] . '$';
+            function($m) use ($map) {
+                $key = $m[2];
+                if (!is_numeric($key) && array_key_exists($key, $map)) {
+                    return $m[1] . '%' . ($map[$key] + 1) . '$';
                 }
+                return $m[1] . '%' . $key . '$';
             },
-            $str
+            $format
         );
 
-        $replaced_str = vsprintf($new_str, $args);
-
-        return str_replace('#####', '%', $replaced_str);
+        return vsprintf($str, $args);
     }
 }
