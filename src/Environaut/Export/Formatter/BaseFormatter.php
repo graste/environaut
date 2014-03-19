@@ -57,7 +57,10 @@ abstract class BaseFormatter implements IReportFormatter
      * For the base version of this method by Josef Kufner see:
      * @see http://www.php.net/manual/de/function.vsprintf.php#110666
      *
-     * @example vskprintf('%param$s must be between %min$03d and %max$03d.', array('param' => 'Value', 'min' => 3, 'max' => 99)) // gives: 'Value must be between 003 and 099.'
+     * @example vskprintf(
+     *      '%param$s must be between %min$03d and %max$03d.',
+     *      array('param' => 'Value', 'min' => 3, 'max' => 99)
+     *  ) // gives: 'Value must be between 003 and 099.'
      *
      * '%s' without argument name and positional directives like '%1$s' do work.
      * Everything vsprintf() can do is still supported.
@@ -86,7 +89,7 @@ abstract class BaseFormatter implements IReportFormatter
 
         $str = preg_replace_callback(
             '/(^|[^%])%([a-zA-Z0-9_-]+)\$/',
-            function($m) use ($map) {
+            function ($m) use ($map) {
                 $key = $m[2];
                 if (!is_numeric($key) && array_key_exists($key, $map)) {
                     return $m[1] . '%' . ($map[$key] + 1) . '$';
