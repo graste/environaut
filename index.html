@@ -32,8 +32,8 @@
 <a name="environaut" class="anchor" href="#environaut"><span class="octicon octicon-link"></span></a>Environaut</h1>
 
 <ul>
-<li>Version: 0.4.1</li>
-<li>Date: 2013/10/14</li>
+<li>Latest Version: <a href="https://packagist.org/packages/graste/environaut"><img src="https://poser.pugx.org/graste/environaut/version.png" alt="Latest Stable Version"></a>
+</li>
 <li>Build: <a href="http://travis-ci.org/graste/environaut"><img src="https://secure.travis-ci.org/graste/environaut.png" alt="Build Status"></a>
 </li>
 </ul><p>Please have a look at the <a href="https://github.com/graste/environaut/releases">available releases</a>.</p>
@@ -96,7 +96,7 @@ export formatter and re-run the checks to get your settings as JSON.</p>
 <li>PHP v5.3+</li>
 <li>
 <code>libxml</code> when XML configuration files are used</li>
-</ul><p>There are multiple ways to use and run environaut:</p>
+</ul><p>There are <em>multiple ways</em> to use and run environaut:</p>
 
 <ul>
 <li>download and use the PHAR file</li>
@@ -127,12 +127,12 @@ or <a href="docs/examples/">examples</a>)</li>
 <a name="composer-project-vendor-dependency" class="anchor" href="#composer-project-vendor-dependency"><span class="octicon octicon-link"></span></a>Composer project vendor dependency</h3>
 
 <p>Another way to install <code>Environaut</code> is via <a href="http://getcomposer.org">composer</a> as
-a vendor dependency of your project. Just create or update a <code>composer.json</code>
-file and run the <code>php composer.phar install</code> command to get Environaut:</p>
+a vendor dependency of your project. Create or update a <code>composer.json</code> file
+and run the <code>php composer.phar install</code> command to get Environaut:</p>
 
 <div class="highlight highlight-json"><pre><span class="p">{</span>
     <span class="nt">"require"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">"graste/environaut"</span><span class="p">:</span> <span class="s2">"~0.4"</span>
+        <span class="nt">"graste/environaut"</span><span class="p">:</span> <span class="s2">"~0.5"</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -146,7 +146,7 @@ self-executable binary.</p>
 </code></pre>
 
 <p>When you got <code>environaut.phar</code> by cloning this repository it should already be
-executable. Otherwise just <code>chmod u+x environaut.phar</code> should be sufficient to
+executable. Otherwise <code>chmod u+x environaut.phar</code> should be sufficient to
 make it work. It is advisable to have a <code>php</code> executable available via the
 <code>PATH</code> environment variable as the phar uses a <code>#!/usr/bin/env php</code> shebang.
 Use something like <code>alias php="/usr/local/bin/php53"</code> if your executable
@@ -211,8 +211,6 @@ environaut.phar check --no-cache
 </ul><h2>
 <a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
 
-<p>More detailed documentation can be found in the <a href="docs/"><code>docs/</code></a> folder.</p>
-
 <p>Checks can be configured via configuration files and settings may
 afterwards be exported via different formatters into different formats.</p>
 
@@ -233,12 +231,16 @@ afterwards be exported via different formatters into different formats.</p>
 <code>PHP</code> (settings as array to include)</li>
 <li>
 <code>SH</code> (shell variables in a file that may be sourced)</li>
+<li>
+<code>TEXT</code> (settings with or without their group name in a plain text file)</li>
 </ul><p>The input and output file formats may be completely customized by replacing
 the default classes with custom implementations.</p>
 
-<p>TODO - add more here :-)</p>
-
-<h2>
+<ul>
+<li><a href="docs/">more detailed documentation</a></li>
+<li><a href="http://graste.github.io/environaut/docs/api/">API docs</a></li>
+<li><a href="http://graste.github.io/environaut/build/reports/coverage-html/">code coverage report</a></li>
+</ul><h2>
 <a name="community" class="anchor" href="#community"><span class="octicon octicon-link"></span></a>Community</h2>
 
 <p>None, but you may join the freenode IRC <a><code>#environaut</code></a> channel anytime. :-)</p>
@@ -260,14 +262,12 @@ found in the <a href="CONTRIBUTING.md"><code>CONTRIBUTING.md</code></a> file.</p
 <h2>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
-<p><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png"></a><br>Environaut is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.</p>
+<p><a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png"></a><br>Environaut is licensed under a <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.</p>
 
 <p>CC-BY-SA-3.0 means, you are free to share, remix and make commercial use of the
 work as long as you attribute and share alike. See <a href="LICENSE.md">linked license</a> for details.</p>
 
 <ul>
-<li>Latest Version: <a href="https://packagist.org/packages/graste/environaut"><img src="https://poser.pugx.org/graste/environaut/version.png" alt="Latest Stable Version"></a>
-</li>
 <li>Total Composer Downloads: <a href="https://packagist.org/packages/graste/environaut"><img src="https://poser.pugx.org/graste/environaut/d/total.png" alt="Composer Downloads"></a>
 </li>
 </ul>
@@ -285,7 +285,7 @@ work as long as you attribute and share alike. See <a href="LICENSE.md">linked l
 
           <p class="repo-owner"><a href="https://github.com/graste/environaut"></a> is maintained by <a href="https://github.com/graste">graste</a>.</p>
 
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
         </aside>
       </div>
     </div>
