@@ -147,8 +147,6 @@ For the help command the following works:
 
 ## Documentation
 
-More detailed documentation can be found in the [```docs/```](docs/) folder.
-
 Checks can be configured via configuration files and settings may
 afterwards be exported via different formatters into different formats.
 
@@ -169,7 +167,9 @@ Supported (output) settings file formats:
 The input and output file formats may be completely customized by replacing
 the default classes with custom implementations.
 
-TODO - add more here or in the [```docs/```](docs/) folder. :-)
+* [more detailed documentation](docs/)
+* [API docs](http://graste.github.io/environaut/docs/api/)
+* [code coverage report](http://graste.github.io/environaut/build/reports/coverage-html/)
 
 ## Community
 
