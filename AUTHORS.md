@@ -5,7 +5,7 @@
 - [Leon Weidauer](https://github.com/lnwdr)
 - [Oskar Stark](https://github.com/OskarStark)
 - [Steffen Gransow](https://github.com/graste)
-- [Thorsten Schmitt-Rink](https://github.com/shrink)
+- [Thorsten Schmitt-Rink](https://github.com/shrink0r)
 
 Thanks for feedback:
 
