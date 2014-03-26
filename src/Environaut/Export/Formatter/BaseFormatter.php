@@ -52,7 +52,7 @@ abstract class BaseFormatter implements IReportFormatter
 
     /**
      * Like vsprintf, but accepts keys instead of an order index.
-     * The allowed format of named arguments is: /[a-zA-Z0-9_-]+/
+     * The allowed format of named arguments is: /[a-zA-Z0-9_\-\.]+/
      *
      * For the base version of this method by Josef Kufner see:
      * @see http://www.php.net/manual/de/function.vsprintf.php#110666
