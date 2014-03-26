@@ -2,6 +2,13 @@
 
 All new features, changes and fixes should be listed here. Please use tickets to reference changes.
 
+## 0.5.0 (2014/03/26)
+
+* [new] added `PlainTextSettingsWriter` that allows to generate plain text files with settings
+* [new] vksprintf now allows using dots within named arguments
+* [fix] vksprintf hyphen now correctly escaped
+* [fix] vksprintf implementation for numeric arguments
+
 ## 0.4.3 (2014/02/20)
 
 * [fix] Add sensiolabs/security-checker certificate to phar file and fix version number display on CLI. No other changes.
