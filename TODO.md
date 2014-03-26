@@ -34,4 +34,5 @@ See also a previous draft of this: <https://github.com/graste/environaut/issues/
     - this could be a last resort or pre-flight checklist for deployments
 - think about user/group/file system permissions and perhaps check directories
   and files for being non-writable with exclusions for cache, log, uploade etc.
-
+- maybe integrate or otherwise add php.ini security checks via
+  https://github.com/psecio/iniscan
