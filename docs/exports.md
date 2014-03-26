@@ -11,6 +11,7 @@ formatters itself write files with settings from your checks.
 - `JSON` file via [`JsonSettingsWriter`](../src/Environaut/Export/Formatter/JsonSettingsWriter.php)
 - `PHP` file via [`PhpSettingsWriter`](../src/Environaut/Export/Formatter/PhpSettingsWriter.php)
 - `SHELL` file via [`ShellSettingsWriter`](../src/Environaut/Export/Formatter/ShellSettingsWriter.php)
+- `TEXT` file via [`PlainTextSettingsWriter`](../src/Environaut/Export/Formatter/PlainTextSettingsWriter.php)
 
 This means, that the settings your checks emit can be exported into the above
 formats to be included by your programs.

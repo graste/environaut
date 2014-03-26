@@ -162,11 +162,12 @@ Supported (output) settings file formats:
 - `JSON` (json object literal)
 - `PHP` (settings as array to include)
 - `SH` (shell variables in a file that may be sourced)
+- `TEXT` (settings with or without their group name in a plain text file)
 
 The input and output file formats may be completely customized by replacing
 the default classes with custom implementations.
 
-TODO - add more here :-)
+TODO - add more here or in the [```docs/```](docs/) folder. :-)
 
 ## Community
 
