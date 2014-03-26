@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<environaut xmlns="http://mivesto.de/environaut/config/1.0">
+
+    <name>simple</name>
+
+    <export>
+        <formatter location="foo.xml" />
+    </export>
+
+    <checks>
+        <check class="\Blah\Check" group="group">
+            <parameter name="foo">bar</parameter>
+        </check>
+    </checks>
+
+</environaut>

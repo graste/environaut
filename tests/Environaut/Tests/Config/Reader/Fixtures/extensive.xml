@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<environaut xmlns="http://mivesto.de/environaut/config/1.0">
+
+    <name>extensive</name>
+    <description>extensive description</description>
+    <keywords>
+        <keyword>asdf</keyword>
+        <keyword>blub</keyword>
+        <keyword>foo</keyword>
+    </keywords>
+
+    <introduction><![CDATA[[
+omgomgomg
+        multiline
+foobar
+        stuff
+]]></introduction>
+
+    <runner class="Custom\Runner">
+        <parameter>asdf</parameter>
+    </runner>
+
+    <report class="Custom\Report">
+        <parameters>
+            <parameter>hahaha</parameter>
+        </parameters>
+    </report>
+
+    <export>
+        <formatters>
+            <formatter location="foo.xml" format="xml">
+                <parameter name="pretty">true</parameter>
+            </formatter>
+            <formatter location="foo.json" format="json">
+                <parameters>
+                    <parameter name="pretty">true</parameter>
+                    <parameter name="groups">
+                        <parameter>default</parameter>
+                        <parameter>custom</parameter>
+                    </parameter>
+                </parameters>
+            </formatter>
+        </formatters>
+    </export>
+
+    <checks>
+        <check class="Environaut\Checks\Configurator" name="valid_ip" group="group">
+            <parameter name="setting">ipv4</parameter>
+            <parameter name="question">Please input a valid IPv4 from a non-reserved range</parameter>
+            <parameter name="default">195.74.70.239</parameter>
+            <parameter name="choices">
+                <parameters>
+                    <parameter>240.0.0.1</parameter>
+                    <parameter>192.168.1.100</parameter>
+                    <parameter>127.0.0.1</parameter>
+                    <parameter>172.16.1.100</parameter>
+                    <parameter>10.0.0.1</parameter>
+                </parameters>
+            </parameter>
+            <parameter name="validator">Environaut\Checks\Validator::validIpv4NotReserved</parameter>
+        </check>
+        <check class="Blah\Check" group="group">
+            <parameter name="foo">bar</parameter>
+        </check>
+        <check>
+            <parameter name="blub">blub</parameter>
+        </check>
+    </checks>
+
+</environaut>

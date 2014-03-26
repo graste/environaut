@@ -1,0 +1,145 @@
+return array(
+  'name' => 'graste/environaut/example',
+  'description' => 'Some check configurations as an example for a small (interactive) environment check.',
+  'keywords' => array('environment', 'requirements', 'configuration', 'check', 'cli', 'php'),
+  'introduction' => array('This is some', 'multiline', 'introductory text.'),
+  'export' => array(
+    '__class' => 'Environaut\\Export\\Export',
+    'formatters' => array(
+      array(
+        'location' => 'config.json',
+      ),
+      array(
+        'location' => 'configxml',
+      ),
+      array(
+        'location' => 'trololo.json',
+        'groups' => array('trololo'),
+      ),
+      array(
+        'location' => 'trololo.xml',
+        'groups' => array('trololo'),
+      ),
+    ),
+  ),
+  'runner' => array(
+    '__class' => 'Environaut\\Runner\\Runner',
+  ),
+  'report' => array(
+    '__class' => 'Environaut\\Report\\Report',
+  ),
+  'checks' => array(
+    array (
+      '__name' => 'composer-security',
+      '__class' => 'Environaut\\Checks\\ComposerSecurityCheck',
+      'file' => '../agavi-boilerplate/composer.lock',
+      'silent' => false,
+    ),
+    array (
+      '__name' => 'cache_dir',
+      '__class' => 'Environaut\\Checks\\Configurator',
+      'setting' => 'cache_dir',
+      'question' => 'Geben Sie bitte ein schreibbares Verzeichnis an',
+      'choices' =>
+      array (
+        'cache',
+        '/tmp',
+        './tests',
+      ),
+      'validator' => 'Environaut\\Checks\\Validator::writableDirectory',
+    ),
+    array (
+      '__name' => 'valid_ip',
+      '__class' => 'Environaut\\Checks\\Configurator',
+      'setting' => 'ipv4',
+      'question' => 'Geben Sie bitte eine valide nicht-reservierte, nicht-private IPv4-Adresse ein',
+      'default' => '195.74.70.239',
+      'choices' =>
+      array (
+        '240.0.0.1',
+        '192.168.1.100',
+        '127.0.0.1',
+        '172.16.1.100',
+        '10.0.0.1',
+      ),
+      'validator' => 'Environaut\\Checks\\Validator::validIpv4NotReserved',
+    ),
+    array (
+      '__name' => 'selection',
+      '__class' => 'Environaut\\Checks\\Configurator',
+      'setting' => 'selected_url',
+      'question' => 'Welche URL bevorzugen Sie?',
+      'choices' =>
+      array (
+        'http://cms.honeybee-showcase.dev/',
+        'http://google.de/',
+        'http://heise.de/',
+      ),
+      'select' => true,
+    ),
+    array (
+      '__name' => 'base_href',
+      '__class' => 'Environaut\\Checks\\Configurator',
+      'setting' => 'base_href',
+      'question' => 'Wie lautet der BaseHref?',
+      'default' => 'http://honeybee-showcase.dev/',
+      'choices' =>
+      array (
+        'http://cms.honeybee-showcase.dev/',
+        'http://google.de/',
+        'http://heise.de/',
+      ),
+      'validator' => 'Environaut\\Checks\\Validator::validUrl',
+      'max_attempts' => 5,
+    ),
+    array (
+      '__name' => 'confirm',
+      '__class' => 'Environaut\\Checks\\Configurator',
+      '__group' => 'trololo',
+      'setting' => 'testing_enabled',
+      'question' => 'Testmodus aktivieren?',
+      'default' => false,
+      'confirm' => true,
+    ),
+    array (
+      '__name' => 'trololo',
+      '__class' => 'Environaut\\Checks\\Configurator',
+      '__group' => 'trololo',
+      'setting' => 'contact.name',
+      'introduction' => 'Trololo is a video of the nationally-honored Russian singer Eduard Khil (AKA Edward Khill, Edward Hill) performing the Soviet-era pop song “I am Glad, ‘cause I’m Finally Returning Back Home” (Russian: Я очень рад, ведь я, наконец, возвращаюсь домой). The video is often used as a bait-and-switch prank, in similar vein to the practice of Rickrolling.
+
+Source: http://knowyourmeme.com/memes/trololo-russian-rickroll
+
+',
+      'question' => 'Wie lautet der Vorname des Trololo Manns?',
+      'choices' =>
+      array (
+        'Mr.',
+        'Eduard',
+        'Edward',
+        'omgomgomg',
+      ),
+    ),
+    array (
+      '__name' => 'contact',
+      '__class' => 'Environaut\\Checks\\Configurator',
+      '__group' => 'trololo',
+      'setting' => 'contact.email',
+      'question' => 'Wie lautet seine Emailadresse?',
+      'choices' =>
+      array (
+        'mr.trololo@example.com',
+      ),
+      'validator' => 'Environaut\\Checks\\Validator::validEmail',
+      'max_attempts' => 5,
+    ),
+    array (
+      '__name' => 'password',
+      '__class' => 'Environaut\\Checks\\Configurator',
+      'setting' => 'password',
+      'question' => 'Wie lautet das geheime Passwort?',
+      'hidden' => true,
+      'allow_fallback' => true,
+    ),
+  ),
+);

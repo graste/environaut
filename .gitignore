@@ -1,1 +1,44 @@
-/vendor
+# project related stuff
+/bin/phpunit
+/bin/security-checker
+/build/
+/docs/api
+.environaut.cache
+
+# composer related stuff
+/vendor/
+/composer.lock
+/bin/composer.phar
+
+# temporary or local configuration stuff
+/*/cache/*
+/*/local.*
+
+# logfiles
+*.log
+
+# general os and editors related stuff
+.DS_Store
+Thumbs.db
+*.sublime-project
+*.sublime-workspace
+.bundle/
+*~
+*.tmp
+*.bak
+*.swp
+*~.nib
+.class
+.classpath
+.settings/
+.loadpath
+.project
+.metadata
+*.launch
+.buildpath
+.cproject
+.externalToolBuilders/
+.plugins/
+*.pydevproject
+nbproject/
+*.tmproj

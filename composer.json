@@ -1,0 +1,50 @@
+{
+    "name": "graste/environaut",
+    "type": "library",
+    "description": "Define, configure and protect your application environment and its requirements.",
+    "keywords": ["environment", "requirements", "configuration", "check", "cli", "web", "php", "configuration management"],
+    "homepage": "https://github.com/graste/environaut",
+    "license": "CC-BY-SA-3.0",
+    "authors": [
+        {
+            "name": "Steffen Gransow",
+            "email": "graste@mivesto.de",
+            "homepage": "http://mivesto.de",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "environaut@mivesto.de",
+        "issues": "https://github.com/graste/environaut/issues",
+        "wiki": "https://github.com/graste/environaut/wiki",
+        "irc": "irc://irc.freenode.org/environaut",
+        "source": "https://github.com/graste/environaut"
+    },
+    "minimum-stability": "stable",
+    "bin": [
+        "bin/environaut",
+        "bin/environaut.phar"
+    ],
+    "config": {
+        "vendor-dir": "vendor"
+    },
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/console": "~2.2",
+        "sensiolabs/security-checker" : "~1.2"
+    },
+    "require-dev": {
+        "symfony/finder": "~2.1",
+        "phpunit/phpunit": "~3.7.22",
+        "sami/sami": "~1.1",
+        "squizlabs/php_codesniffer": "~1.4.5"
+    },
+    "suggest": {
+        "lib-libxml": "The libXML library and PHP extension is necessary for XML configuration files."
+    },
+    "autoload": {
+        "psr-0": {
+            "Environaut\\": "src/"
+        }
+    }
+}

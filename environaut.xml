@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE shortcuts [
+    <!ENTITY basepath "/tmp/">
+    <!ENTITY checksdb "docs/examples/pool_of_checks.xml">
+    <!ENTITY xiec "xmlns(ec=http://mivesto.de/environaut/config/1.0)">
+]>
+<environaut xmlns="http://mivesto.de/environaut/config/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    <name>Example environment check</name>
+
+    <description>This is a sample configuration file for Environaut that XIncludes sets of checks from the 'docs/examples' folder.</description>
+
+    <keywords>
+        <keyword>asdf</keyword>
+        <keyword>blub</keyword>
+        <keyword>foo</keyword>
+    </keywords>
+
+    <introduction><![CDATA[
+    This is a complex example of environment checks and configurations.
+
+    First there will be questions for executable files,
+    then some configuration values are asked for to give an overview
+    of what's possible with the Configurator check.
+
+    At the end a security check of a given composer.lock file is performed.
+
+    A report with messages will be printed to the CLI and the accumulated
+    settings will be written to some JSON, XML and PHP files if configured.
+
+    Subsequent runs will read the already configured settings from the cache
+    and thus will not ask again for settings.
+]]></introduction>
+
+    <cache>
+        <parameter name="location">.environaut.cache</parameter>
+        <!-- you can separate cache reading from writing by specifying something like this:
+        <parameter name="read_location">/home/user/.environaut_defaults.cache</parameter>
+        <parameter name="write_location">.environaut_custom.cache</parameter>
+        -->
+    </cache>
+
+    <export>
+
+        <formatter location="&basepath;environaut-config.xml" />
+
+        <formatter location="/tmp/trololo.sh">
+            <parameter name="groups">
+                <parameter>trololo</parameter>
+            </parameter>
+            <parameter name="capitalize_names">true</parameter>
+            <parameter name="use_group_as_prefix">false</parameter>
+            <parameter name="template"><![CDATA[
+#!/usr/bin/env bash
+%settings$s
+echo "Success!";
+exit 0;
+
+]]></parameter>
+        </formatter>
+
+        <formatter>
+            <parameter name="location">/tmp/environaut-config-pretty.json</parameter>
+            <parameter name="pretty">true</parameter>
+        </formatter>
+
+        <formatter location="/tmp/environaut-example-trololo-config.php">
+            <parameter name="nested">false</parameter>
+            <parameter name="groups">
+                <parameter>trololo</parameter>
+            </parameter>
+            <parameter name="template"><![CDATA[
+<?php
+
+$this_is_a_custom_template = %settings$s;
+
+$success = true;
+?>
+]]></parameter>
+        </formatter>
+<!--
+        <formatters>
+            <formatter /> (will be ./environaut-cofnig.json)
+            <formatter>
+                <parameter name="location">/tmp/environaut-example-config.json</parameter>
+            </formatter>
+            <formatter>
+                <parameter name="location">/tmp/environaut-example-config-pretty.json</parameter>
+                <parameter name="pretty">true</parameter>
+            </formatter>
+            <formatter>
+                <parameter name="location">/tmp/environaut-example-config-trololo-pretty.json</parameter>
+                <parameter name="pretty">true</parameter>
+                <parameter name="groups">
+                    <parameter>trololo</parameter>
+                </parameter>
+            </formatter>
+            <formatter>
+                <parameter name="location">/tmp/environaut-example-config.xml</parameter>
+            </formatter>
+            <formatter>
+                <parameter name="location">/tmp/environaut-example-config-trololo.xml</parameter>
+                <parameter name="groups">
+                    <parameter>trololo</parameter>
+                </parameter>
+            </formatter>
+            <formatter location="/tmp/environaut-example-config.php" />
+            <formatter location="/tmp/environaut-example-trololo-config.php">
+                <parameter name="groups">
+                    <parameter>trololo</parameter>
+                </parameter>
+            </formatter>
+        </formatters>
+-->
+    </export>
+
+    <checks>
+        <check group="trololo">
+                <parameter name="setting">trololo_man</parameter>
+                <parameter name="introduction"><![CDATA[
+
+Trololo is a video of the nationally-honored Russian singer Eduard Khil (AKA Edward Khill, Edward Hill)
+performing the Soviet-era pop song “I am Glad, ‘cause I’m Finally Returning Back Home”
+(Russian: Я очень рад, ведь я, наконец, возвращаюсь домой).
+The video is often used as a bait-and-switch prank, in similar vein to the practice of Rickrolling.
+
+Source: http://knowyourmeme.com/memes/trololo-russian-rickroll
+]]></parameter>
+                <parameter name="question">What's the given name of the Trololo man?</parameter>
+                <parameter name="choices">
+                    <parameter>Mr.</parameter>
+                    <parameter>Eduard</parameter>
+                    <parameter>Edward</parameter>
+                    <parameter>omgomgomg</parameter>
+                </parameter>
+            </check>
+
+        <xi:include href="docs/examples/pool_of_checks.xml" xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks[@name='phpextensions']/*)">
+            <xi:fallback />
+        </xi:include>
+
+        <xi:include href="docs/examples/pool_of_checks.xml" xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks[@name='phpsettings']/*)">
+            <xi:fallback />
+        </xi:include>
+
+        <xi:include href="docs/examples/pool_of_checks.xml" xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks[@name='executables']/*)">
+            <xi:fallback />
+        </xi:include>
+
+        <xi:include href="docs/examples/pool_of_checks.xml" xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks[@name='configurator']/*)">
+            <xi:fallback />
+        </xi:include>
+<!--
+        <xi:include href="docs/examples/pool_of_checks.xml" xpointer="xmlns(ec=http://mivesto.de/environaut/config/1.0) xpointer(//ec:checks[@name='security']/*)">
+            <xi:fallback />
+        </xi:include>
+-->
+
+    </checks>
+
+</environaut>

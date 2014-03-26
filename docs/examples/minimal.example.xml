@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<environaut xmlns="http://mivesto.de/environaut/config/1.0" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <name>Minimal XML example</name>
+    <checks>
+        <check name="password">
+            <parameter name="question">Please type a super secret password</parameter>
+            <parameter name="hidden">true</parameter>
+        </check>
+        <check name="cache_dir">
+            <parameter name="question">Please specify a writable cache directory to use for the application</parameter>
+            <parameter name="choices">
+                <parameter>/etc</parameter>
+                <parameter>cache</parameter>
+                <parameter>/tmp</parameter>
+                <parameter>./tests</parameter>
+            </parameter>
+            <parameter name="validator">Environaut\Checks\Validator::writableDirectory</parameter>
+        </check>
+    </checks>
+</environaut>
+

@@ -1,0 +1,81 @@
+{
+    "name": "executables check examples",
+    "description": "Some executable check example questions.",
+    "keywords": [ "environment", "requirements", "configuration", "check", "cli", "php" ],
+    "export": {
+        "formatters": [
+            {
+                "location": "absolute_paths.json"
+            }
+        ]
+    },
+    "checks": [
+        {
+            "__name": "ls",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "ls",
+            "version_mask": "/ls.*/"
+        },
+        {
+            "__name": "cat",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "cat",
+            "version_mask": "/cat.*/"
+        },
+        {
+            "__name": "cut",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "cut",
+            "version_mask": "/cut.*/"
+        },
+        {
+            "__name": "head",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "head",
+            "version_mask": "/head.*/"
+        },
+        {
+            "__name": "tail",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "tail",
+            "version_mask": "/tail.*/"
+        },
+        {
+            "__name": "sort",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "sort",
+            "version_mask": "/sort.*/"
+        },
+        {
+            "__name": "find",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "find",
+            "version_mask": "/find.*/"
+        },
+        {
+            "__name": "grep",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "grep",
+            "version_mask": "/grep.+?(\\d+\\.\\d+\\.?\\d?)/"
+        },
+        {
+            "__name": "bzip2",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "bzip2",
+            "version_mask": "/bzip2.+?Version (\\d+\\.\\d+\\.\\d+).*/"
+        },
+        {
+            "__name": "php",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "php",
+            "version_mask": "/^PHP ([^\\-\\s]+).*/"
+        },
+        {
+            "__name": "curl",
+            "__class": "Environaut\\Checks\\ExecutableCheck",
+            "default": "curl",
+            "version_mask": "/curl (\\d+\\.\\d+\\.\\d+) .*/"
+        }
+    ]
+}
+
