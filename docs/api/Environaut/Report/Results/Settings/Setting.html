@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>Environaut\Report\Results\Settings\Setting | Environaut API</title>
+        <title>Environaut\Report\Results\Settings\Setting | </title>
                     <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css">
                             </head>
         <body id="class">
@@ -12,22 +12,25 @@
             <li><a href="../../../../classes.html">Classes</a></li>
                             <li><a href="../../../../namespaces.html">Namespaces</a></li>
                         <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
             <li><a href="../../../../doc-index.html">Index</a></li>
             
         </ul>
 
-        <div id="title">Environaut API</div>
+        <div id="title"></div>
 
             <div class="type">Class</div>
     <h1><a href="../../../../Environaut/Report/Results/Settings.html">Environaut\Report\Results\Settings</a>\Setting</h1>
     </div>
         <div class="content">
-                <p>class    <strong>Setting</strong>        implements
+                <p>    class
+    <strong>Setting</strong>        implements
         <a href="../../../../Environaut/Report/Results/Settings/ISetting.html"><abbr title="Environaut\Report\Results\Settings\ISetting">ISetting</abbr></a></p>
 
             <div class="description">
             <p>Simple value holder with a name as key and a group name to be used to group/namespace settings.</p>
-            <p></p>
+            <p>
+</p>
         </div>
     
     
@@ -51,7 +54,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_getName">getName</a>()
-                    <p>Returns the name or key of this setting.</p>
+                    <p>Returns the name of the setting (that is, a key for the setting)</p>
                 </td>
                 <td></td>
             </tr>
@@ -61,7 +64,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_getValue">getValue</a>()
-                    <p>Return the value of this setting.</p>
+                    <p>Returns the value of the setting.</p>
                 </td>
                 <td></td>
             </tr>
@@ -71,7 +74,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_getGroup">getGroup</a>()
-                    <p>Returns the group name of this setting that may be useful for separating settings by group on export.</p>
+                    <p>Returns the group name of this setting that may be useful to group/namespaace settings.</p>
                 </td>
                 <td></td>
             </tr>
@@ -91,7 +94,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_matchesFlag">matchesFlag</a>(int $flag = null)
-                    <p>Determines whether this setting&#039;s flag value is contained in the given flag value.</p>
+                    <p>Determines whether this setting's flag value is contained in the given flag value.</p>
                 </td>
                 <td></td>
             </tr>
@@ -101,7 +104,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_matchesGroup">matchesGroup</a>(mixed $groups = null)
-                    <p>Determines whether this setting&#039;s group matches the given groups.</p>
+                    <p>Determines whether this setting's group matches the given groups.</p>
                 </td>
                 <td></td>
             </tr>
@@ -111,7 +114,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_toArray">toArray</a>()
-                    <p>Returns a flat array with four keys (name, group, value and flag).</p>
+                    <p>Returns an associative array with the group containing an array with name and value of the setting.</p>
                 </td>
                 <td></td>
             </tr>
@@ -121,7 +124,8 @@
                 </td>
                 <td class="last">
                     <a href="#method_getGroupNames">getGroupNames</a>(mixed $groups = null)
-                    <p></p>
+                    <p>
+</p>
                 </td>
                 <td></td>
             </tr>
@@ -137,7 +141,8 @@
     </h3>
     <div class="details">
         <p>Create a new setting instance.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -145,22 +150,26 @@
                     <tr>
                 <td></td>
                 <td>$name</td>
-                <td></td>
+                <td>
+</td>
             </tr>
                     <tr>
                 <td></td>
                 <td>$value</td>
-                <td></td>
+                <td>
+</td>
             </tr>
                     <tr>
                 <td></td>
                 <td>$group</td>
-                <td></td>
+                <td>
+</td>
             </tr>
                     <tr>
                 <td></td>
                 <td>$flag</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -176,8 +185,9 @@
     <strong>getName</strong>()</code>
     </h3>
     <div class="details">
-        <p>Returns the name or key of this setting.</p>
-        <p></p>
+        <p>Returns the name of the setting (that is, a key for the setting)</p>
+        <p>
+</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
@@ -200,8 +210,9 @@
     <strong>getValue</strong>()</code>
     </h3>
     <div class="details">
-        <p>Return the value of this setting.</p>
-        <p></p>
+        <p>Returns the value of the setting.</p>
+        <p>
+</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
@@ -224,8 +235,9 @@
     <strong>getGroup</strong>()</code>
     </h3>
     <div class="details">
-        <p>Returns the group name of this setting that may be useful for separating settings by group on export.</p>
-        <p></p>
+        <p>Returns the group name of this setting that may be useful to group/namespaace settings.</p>
+        <p>
+</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
@@ -249,7 +261,8 @@
     </h3>
     <div class="details">
         <p>Returns the type of setting.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
@@ -272,9 +285,9 @@
     <strong>matchesFlag</strong>(int $flag = null)</code>
     </h3>
     <div class="details">
-        <p>Determines whether this setting&#039;s flag value is contained in the given flag value.</p>
-        <p>For example: If this setting has a flag of ISetting::NORMAL (1) a given $flag value<br />
- of (ISetting::SENSITIVE | ISetting::WHATEVER) would not match.</p>
+        <p>Determines whether this setting's flag value is contained in the given flag value.</p>
+        <p>For example: If this setting has a flag of ISetting::NORMAL (1) a given $flag value
+of (ISetting::SENSITIVE | ISetting::WHATEVER) would not match.</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -292,7 +305,7 @@
                     <table>
         <tr>
             <td>boolean</td>
-            <td>true if this setting&#039;s flag is in the given flag</td>
+            <td>true if this setting's flag is in the given flag</td>
         </tr>
     </table>
 
@@ -307,8 +320,9 @@
     <strong>matchesGroup</strong>(mixed $groups = null)</code>
     </h3>
     <div class="details">
-        <p>Determines whether this setting&#039;s group matches the given groups.</p>
-        <p></p>
+        <p>Determines whether this setting's group matches the given groups.</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -326,7 +340,7 @@
                     <table>
         <tr>
             <td>boolean</td>
-            <td>true when this setting&#039;s group matches the given groups</td>
+            <td>true when this setting's group matches the given groups</td>
         </tr>
     </table>
 
@@ -341,8 +355,9 @@
     <strong>toArray</strong>()</code>
     </h3>
     <div class="details">
-        <p>Returns a flat array with four keys (name, group, value and flag).</p>
-        <p></p>
+        <p>Returns an associative array with the group containing an array with name and value of the setting.</p>
+        <p>
+</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
@@ -365,8 +380,10 @@
     <strong>getGroupNames</strong>(mixed $groups = null)</code>
     </h3>
     <div class="details">
-        <p></p>
-        <p></p>
+        <p>
+</p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 

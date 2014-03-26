@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>Environaut\Export\Formatter\BaseFormatter | Environaut API</title>
+        <title>Environaut\Export\Formatter\BaseFormatter | </title>
                     <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
                             </head>
         <body id="class">
@@ -12,22 +12,25 @@
             <li><a href="../../../classes.html">Classes</a></li>
                             <li><a href="../../../namespaces.html">Namespaces</a></li>
                         <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
             <li><a href="../../../doc-index.html">Index</a></li>
             
         </ul>
 
-        <div id="title">Environaut API</div>
+        <div id="title"></div>
 
             <div class="type">Class</div>
     <h1><a href="../../../Environaut/Export/Formatter.html">Environaut\Export\Formatter</a>\BaseFormatter</h1>
     </div>
         <div class="content">
-                <p>abstract class    <strong>BaseFormatter</strong>        implements
+                <p>abstract     class
+    <strong>BaseFormatter</strong>        implements
         <a href="../../../Environaut/Export/Formatter/IReportFormatter.html"><abbr title="Environaut\Export\Formatter\IReportFormatter">IReportFormatter</abbr></a></p>
 
             <div class="description">
             <p>Simple formatter that takes messages from the results of the given report and enhances them according to their severity etc.</p>
-            <p></p>
+            <p>
+</p>
         </div>
     
     
@@ -67,11 +70,11 @@
             </tr>
                     <tr>
                 <td class="type">
-                    static&nbsp;
+                    static&nbsp;<abbr title="Environaut\Export\Formatter\formatted">formatted</abbr>
                 </td>
                 <td class="last">
-                    <a href="#method_vksprintf">vksprintf</a>($str, array $args)
-                    <p>Like vsprintf, but accepts $args keys instead of order index.</p>
+                    <a href="#method_vksprintf">vksprintf</a>(string $format, array $args)
+                    <p>Like vsprintf, but accepts keys instead of an order index.</p>
                 </td>
                 <td></td>
             </tr>
@@ -81,13 +84,14 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 25</div>
+        <div class="location">at line 26</div>
         <code>            public            
     <strong>__construct</strong>(array $options = array())</code>
     </h3>
     <div class="details">
         <p>Create new instance of the formatter.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -106,13 +110,14 @@
     </div>
 
                 <h3 id="method_setParameters">
-        <div class="location">at line 37</div>
+        <div class="location">at line 38</div>
         <code>            public            <abbr title="Environaut\Export\Formatter\$this">$this</abbr>
     <strong>setParameters</strong>(<a href="../../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a> $parameters)</code>
     </h3>
     <div class="details">
         <p>Sets the given runtime parameters on the formatter.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -140,13 +145,14 @@
     </div>
 
                 <h3 id="method_getParameters">
-        <div class="location">at line 47</div>
+        <div class="location">at line 48</div>
         <code>            public            <a href="../../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a>
     <strong>getParameters</strong>()</code>
     </h3>
     <div class="details">
         <p>Returns all runtime parameters for this formatter from the config.</p>
-        <p></p>
+        <p>
+</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
@@ -154,7 +160,8 @@
                     <table>
         <tr>
             <td><a href="../../../Environaut/Config/Parameters.html"><abbr title="Environaut\Config\Parameters">Parameters</abbr></a></td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -164,33 +171,51 @@
     </div>
 
                 <h3 id="method_vksprintf">
-        <div class="location">at line 68</div>
-        <code>        static    public            
-    <strong>vksprintf</strong>($str, array $args)</code>
+        <div class="location">at line 78</div>
+        <code>        static    public            <abbr title="Environaut\Export\Formatter\formatted">formatted</abbr>
+    <strong>vksprintf</strong>(string $format, array $args)</code>
     </h3>
     <div class="details">
-        <p>Like vsprintf, but accepts $args keys instead of order index.</p>
-        <p>Both numeric and strings matching /[a-zA-Z0-9_-]+/ are allowed.<br />
-<br />
- Base version of the method:</p>
+        <p>Like vsprintf, but accepts keys instead of an order index.</p>
+        <p>The allowed format of named arguments is: /[a-zA-Z0-9_&#45;&#46;]+/</p>
+
+<p>For the base version of this method by Josef Kufner see:</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td></td>
-                <td>$str</td>
-                <td></td>
+                <td>string</td>
+                <td>$format</td>
+                <td>input string with formatting directives</td>
             </tr>
                     <tr>
                 <td>array</td>
                 <td>$args</td>
-                <td></td>
+                <td>arguments to use for formatting directives</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Environaut\Export\Formatter\formatted">formatted</abbr></td>
+            <td>string according to given format and arguments</td>
+        </tr>
+    </table>
+
             
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>in case of non-string format string</td>
+            </tr>
+            </table>
+
             
                             <h4>See also</h4>
 
