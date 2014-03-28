@@ -124,12 +124,10 @@ class Export implements IExport
             case 'sh':
                 $formatter = 'Environaut\Export\Formatter\ShellSettingsWriter';
                 break;
+
+            case 'txt':
             default:
-                throw new \InvalidArgumentException(
-                    'The given export file "' . $location . '" does not have a known extension.' . PHP_EOL .
-                    'Supported export file extensions are: ' . implode(', ', $this->supported_export_file_extensions)
-                );
-                break;
+                $formatter = 'Environaut\Export\Formatter\PlainTextSettingsWriter';
         }
 
         return $formatter;
