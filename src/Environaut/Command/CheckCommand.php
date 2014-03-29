@@ -79,7 +79,7 @@ class CheckCommand extends Command
             'no-cache',
             null,
             InputOption::VALUE_NONE,
-            'Disables the use of caching (reading/writing).'
+            'Disables the use of caching (reading/writing). Remember, that the old cache file still survives!'
         );
 
         $this->setDescription('Check environment according to a set of checks.');

@@ -37,18 +37,14 @@ class Export implements IExport
     protected $parameters;
 
     /**
-     * @var array supported export file extensions
-     */
-    protected $supported_export_file_extensions = array('json', 'xml', 'php', 'sh');
-
-    /**
      * Export current report as follows:
      *
      * 1. Display messages on CLI
-     * 2. Run all formatters and display there text results on CLI
+     * 2. Run all formatters and display their text results on CLI
      *
-     * If no formatters have been specified a JsonSettingsWriter will be used,
-     * that writes all settings to a JSON file.
+     * If no formatter has been specified a default writer will be used depending
+     * on the file extension given. Without a file extension a plain text writer
+     * will be used.
      */
     public function run()
     {
@@ -124,7 +120,6 @@ class Export implements IExport
             case 'sh':
                 $formatter = 'Environaut\Export\Formatter\ShellSettingsWriter';
                 break;
-
             case 'txt':
             default:
                 $formatter = 'Environaut\Export\Formatter\PlainTextSettingsWriter';
