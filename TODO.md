@@ -15,8 +15,7 @@ See also a previous draft of this: <https://github.com/graste/environaut/issues/
     - add automatic mode to executable checks when dependency management is there?
     - for dependencies or nested checks:
         - ask for value (writable directory etc.) when certain check fails
-- fail check run if a check returns false? or just on errors? or at all?
-- add check for accelerator (apc, eaccelerator, xcache) being present
+- add check for accelerator (apc, eaccelerator, xcache, opcache) being present
 - add simple pre-execution check for environaut requirements
     - JSON extension should be installed (```json_encode``` etc.)
     - libXML extension should be installed (DOMDocument etc.)
@@ -33,6 +32,6 @@ See also a previous draft of this: <https://github.com/graste/environaut/issues/
     - perhaps lint common file extensions (`php -l`, `jsl`, `xmllint`...)
     - this could be a last resort or pre-flight checklist for deployments
 - think about user/group/file system permissions and perhaps check directories
-  and files for being non-writable with exclusions for cache, log, uploade etc.
+  and files for being non-writable with exclusions for cache, log, uploads etc.
 - maybe integrate or otherwise add php.ini security checks via
   https://github.com/psecio/iniscan

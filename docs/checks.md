@@ -17,8 +17,8 @@ checking within the `run` method. Have a look at the existing checks
 for inspiration and use the [`examples/YourCheckName.php`](examples/YourCheckName.php)
 class as a template.
 
-Checks must return `true` when they ran successfully, `false` when
-they did not. Checks may fill their `Result` instance with `messages`
+IMPORTANT: Checks must return `true` when they ran successfully, `false`
+when they did not. Checks may fill their `Result` instance with `messages`
 and `settings`. Messages can have different severities and settings
 may be cachable or not and may be grouped.
 

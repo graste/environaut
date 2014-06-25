@@ -16,7 +16,7 @@ use Environaut\Checks\Check;
  *
  * By default the name of the check will be used as the PHP runtime setting name to check. For integer
  * or byte values that may be set to infinite values (like "-1" or "0") you can specify the setting's
- * infite value via the "infinite" parameter. The comparison operation is "equals" by default and
+ * infinite value via the "infinite" parameter. The comparison operation is "equals" by default and
  * may be specified via the "comparison" parameter.
  *
  * All supported parameters are:

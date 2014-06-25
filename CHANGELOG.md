@@ -2,6 +2,8 @@
 
 All new features, changes and fixes should be listed here. Please use tickets to reference changes.
 
+## 0.5.1 (2014/03/27)
+
 ## 0.5.0 (2014/03/26)
 
 * [new] added `PlainTextSettingsWriter` that allows to generate plain text files with settings
