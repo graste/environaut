@@ -80,7 +80,7 @@ $success = true;
         </formatter>
 <!--
         <formatters>
-            <formatter /> (will be ./environaut-cofnig.json)
+            <formatter /> (will be ./environaut-config.json)
             <formatter>
                 <parameter name="location">/tmp/environaut-example-config.json</parameter>
             </formatter>
@@ -111,6 +111,13 @@ $success = true;
                 </parameter>
             </formatter>
         </formatters>
+        <formatter location="etc/local/environment" class="Environaut\Export\Formatter\PlainTextSettingsWriter">
+            <parameter name="embed_group_path">false</parameter>
+            <parameter name="template">%trololo_man$s</parameter>
+            <parameter name="groups">
+                <parameter>trololo</parameter>
+            </parameter>
+        </formatter>
 -->
     </export>
 
