@@ -80,7 +80,7 @@ interface ICheck
     /**
      * Return the result of the check after it ran (consisting of messages and settings).
      *
-     * @return IResult the result of the check
+     * @return \Environaut\Report\Results\IResult the result of the check
      */
     public function getResult();
 
