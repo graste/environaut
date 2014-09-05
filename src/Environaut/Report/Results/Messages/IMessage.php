@@ -16,4 +16,5 @@ interface IMessage
     public function getName();
     public function getSeverity();
     public function getText();
+    public function toArray();
 }
