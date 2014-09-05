@@ -106,7 +106,7 @@ class Configurator extends Check
 
         $question = '<question>' . $this->parameters->get('question', '"setting_question" is not set');
 
-        // a simple yes(no confirmation dialog
+        // a simple yes/no confirmation dialog
         if ($confirm) {
             $default = (bool) ($default === null ? true : $default);
             $default_text = ($default ? 'y' : 'n');
