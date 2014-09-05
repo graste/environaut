@@ -69,6 +69,8 @@ class YourCheckName extends Check
         // DO YOUR CHECK STUFF HERE...
         //
 
+        $something_weird_happened = true;
+
         if ($something_weird_happened) {
             return false; // check did not succeed, result will be marked as FAIL
         }
