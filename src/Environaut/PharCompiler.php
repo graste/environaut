@@ -32,7 +32,7 @@ class PharCompiler
 
         // add environaut files
         $finder = new Finder();
-        //$finder->files()->name('*.php')->notName('PharCompiler.php')->in($root_dir . '/src');
+
         $finder->files()->notName('PharCompiler.php')->in($root_dir . '/src');
 
         foreach ($finder as $file) {
