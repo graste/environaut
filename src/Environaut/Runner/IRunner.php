@@ -51,7 +51,7 @@ interface IRunner
     public function run();
 
     /**
-     * @return IReport report created by the runner
+     * @return \Environaut\Report\IReport report created by the runner
      */
     public function getReport();
 }
