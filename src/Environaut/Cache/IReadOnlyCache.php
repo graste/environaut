@@ -62,7 +62,7 @@ interface IReadOnlyCache
      * Returns an array of settings matching the given criterias.
      *
      * @param mixed $groups name of a group or array of group names or null for all settings regardless of group
-     * @param type $flag only return settings that match the given flag value
+     * @param integer $flag only return settings that match the given flag value
      *
      * @return array of ISetting instances matching the specification
      */
