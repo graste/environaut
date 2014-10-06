@@ -2,6 +2,16 @@
 
 All new features, changes and fixes should be listed here. Please use tickets to reference changes.
 
+## 0.5.2 (2014/10/06)
+
+* updated composer depedencies for:
+    * symfony/console
+    * symfony/finder
+    * security-checker
+    * phpunit
+    * sami
+    * codesniffer
+
 ## 0.5.1 (2014/03/27)
 
 ## 0.5.0 (2014/03/26)
