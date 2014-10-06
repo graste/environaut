@@ -4,7 +4,7 @@ All new features, changes and fixes should be listed here. Please use tickets to
 
 ## 0.5.2 (2014/10/06)
 
-* updated composer depedencies for:
+* updated composer dependencies for:
     * symfony/console
     * symfony/finder
     * security-checker
@@ -13,6 +13,8 @@ All new features, changes and fixes should be listed here. Please use tickets to
     * codesniffer
 
 ## 0.5.1 (2014/03/27)
+
+* small doc changes
 
 ## 0.5.0 (2014/03/26)
 
