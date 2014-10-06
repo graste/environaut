@@ -57,12 +57,13 @@ class PharCompiler
         // add composer vendor autoloading
         $vendor_root_dir = $root_dir . '/vendor/';
         $phar->addFile($vendor_root_dir . 'autoload.php', 'vendor/autoload.php');
-        $phar->addFile($vendor_root_dir . 'composer/autoload_namespaces.php', 'vendor/composer/autoload_namespaces.php');
-        $phar->addFile($vendor_root_dir . 'composer/autoload_classmap.php', 'vendor/composer/autoload_classmap.php');
-        $phar->addFile($vendor_root_dir . 'composer/autoload_psr4.php', 'vendor/composer/autoload_psr4.php');
-        $phar->addFile($vendor_root_dir . 'composer/autoload_real.php', 'vendor/composer/autoload_real.php');
-        $phar->addFile($vendor_root_dir . 'composer/include_paths.php', 'vendor/composer/include_paths.php');
-        $phar->addFile($vendor_root_dir . 'composer/ClassLoader.php', 'vendor/composer/ClassLoader.php');
+        $composer_dir = $vendor_root_dir . 'composer/';
+        $phar->addFile($composer_dir . 'autoload_namespaces.php', 'vendor/composer/autoload_namespaces.php');
+        $phar->addFile($composer_dir . 'autoload_classmap.php', 'vendor/composer/autoload_classmap.php');
+        $phar->addFile($composer_dir . 'autoload_psr4.php', 'vendor/composer/autoload_psr4.php');
+        $phar->addFile($composer_dir . 'autoload_real.php', 'vendor/composer/autoload_real.php');
+        $phar->addFile($composer_dir . 'include_paths.php', 'vendor/composer/include_paths.php');
+        $phar->addFile($composer_dir . 'ClassLoader.php', 'vendor/composer/ClassLoader.php');
 
         // environaut executable
         $phar->addFile($root_dir . '/bin/environaut', 'bin/environaut');
