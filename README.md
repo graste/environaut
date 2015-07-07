@@ -171,7 +171,7 @@ the default classes with custom implementations.
 
 ## Community
 
-None, but you may join the freenode IRC [`#environaut`](irc://irc.freenode.org/environaut) channel anytime. :-)
+None, but you may join the freenode IRC [`#honeybee`](irc://irc.freenode.org/honeybee) channel anytime. :-)
 
 Please contribute by [forking](http://help.github.com/forking/) and sending a
 [pull request](http://help.github.com/pull-requests/). More information can be

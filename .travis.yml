@@ -15,7 +15,7 @@ script:
 notifications:
   irc:
     channels:
-      - "chat.freenode.net#environaut"
+      - "chat.freenode.net#honeybee"
     on_success: always
     on_failure: always
     use_notice: false
