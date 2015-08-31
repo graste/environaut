@@ -4,12 +4,11 @@
     "description": "Define, configure and protect your application environment and its requirements.",
     "keywords": ["environment", "requirements", "configuration", "check", "cli", "web", "php", "configuration management"],
     "homepage": "https://github.com/graste/environaut",
-    "license": "CC-BY-SA-3.0",
+    "license": "MIT",
     "authors": [
         {
             "name": "Steffen Gransow",
             "email": "graste@mivesto.de",
-            "homepage": "http://mivesto.de",
             "role": "Developer"
         }
     ],
@@ -17,7 +16,7 @@
         "email": "environaut@mivesto.de",
         "issues": "https://github.com/graste/environaut/issues",
         "wiki": "https://github.com/graste/environaut/wiki",
-        "irc": "irc://irc.freenode.org/environaut",
+        "irc": "irc://irc.freenode.org/honeybee",
         "source": "https://github.com/graste/environaut"
     },
     "minimum-stability": "stable",
