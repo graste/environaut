@@ -62,7 +62,7 @@ class PharCompiler
         $phar->addFile($composer_dir . 'autoload_classmap.php', 'vendor/composer/autoload_classmap.php');
         $phar->addFile($composer_dir . 'autoload_psr4.php', 'vendor/composer/autoload_psr4.php');
         $phar->addFile($composer_dir . 'autoload_real.php', 'vendor/composer/autoload_real.php');
-        $phar->addFile($composer_dir . 'include_paths.php', 'vendor/composer/include_paths.php');
+        //$phar->addFile($composer_dir . 'include_paths.php', 'vendor/composer/include_paths.php');
         $phar->addFile($composer_dir . 'ClassLoader.php', 'vendor/composer/ClassLoader.php');
 
         // environaut executable
